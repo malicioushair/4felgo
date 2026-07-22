@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+
+	<key>CFBundleName</key>
+	<string>PastViewer</string>
+	<key>CFBundleIdentifier</key>
+	<string>@APPLE_APP_REVERSED_DOMAIN@</string>
+	<key>CFBundleExecutable</key>
+	<string>PastViewer</string>
+
+	<key>CFBundleVersion</key>
+	<string>@CMAKE_PROJECT_VERSION_MAJOR@.@CMAKE_PROJECT_VERSION_MINOR@.@CMAKE_PROJECT_VERSION_PATCH@</string>
+	<key>CFBundleShortVersionString</key>
+	<string>@CMAKE_PROJECT_VERSION_MAJOR@.@CMAKE_PROJECT_VERSION_MINOR@</string>
+
+	<key>LSMinimumSystemVersion</key>
+	<string></string>
+
+	<key>NSHumanReadableCopyright</key>
+	<string></string>
+
+	<key>CFBundleIconFile</key>
+	<string>PastViewer</string>
+
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleAllowMixedLocalizations</key>
+	<true/>
+
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<true/>
+
+	<key>NSLocationUsageDescription</key>
+	<string>This app shows your position on the map.</string>
+
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to your camera to take photos.</string>
+</dict>
+</plist>
