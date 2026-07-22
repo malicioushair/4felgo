@@ -65,16 +65,16 @@ The app currently includes translations for English, German, Spanish, French, It
 - Qt 6.10.2 or later
 - Conan
 - C++20-compatible compiler
-- Stadia Maps API key
-- Sentry DSN
+- Stadia Maps API key (optional — map tiles need `OSM_API_KEY`)
+- Sentry DSN (optional)
 
 For Android builds, install Android SDK API 26+, Android NDK 26.3 or later, and JDK 17 or later. For iOS builds, configure a valid Apple team and provisioning profile through CMake options.
 
-### Configure Keys
+### Configure Keys (optional)
 
 ```bash
--DOSM_API_KEY=your-stadiamaps-api-key
--DSENTRY_DSN=your-sentry-dsn
+-DOSM_API_KEY=your-stadiamaps-api-key   # optional; omit to run without map tiles
+-DSENTRY_DSN=your-sentry-dsn           # optional; omit to disable crash reporting
 ```
 
 Create a Stadia Maps key at [stadiamaps.com](https://stadiamaps.com/). Use a private or environment-specific Sentry project for `SENTRY_DSN`.

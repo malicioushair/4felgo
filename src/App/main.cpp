@@ -38,18 +38,20 @@ void InitLogging(const std::string & execName)
 
 int RunApplication(int argc, char * argv[])
 {
-	// Initialize Sentry prior to everything
-	const auto success = SentryIntegration::InitSentry(QString("PastViewer@%1.%2.%3")
+#ifdef SENTRY_ENABLED
+	const auto sentryInitialized = SentryIntegration::InitSentry(QString("PastViewer@%1.%2.%3")
 			.arg(VERSION_MAJOR)
 			.arg(VERSION_MINOR)
 			.arg(VERSION_PATCH));
 
-	if (!success)
-		throw std::runtime_error("Sentry is not initialized!");
-
-	auto sentryShutdown = qScopeGuard([] {
-		SentryIntegration::GetPlatform().Shutdown();
+	auto sentryShutdown = qScopeGuard([sentryInitialized] {
+		if (sentryInitialized)
+			SentryIntegration::GetPlatform().Shutdown();
 	});
+
+	if (!sentryInitialized)
+		std::cerr << "Warning: Sentry failed to initialize; continuing without crash reporting\n";
+#endif
 
 	QCoreApplication::setOrganizationName("MyOrg");
 	QCoreApplication::setApplicationName("PastViewer");

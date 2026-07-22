@@ -8,18 +8,20 @@ find_package(glog REQUIRED)
 find_package(gflags CONFIG REQUIRED)
 
 # sentry-native on macOS and iOS. Android uses Sentry Android SDK (via Gradle).
-if(NOT ANDROID)
-    if(NOT sentry_DIR AND EXISTS "${CMAKE_BINARY_DIR}/sentry-config.cmake")
-        set(sentry_DIR "${CMAKE_BINARY_DIR}" CACHE PATH "Path to sentry config")
+if(SENTRY_DSN)
+    if(NOT ANDROID)
+        if(NOT sentry_DIR AND EXISTS "${CMAKE_BINARY_DIR}/sentry-config.cmake")
+            set(sentry_DIR "${CMAKE_BINARY_DIR}" CACHE PATH "Path to sentry config")
+        endif()
+        if(IOS AND NOT EXISTS "${CMAKE_BINARY_DIR}/sentry-config.cmake")
+            message(FATAL_ERROR
+                "sentry-config.cmake not found in ${CMAKE_BINARY_DIR}. "
+                "Install Conan deps here (same folder as glog-config.cmake), e.g. "
+                "conan install <source-dir> --output-folder=. --build=missing with your iOS profile, "
+                "then configure CMake again.")
+        endif()
+        find_package(sentry CONFIG REQUIRED)
     endif()
-    if(IOS AND NOT EXISTS "${CMAKE_BINARY_DIR}/sentry-config.cmake")
-        message(FATAL_ERROR
-            "sentry-config.cmake not found in ${CMAKE_BINARY_DIR}. "
-            "Install Conan deps here (same folder as glog-config.cmake), e.g. "
-            "conan install <source-dir> --output-folder=. --build=missing with your iOS profile, "
-            "then configure CMake again.")
-    endif()
-    find_package(sentry CONFIG REQUIRED)
 endif()
 
 find_package(Qt6 COMPONENTS
@@ -45,6 +47,11 @@ include_sources(SOURCES
     "${CMAKE_CURRENT_LIST_DIR}/*.h"
     "${CMAKE_CURRENT_LIST_DIR}/*.mm"
 )
+
+if(NOT SENTRY_DSN)
+    list(FILTER SOURCES EXCLUDE REGEX ".*/SentryIntegration/platform/(android|ios|mac)/.*")
+    list(APPEND SOURCES "${CMAKE_CURRENT_LIST_DIR}/SentryIntegration/platform/stub/SentryIntegration_Stub.cpp")
+endif()
 include(ext/android_openssl/android_openssl.cmake)
 qt_add_executable(${PROJECT_NAME} ${SOURCES} ${QT_RESOURCES})
 
@@ -84,14 +91,19 @@ endif()
 if(ANDROID)
     target_sources(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_LIST_DIR}/android_backtrace_stub.cpp")
 endif()
-if (NOT DEFINED CACHE{OSM_API_KEY} OR "${OSM_API_KEY}" STREQUAL "")
-    message(FATAL_ERROR "OSM_API_KEY has to be set as a -D option!")
+if(NOT OSM_API_KEY)
+    set(OSM_API_KEY "" CACHE STRING "Stadia Maps API key (optional)")
+    message(STATUS "OSM_API_KEY not set — map tiles will not load")
 endif()
-if (NOT DEFINED CACHE{SENTRY_DSN})
-    message(FATAL_ERROR "SENTRY_DSN has to be set as a -D option!")
+if(NOT SENTRY_DSN)
+    set(SENTRY_DSN "" CACHE STRING "Sentry DSN (optional)")
+    message(STATUS "SENTRY_DSN not set — crash reporting disabled")
 endif()
-target_compile_definitions(${PROJECT_NAME} PRIVATE API_KEY="${OSM_API_KEY}") # pass API key via -D in cmake
-target_compile_definitions(${PROJECT_NAME} PRIVATE SENTRY_DSN="${SENTRY_DSN}") # pass SENTRY DSN key via -D in cmake
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE API_KEY="${OSM_API_KEY}")
+if(SENTRY_DSN)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE SENTRY_DSN="${SENTRY_DSN}" SENTRY_ENABLED)
+endif()
 target_compile_definitions(${PROJECT_NAME} PRIVATE VERSION_MAJOR="${CMAKE_PROJECT_VERSION_MAJOR}")
 target_compile_definitions(${PROJECT_NAME} PRIVATE VERSION_MINOR="${CMAKE_PROJECT_VERSION_MINOR}")
 target_compile_definitions(${PROJECT_NAME} PRIVATE VERSION_PATCH="${CMAKE_PROJECT_VERSION_PATCH}")
@@ -175,7 +187,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 )
 
 # sentry-native on macOS and iOS. Android uses Sentry Android SDK.
-if(NOT ANDROID)
+if(SENTRY_DSN AND NOT ANDROID)
     target_link_libraries(${PROJECT_NAME} PRIVATE sentry::sentry)
 endif()
 
