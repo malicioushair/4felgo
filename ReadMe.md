@@ -85,9 +85,12 @@ For Android builds, install Android SDK API 33+, an ARM64 Android system image, 
 ```text
 -DOSM_API_KEY=your-stadiamaps-api-key
 -DSENTRY_DSN=your-sentry-dsn
+-DAPP_REVERSED_DOMAIN=com.example.myapp
 ```
 
-Omit either CMake option when it is not needed. The app still builds without them, but map tiles require `OSM_API_KEY` and crash reporting requires `SENTRY_DSN`. Create a Stadia Maps key at [stadiamaps.com](https://stadiamaps.com/) and use a private or environment-specific Sentry project.
+`APP_REVERSED_DOMAIN` is the app bundle identifier used on all platforms (for example `com.example.myapp`). CMake sets `PRODUCT_IDENTIFIER` and the Apple plist values from it.
+
+Omit the optional CMake options when they are not needed. The app still builds without them, but map tiles require `OSM_API_KEY` and crash reporting requires `SENTRY_DSN`. Create a Stadia Maps key at [stadiamaps.com](https://stadiamaps.com/) and use a private or environment-specific Sentry project.
 
 ### macOS Build
 
@@ -122,7 +125,7 @@ path/to/Felgo/Felgo/bin/macdeployqt \
 
 ### iOS Device and App Store Build
 
-The device build uses the Xcode generator, the repository's `profiles/ios-device` Conan profile, and manual signing. Replace `YOUR_TEAM_ID`, the bundle identifier, and the provisioning-profile name directly in the commands below. The existing `PastViewer_AppStore_profile` must belong to the selected team and match `com.dv.pastviewer.felgo`.
+The device build uses the Xcode generator, the repository's `profiles/ios-device` Conan profile, and manual signing. Replace `YOUR_TEAM_ID`, `APP_REVERSED_DOMAIN`, and the provisioning-profile name directly in the commands below. The existing `PastViewer_AppStore_profile` must belong to the selected team and match `APP_REVERSED_DOMAIN`.
 
 An App Store provisioning profile is intended for archive/export, not direct installation on a test device. For physical-device debugging, use an Apple Development identity and a development profile containing that device. The simulator workflow below remains unsigned and needs no profile.
 
@@ -145,8 +148,7 @@ path/to/Felgo/Felgo/ios/bin/qt-cmake --fresh \
   -DCMAKE_OSX_ARCHITECTURES=arm64 \
   -DCMAKE_OSX_DEPLOYMENT_TARGET=16.0 \
   -DAPPLE_TEAM_ID="YOUR_TEAM_ID" \
-  -DPRODUCT_IDENTIFIER="com.dv.pastviewer.felgo" \
-  -DAPPLE_APP_REVERSED_DOMAIN="com.dv.pastviewer.felgo" \
+  -DAPP_REVERSED_DOMAIN="com.example.myapp" \
   -DAPPLE_PROVISION_PROFILE_NAME="PastViewer_AppStore_profile"
 
 cmake --build build-ios-felgo-device \
@@ -204,8 +206,7 @@ path/to/Felgo/Felgo/ios/bin/qt-cmake --fresh \
   -DCMAKE_OSX_SYSROOT=iphonesimulator \
   -DCMAKE_OSX_ARCHITECTURES=x86_64 \
   -DCMAKE_OSX_DEPLOYMENT_TARGET=16.0 \
-  -DPRODUCT_IDENTIFIER="com.dv.pastviewer.felgo" \
-  -DAPPLE_APP_REVERSED_DOMAIN="com.dv.pastviewer.felgo"
+  -DAPP_REVERSED_DOMAIN="com.example.myapp"
 
 cmake --build build-ios-felgo-simulator \
   --config Release \
@@ -224,7 +225,7 @@ xcrun simctl install \
   build-ios-felgo-simulator/bin/Release/PastViewer.app
 xcrun simctl launch \
   "YOUR_SIMULATOR_UDID" \
-  "com.dv.pastviewer.felgo"
+  "com.example.myapp"
 ```
 
 Keep device and simulator outputs separate. Reusing a CMake build directory across `iphoneos` and `iphonesimulator` commonly leaves incompatible cached architectures and frameworks.
@@ -257,7 +258,7 @@ path/to/Felgo/Felgo/android_arm64_v8a/bin/qt-cmake --fresh \
   -DANDROID_ABI=arm64-v8a \
   -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON \
   -DANDROID_GRADLE_WRAPPER_VERSION=8.10.2 \
-  -DPRODUCT_IDENTIFIER=com.dv.pastviewer
+  -DAPP_REVERSED_DOMAIN=com.example.myapp
 
 cmake --build build-android-felgo-emulator --target PastViewer --parallel
 cmake --build build-android-felgo-emulator --target apk --parallel

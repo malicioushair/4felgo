@@ -136,7 +136,7 @@ if (APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES
         MACOSX_BUNDLE ON
         MACOSX_BUNDLE_INFO_PLIST "${_pastviewer_plist}"
-        MACOSX_BUNDLE_GUI_IDENTIFIER "${APPLE_APP_REVERSED_DOMAIN}"
+        MACOSX_BUNDLE_GUI_IDENTIFIER "${PRODUCT_IDENTIFIER}"
     )
     if(NOT IOS)
         set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_ICON_FILE "PastViewer")

@@ -11,7 +11,13 @@ include_directories(src)
 
 include(cmake/Helpers.cmake)
 
-set(PRODUCT_IDENTIFIER "com.dv.pastviewer.felgo" CACHE STRING "Application bundle identifier")
+if (NOT APP_REVERSED_DOMAIN)
+    message(FATAL_ERROR "APP_REVERSED_DOMAIN has to be set!")
+endif()
+
+set(PRODUCT_IDENTIFIER "${APP_REVERSED_DOMAIN}" CACHE STRING "Application bundle identifier" FORCE)
+set(APPLE_APP_REVERSED_DOMAIN "${APP_REVERSED_DOMAIN}")
+
 set(PRODUCT_VERSION_NAME "${PROJECT_VERSION}")
 set(PRODUCT_VERSION_CODE ${CMAKE_PROJECT_VERSION_MAJOR}${CMAKE_PROJECT_VERSION_MINOR}${CMAKE_PROJECT_VERSION_PATCH})
 set(PRODUCT_LICENSE_KEY "")
