@@ -65,7 +65,7 @@ The app currently includes translations for English, German, Spanish, French, It
 - Ninja
 - Conan 2
 - C++20-compatible compiler
-- Felgo SDK with matching macOS host and iOS kits from the same installation
+- Felgo SDK with matching macOS host, iOS, and Android kits from the same installation
 - Stadia Maps API key (optional — map tiles need `OSM_API_KEY`)
 - Sentry DSN (optional)
 
@@ -78,7 +78,7 @@ xcodebuild -version
 
 The repository targets iOS 16 or later. Keep the Felgo macOS host kit and iOS target kit at the same Qt/Felgo version; do not mix them with a standalone Qt installation. The iOS device and simulator use separate Conan profiles and build directories.
 
-For Android builds, install Android SDK API 26+, Android NDK 26.3 or later, and JDK 17 or later.
+For Android builds, install Android SDK API 33+, an ARM64 Android system image, Android NDK 29, and JDK 17. The checked-in Android Conan profile currently points to NDK `29.0.14206865`; update that path and the matching VS Code task if the SDK is installed elsewhere.
 
 ### Configure Keys (optional)
 
@@ -122,15 +122,7 @@ path/to/Felgo/Felgo/bin/macdeployqt \
 
 ### iOS Device and App Store Build
 
-The device build uses the Xcode generator, the repository's `profiles/ios-device` Conan profile, and manual signing. Configure the signing values before building:
-
-```bash
-export PASTVIEWER_APPLE_TEAM_ID="YOUR_TEAM_ID"
-export PASTVIEWER_BUNDLE_ID="com.dv.pastviewer.felgo"
-export PASTVIEWER_PROVISIONING_PROFILE="PastViewer_AppStore_profile"
-```
-
-The existing `PastViewer_AppStore_profile` is used for the signed Release archive. It must belong to the selected team and match `PASTVIEWER_BUNDLE_ID`.
+The device build uses the Xcode generator, the repository's `profiles/ios-device` Conan profile, and manual signing. Replace `YOUR_TEAM_ID`, the bundle identifier, and the provisioning-profile name directly in the commands below. The existing `PastViewer_AppStore_profile` must belong to the selected team and match `com.dv.pastviewer.felgo`.
 
 An App Store provisioning profile is intended for archive/export, not direct installation on a test device. For physical-device debugging, use an Apple Development identity and a development profile containing that device. The simulator workflow below remains unsigned and needs no profile.
 
@@ -143,19 +135,19 @@ conan install . \
   -s:h=build_type=Release \
   -s:h=compiler.cppstd=20
 
-"$PASTVIEWER_FELGO_IOS/bin/qt-cmake" --fresh \
+path/to/Felgo/Felgo/ios/bin/qt-cmake --fresh \
   -S . \
   -B build-ios-felgo-device \
   -G Xcode \
-  -DQT_HOST_PATH="path/to/Felgo/Felgo/" \
+  -DQT_HOST_PATH="path/to/Felgo/Felgo/macos" \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_OSX_SYSROOT=iphoneos \
   -DCMAKE_OSX_ARCHITECTURES=arm64 \
   -DCMAKE_OSX_DEPLOYMENT_TARGET=16.0 \
-  -DAPPLE_TEAM_ID="$PASTVIEWER_APPLE_TEAM_ID" \
-  -DPRODUCT_IDENTIFIER="$PASTVIEWER_BUNDLE_ID" \
-  -DAPPLE_APP_REVERSED_DOMAIN="$PASTVIEWER_BUNDLE_ID" \
-  -DAPPLE_PROVISION_PROFILE_NAME="$PASTVIEWER_PROVISIONING_PROFILE"
+  -DAPPLE_TEAM_ID="YOUR_TEAM_ID" \
+  -DPRODUCT_IDENTIFIER="com.dv.pastviewer.felgo" \
+  -DAPPLE_APP_REVERSED_DOMAIN="com.dv.pastviewer.felgo" \
+  -DAPPLE_PROVISION_PROFILE_NAME="PastViewer_AppStore_profile"
 
 cmake --build build-ios-felgo-device \
   --config Release \
@@ -173,7 +165,7 @@ xcodebuild archive \
   -destination "generic/platform=iOS" \
   -archivePath build-ios-felgo-device/PastViewer.xcarchive \
   -allowProvisioningUpdates \
-  DEVELOPMENT_TEAM="$PASTVIEWER_APPLE_TEAM_ID"
+  DEVELOPMENT_TEAM="YOUR_TEAM_ID"
 
 xcodebuild -exportArchive \
   -archivePath build-ios-felgo-device/PastViewer.xcarchive \
@@ -186,7 +178,7 @@ The IPA is written to `build-ios-felgo-device/ipa-export`. Use a fresh archive/e
 
 ### iOS Simulator Build and Run
 
-Simulator builds do not need a provisioning profile or code signing. Set `PASTVIEWER_APPLE_TEAM_ID` and `PASTVIEWER_BUNDLE_ID` as shown above; the team value is still required while configuring this project. This repository's Felgo iOS dependencies require an x86_64 simulator build, so Apple Silicon Macs need Rosetta and an x86_64-capable iOS Simulator runtime. With Xcode 26 or later, install the universal iOS platform component if the Rosetta run destinations are missing:
+Simulator builds do not need a provisioning profile or code signing. This repository's Felgo iOS dependencies require an x86_64 simulator build, so Apple Silicon Macs need Rosetta and an x86_64-capable iOS Simulator runtime. With Xcode 26 or later, install the universal iOS platform component if the Rosetta run destinations are missing:
 
 ```bash
 xcodebuild -downloadPlatform iOS -architectureVariant universal
@@ -223,57 +215,79 @@ cmake --build build-ios-felgo-simulator \
 
 ```bash
 xcrun simctl list devices available
-export PASTVIEWER_SIMULATOR_UDID="YOUR_SIMULATOR_UDID"
 
-xcrun simctl boot "$PASTVIEWER_SIMULATOR_UDID" 2>/dev/null || true
+xcrun simctl boot "YOUR_SIMULATOR_UDID" 2>/dev/null || true
 open -a Simulator
-xcrun simctl bootstatus "$PASTVIEWER_SIMULATOR_UDID" -b
+xcrun simctl bootstatus "YOUR_SIMULATOR_UDID" -b
 xcrun simctl install \
-  "$PASTVIEWER_SIMULATOR_UDID" \
+  "YOUR_SIMULATOR_UDID" \
   build-ios-felgo-simulator/bin/Release/PastViewer.app
 xcrun simctl launch \
-  "$PASTVIEWER_SIMULATOR_UDID" \
-  "$PASTVIEWER_BUNDLE_ID"
+  "YOUR_SIMULATOR_UDID" \
+  "com.dv.pastviewer.felgo"
 ```
 
 Keep device and simulator outputs separate. Reusing a CMake build directory across `iphoneos` and `iphonesimulator` commonly leaves incompatible cached architectures and frameworks.
 
-### VS Code Tasks
-If you use vscode, the above commands can be conveniently wrapped as tasks in `.vscode/tasksk.json`
+### Android Emulator Build and Run
 
-### Android Build
+Use the Felgo Android ARM64 kit together with the macOS host kit from the same Felgo installation. Felgo already links and deploys its matching `libssl_3.so` and `libcrypto_3.so`, so this build does not require the `ext/android_openssl` checkout or a custom Qt build.
 
 ```bash
-export ANDROID_SDK_ROOT="/path/to/Android/sdk"
-export ANDROID_NDK_ROOT="${ANDROID_SDK_ROOT}/ndk/26.3.11579264"
-export JAVA_HOME="/path/to/jdk-17"
+conan install . \
+  --profile:host=profiles/android-release \
+  --profile:build=default \
+  --output-folder=build-android-felgo-emulator \
+  --build=missing \
+  -s:h=build_type=Release \
+  -s:h=compiler.cppstd=20
 
-mkdir -p build-android-release
-cd build-android-release
-
-conan install .. --output-folder=. --build=missing \
-  -s build_type=Release \
-  -s os=Android \
-  -s os.api_level=26 \
-  -s arch=armv8 \
-  -s compiler.cppstd=20
-
-cmake .. \
+path/to/Felgo/Felgo/android_arm64_v8a/bin/qt-cmake --fresh \
+  -S . \
+  -B build-android-felgo-emulator \
+  -G Ninja \
+  -DQT_HOST_PATH="path/to/Felgo/Felgo/macos" \
+  -DCMAKE_PREFIX_PATH="path/to/4felgo/build-android-felgo-emulator" \
+  -Dglog_DIR="path/to/4felgo/build-android-felgo-emulator" \
+  -Dgflags_DIR="path/to/4felgo/build-android-felgo-emulator" \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_TOOLCHAIN_FILE=/path/to/Qt/6.9.2/android_arm64_v8a/lib/cmake/Qt6/qt.toolchain.cmake \
-  -DANDROID_SDK_ROOT="${ANDROID_SDK_ROOT}" \
-  -DANDROID_NDK="${ANDROID_NDK_ROOT}" \
-  -DQT_HOST_PATH=/path/to/Qt/6.9.2/macos \
-  -DOSM_API_KEY=your-stadiamaps-api-key \
-  -DSENTRY_DSN=your-sentry-dsn
+  -DANDROID_SDK_ROOT="path/to/Android/sdk" \
+  -DANDROID_NDK_ROOT="path/to/Android/sdk/ndk/29.0.14206865" \
+  -DANDROID_PLATFORM=android-33 \
+  -DANDROID_ABI=arm64-v8a \
+  -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON \
+  -DANDROID_GRADLE_WRAPPER_VERSION=8.10.2 \
+  -DPRODUCT_IDENTIFIER=com.dv.pastviewer
 
-cmake --build .
+cmake --build build-android-felgo-emulator --target PastViewer --parallel
+cmake --build build-android-felgo-emulator --target apk --parallel
 ```
 
-Install the generated APK with:
+Add the optional `OSM_API_KEY` and `SENTRY_DSN` options to `qt-cmake` when needed. The APK target writes an unsigned Release package to:
+
+```text
+build-android-felgo-emulator/android-build/build/outputs/apk/release/android-build-release-unsigned.apk
+```
+
+For emulator testing, sign that package with the standard Android debug key, then start an ARM64 AVD and install it:
 
 ```bash
-adb install -r android-build/build/outputs/apk/release/android-build-release-unsigned.apk
+path/to/Android/sdk/build-tools/36.0.0/apksigner sign \
+  --ks "path/to/home/.android/debug.keystore" \
+  --ks-key-alias androiddebugkey \
+  --ks-pass pass:android \
+  --key-pass pass:android \
+  --v4-signing-enabled false \
+  --out path/to/4felgo/build-android-felgo-emulator/android-build/build/outputs/apk/release/android-build-release-signed.apk \
+  path/to/4felgo/build-android-felgo-emulator/android-build/build/outputs/apk/release/android-build-release-unsigned.apk
+
+path/to/Android/sdk/emulator/emulator -avd YOUR_ARM64_AVD
+
+path/to/Android/sdk/platform-tools/adb -e wait-for-device
+path/to/Android/sdk/platform-tools/adb -e install -r \
+  path/to/4felgo/build-android-felgo-emulator/android-build/build/outputs/apk/release/android-build-release-signed.apk
+path/to/Android/sdk/platform-tools/adb -e shell am start -W -n \
+  org.qtproject.PastViewer/org.qtproject.qt.android.bindings.QtActivity
 ```
 
-VS Code users can also run the project tasks from `.vscode/tasks.json`.
+The debug key is only for local emulator installation; sign release artifacts with the production keystore before distribution.

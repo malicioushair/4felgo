@@ -64,7 +64,6 @@ else()
     list(FILTER SOURCES EXCLUDE REGEX ".*/SentryIntegration/platform/(android|ios|mac)/.*")
     list(APPEND SOURCES "${CMAKE_CURRENT_LIST_DIR}/SentryIntegration/platform/stub/SentryIntegration_Stub.cpp")
 endif()
-include(ext/android_openssl/android_openssl.cmake)
 qt_add_executable(${PROJECT_NAME} ${SOURCES} ${QT_RESOURCES})
 felgo_configure_executable(${PROJECT_NAME})
 
@@ -161,7 +160,6 @@ if (APPLE)
         target_sources(${PROJECT_NAME} PRIVATE ${APP_ICON})
     endif()
 elseif(ANDROID)
-    add_android_openssl_libraries(${PROJECT_NAME})
     set_target_properties(${PROJECT_NAME} PROPERTIES
         QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_SOURCE_DIR}/resources/android"
         QT_ANDROID_APP_ICON "@mipmap/ic_launcher"

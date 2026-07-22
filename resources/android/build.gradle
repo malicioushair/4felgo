@@ -44,6 +44,10 @@ android {
     buildToolsVersion androidBuildToolsVersion
     ndkVersion = androidNdkVersion
 
+    // Qt 6.8's androiddeployqt checks this setting before deciding whether to
+    // emit the removed android.bundle.enableUncompressedNativeLibs property.
+    packagingOptions.jniLibs.useLegacyPackaging true
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
