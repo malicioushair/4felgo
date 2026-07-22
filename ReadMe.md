@@ -62,67 +62,184 @@ The app currently includes translations for English, German, Spanish, French, It
 ### Requirements
 
 - CMake 3.28 or later
-- Qt 6.8.3 or later (Felgo SDK ships Qt 6.8.3)
-- Conan
+- Ninja
+- Conan 2
 - C++20-compatible compiler
+- Felgo SDK with matching macOS host and iOS kits from the same installation
 - Stadia Maps API key (optional — map tiles need `OSM_API_KEY`)
 - Sentry DSN (optional)
 
-For Android builds, install Android SDK API 26+, Android NDK 26.3 or later, and JDK 17 or later. For iOS builds, configure a valid Apple team and provisioning profile through CMake options.
+For macOS, install the Xcode Command Line Tools. For iOS, install the latest Xcode supported by your macOS version, launch it once to finish installing components, and verify the selected developer directory:
+
+```bash
+xcode-select --print-path
+xcodebuild -version
+```
+
+The repository targets iOS 16 or later. Keep the Felgo macOS host kit and iOS target kit at the same Qt/Felgo version; do not mix them with a standalone Qt installation. The iOS device and simulator use separate Conan profiles and build directories.
+
+For Android builds, install Android SDK API 26+, Android NDK 26.3 or later, and JDK 17 or later.
 
 ### Configure Keys (optional)
 
-```bash
--DOSM_API_KEY=your-stadiamaps-api-key   # optional; omit to run without map tiles
--DSENTRY_DSN=your-sentry-dsn           # optional; omit to disable crash reporting
+```text
+-DOSM_API_KEY=your-stadiamaps-api-key
+-DSENTRY_DSN=your-sentry-dsn
 ```
 
-Create a Stadia Maps key at [stadiamaps.com](https://stadiamaps.com/). Use a private or environment-specific Sentry project for `SENTRY_DSN`.
+Omit either CMake option when it is not needed. The app still builds without them, but map tiles require `OSM_API_KEY` and crash reporting requires `SENTRY_DSN`. Create a Stadia Maps key at [stadiamaps.com](https://stadiamaps.com/) and use a private or environment-specific Sentry project.
 
 ### macOS Build
 
+Use Felgo's `qt-cmake` wrapper and an out-of-source build directory. It selects the matching Felgo/Qt installation and avoids hard-coding a separate `CMAKE_PREFIX_PATH`.
+
 ```bash
-pip install conan
-mkdir -p build
-cd build
+conan install . \
+  --output-folder=build-macos-release \
+  --build=missing \
+  -s:h=build_type=Release \
+  -s:h=compiler.cppstd=20
 
-conan install .. --output-folder=. --build=missing \
-  -s build_type=Debug \
-  -s compiler.cppstd=20
+path/to/Felgo/Felgo/macos/bin/qt-cmake --fresh \
+  -S . \
+  -B build-macos-release \
+  -G Ninja \
+  -DCMAKE_BUILD_TYPE=Release
 
-cmake .. \
-  -DCMAKE_BUILD_TYPE=Debug \
-  -DCMAKE_PREFIX_PATH=/path/to/Qt/6.9.2/macos \
-  -DOSM_API_KEY=your-stadiamaps-api-key \
-  -DSENTRY_DSN=your-sentry-dsn
-
-cmake --build . --config Debug
+cmake --build build-macos-release --parallel
+open build-macos-release/bin/PastViewer.app
 ```
 
-### iOS Build
+Add the optional key options to the `qt-cmake` command when required. For a Debug build, use a separate directory such as `build-macos-debug` and set both Conan and CMake to `Debug`.
 
-Install Xcode, the Qt iOS package, and the matching Qt macOS host package. You also need an Apple Developer team, a provisioning profile, and the app bundle identifier you want to sign.
+Before distributing the app to another Mac, create a self-contained bundle with the `macdeployqt` from the same Felgo installation:
 
 ```bash
-mkdir -p build-ios-release
-cd build-ios-release
+path/to/Felgo/Felgo/bin/macdeployqt \
+  build-macos-release/bin/PastViewer.app \
+  -qmldir=src/App/qml
+```
 
-conan install .. --output-folder=. --build=missing \
-  --profile:host=../profiles/ios-device \
-  --profile:build=default
+### iOS Device and App Store Build
 
-cmake .. \
+The device build uses the Xcode generator, the repository's `profiles/ios-device` Conan profile, and manual signing. Configure the signing values before building:
+
+```bash
+export PASTVIEWER_APPLE_TEAM_ID="YOUR_TEAM_ID"
+export PASTVIEWER_BUNDLE_ID="com.dv.pastviewer.felgo"
+export PASTVIEWER_PROVISIONING_PROFILE="PastViewer_AppStore_profile"
+```
+
+The existing `PastViewer_AppStore_profile` is used for the signed Release archive. It must belong to the selected team and match `PASTVIEWER_BUNDLE_ID`.
+
+An App Store provisioning profile is intended for archive/export, not direct installation on a test device. For physical-device debugging, use an Apple Development identity and a development profile containing that device. The simulator workflow below remains unsigned and needs no profile.
+
+```bash
+conan install . \
+  --profile:host=profiles/ios-device \
+  --profile:build=default \
+  --output-folder=build-ios-felgo-device \
+  --build=missing \
+  -s:h=build_type=Release \
+  -s:h=compiler.cppstd=20
+
+"$PASTVIEWER_FELGO_IOS/bin/qt-cmake" --fresh \
+  -S . \
+  -B build-ios-felgo-device \
+  -G Xcode \
+  -DQT_HOST_PATH="path/to/Felgo/Felgo/" \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_TOOLCHAIN_FILE=/path/to/Qt/6.10.2/ios/lib/cmake/Qt6/qt.toolchain.cmake \
-  -DQT_HOST_PATH=/path/to/Qt/6.10.2/macos \
-  -DAPPLE_TEAM_ID=your-apple-team-id \
-  -DAPPLE_PROVISION_PROFILE_NAME="Your Provisioning Profile" \
-  -DAPPLE_APP_REVERSED_DOMAIN=com.example.pastviewer \
-  -DOSM_API_KEY=your-stadiamaps-api-key \
-  -DSENTRY_DSN=your-sentry-dsn
+  -DCMAKE_OSX_SYSROOT=iphoneos \
+  -DCMAKE_OSX_ARCHITECTURES=arm64 \
+  -DCMAKE_OSX_DEPLOYMENT_TARGET=16.0 \
+  -DAPPLE_TEAM_ID="$PASTVIEWER_APPLE_TEAM_ID" \
+  -DPRODUCT_IDENTIFIER="$PASTVIEWER_BUNDLE_ID" \
+  -DAPPLE_APP_REVERSED_DOMAIN="$PASTVIEWER_BUNDLE_ID" \
+  -DAPPLE_PROVISION_PROFILE_NAME="$PASTVIEWER_PROVISIONING_PROFILE"
 
-cmake --build .
+cmake --build build-ios-felgo-device \
+  --config Release \
+  --target PastViewer \
+  -- -allowProvisioningUpdates
 ```
+
+To produce the App Store archive and IPA, use the generated Xcode project and the export-options plist generated during CMake configuration:
+
+```bash
+xcodebuild archive \
+  -project build-ios-felgo-device/PastViewer.xcodeproj \
+  -scheme PastViewer \
+  -configuration Release \
+  -destination "generic/platform=iOS" \
+  -archivePath build-ios-felgo-device/PastViewer.xcarchive \
+  -allowProvisioningUpdates \
+  DEVELOPMENT_TEAM="$PASTVIEWER_APPLE_TEAM_ID"
+
+xcodebuild -exportArchive \
+  -archivePath build-ios-felgo-device/PastViewer.xcarchive \
+  -exportPath build-ios-felgo-device/ipa-export \
+  -exportOptionsPlist build-ios-felgo-device/ExportOptions-app-store.plist \
+  -allowProvisioningUpdates
+```
+
+The IPA is written to `build-ios-felgo-device/ipa-export`. Use a fresh archive/export path when repeating the export, or run the VS Code task, which cleans those paths first.
+
+### iOS Simulator Build and Run
+
+Simulator builds do not need a provisioning profile or code signing. Set `PASTVIEWER_APPLE_TEAM_ID` and `PASTVIEWER_BUNDLE_ID` as shown above; the team value is still required while configuring this project. This repository's Felgo iOS dependencies require an x86_64 simulator build, so Apple Silicon Macs need Rosetta and an x86_64-capable iOS Simulator runtime. With Xcode 26 or later, install the universal iOS platform component if the Rosetta run destinations are missing:
+
+```bash
+xcodebuild -downloadPlatform iOS -architectureVariant universal
+```
+
+Use the dedicated simulator profile and build directory:
+
+```bash
+conan install . \
+  --profile:host=profiles/ios-simulator \
+  --profile:build=default \
+  --output-folder=build-ios-felgo-simulator \
+  --build=missing \
+  -s:h=build_type=Release \
+  -s:h=compiler.cppstd=20
+
+path/to/Felgo/Felgo/ios/bin/qt-cmake --fresh \
+  -S . \
+  -B build-ios-felgo-simulator \
+  -G Xcode \
+  -DQT_HOST_PATH="path/to/Felgo/Felgo/macos" \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_OSX_SYSROOT=iphonesimulator \
+  -DCMAKE_OSX_ARCHITECTURES=x86_64 \
+  -DCMAKE_OSX_DEPLOYMENT_TARGET=16.0 \
+  -DPRODUCT_IDENTIFIER="com.dv.pastviewer.felgo" \
+  -DAPPLE_APP_REVERSED_DOMAIN="com.dv.pastviewer.felgo"
+
+cmake --build build-ios-felgo-simulator \
+  --config Release \
+  --target PastViewer \
+  -- -sdk iphonesimulator -arch x86_64 CODE_SIGNING_ALLOWED=NO
+```
+
+```bash
+xcrun simctl list devices available
+export PASTVIEWER_SIMULATOR_UDID="YOUR_SIMULATOR_UDID"
+
+xcrun simctl boot "$PASTVIEWER_SIMULATOR_UDID" 2>/dev/null || true
+open -a Simulator
+xcrun simctl bootstatus "$PASTVIEWER_SIMULATOR_UDID" -b
+xcrun simctl install \
+  "$PASTVIEWER_SIMULATOR_UDID" \
+  build-ios-felgo-simulator/bin/Release/PastViewer.app
+xcrun simctl launch \
+  "$PASTVIEWER_SIMULATOR_UDID" \
+  "$PASTVIEWER_BUNDLE_ID"
+```
+
+Keep device and simulator outputs separate. Reusing a CMake build directory across `iphoneos` and `iphonesimulator` commonly leaves incompatible cached architectures and frameworks.
+
+### VS Code Tasks
+If you use vscode, the above commands can be conveniently wrapped as tasks in `.vscode/tasksk.json`
 
 ### Android Build
 
@@ -160,4 +277,3 @@ adb install -r android-build/build/outputs/apk/release/android-build-release-uns
 ```
 
 VS Code users can also run the project tasks from `.vscode/tasks.json`.
-

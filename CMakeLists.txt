@@ -11,7 +11,7 @@ include_directories(src)
 
 include(cmake/Helpers.cmake)
 
-set(PRODUCT_IDENTIFIER "com.dv.pastviewer.felgo")
+set(PRODUCT_IDENTIFIER "com.dv.pastviewer.felgo" CACHE STRING "Application bundle identifier")
 set(PRODUCT_VERSION_NAME "${PROJECT_VERSION}")
 set(PRODUCT_VERSION_CODE ${CMAKE_PROJECT_VERSION_MAJOR}${CMAKE_PROJECT_VERSION_MINOR}${CMAKE_PROJECT_VERSION_PATCH})
 set(PRODUCT_LICENSE_KEY "")

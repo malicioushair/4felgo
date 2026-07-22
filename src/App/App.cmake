@@ -49,7 +49,18 @@ include_sources(SOURCES
     "${CMAKE_CURRENT_LIST_DIR}/*.mm"
 )
 
-if(NOT SENTRY_DSN)
+if(SENTRY_DSN)
+    if(IOS)
+        list(FILTER SOURCES EXCLUDE REGEX ".*/SentryIntegration/platform/(android|mac|stub)/.*")
+    elseif(ANDROID)
+        list(FILTER SOURCES EXCLUDE REGEX ".*/SentryIntegration/platform/(ios|mac|stub)/.*")
+    elseif(APPLE)
+        list(FILTER SOURCES EXCLUDE REGEX ".*/SentryIntegration/platform/(android|ios|stub)/.*")
+    else()
+        list(FILTER SOURCES EXCLUDE REGEX ".*/SentryIntegration/platform/.*")
+        list(APPEND SOURCES "${CMAKE_CURRENT_LIST_DIR}/SentryIntegration/platform/stub/SentryIntegration_Stub.cpp")
+    endif()
+else()
     list(FILTER SOURCES EXCLUDE REGEX ".*/SentryIntegration/platform/(android|ios|mac)/.*")
     list(APPEND SOURCES "${CMAKE_CURRENT_LIST_DIR}/SentryIntegration/platform/stub/SentryIntegration_Stub.cpp")
 endif()
@@ -194,10 +205,27 @@ if(SENTRY_DSN AND NOT ANDROID)
     target_link_libraries(${PROJECT_NAME} PRIVATE sentry::sentry)
 endif()
 
-# Qt 6 static FFmpeg media plugin does not pull in libav*; link Qt's bundled xcframeworks.
+# The Felgo iOS SDK ships x86_64 simulator slices for Qt's static plugins, while
+# its FFmpeg xcframeworks only contain arm64 simulator slices. Use the native
+# Darwin backend in the simulator and keep FFmpeg for physical devices.
 if(IOS)
+    if(CMAKE_OSX_SYSROOT MATCHES "iphonesimulator")
+        # felgo_configure_executable() links and embeds the arm64-only FFmpeg
+        # xcframeworks unconditionally. Remove them for the x86_64 simulator.
+        get_target_property(_pastviewer_ios_links ${PROJECT_NAME} LINK_LIBRARIES)
+        list(FILTER _pastviewer_ios_links EXCLUDE REGEX "/ffmpeg/.*[.]xcframework$")
+        set_property(TARGET ${PROJECT_NAME} PROPERTY LINK_LIBRARIES "${_pastviewer_ios_links}")
+
+        get_target_property(_pastviewer_ios_embedded_frameworks ${PROJECT_NAME} XCODE_EMBED_FRAMEWORKS)
+        list(FILTER _pastviewer_ios_embedded_frameworks EXCLUDE REGEX "/ffmpeg/.*[.]xcframework$")
+        set_property(TARGET ${PROJECT_NAME} PROPERTY XCODE_EMBED_FRAMEWORKS "${_pastviewer_ios_embedded_frameworks}")
+
+        qt_import_plugins(${PROJECT_NAME}
+            INCLUDE Qt6::QDarwinMediaPlugin
+            EXCLUDE Qt6::QFFmpegMediaPlugin
+        )
+    endif()
     enable_language(OBJCXX)
-    qt_add_ios_ffmpeg_libraries(${PROJECT_NAME})
 endif()
 
 file(GLOB_RECURSE ABS_QML CONFIGURE_DEPENDS
