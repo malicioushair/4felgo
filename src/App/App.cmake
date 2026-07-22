@@ -4,6 +4,7 @@ if(IOS)
     list(APPEND CMAKE_FIND_ROOT_PATH "${CMAKE_BINARY_DIR}")
 endif()
 
+find_package(Felgo)
 find_package(glog REQUIRED)
 find_package(gflags CONFIG REQUIRED)
 
@@ -54,6 +55,7 @@ if(NOT SENTRY_DSN)
 endif()
 include(ext/android_openssl/android_openssl.cmake)
 qt_add_executable(${PROJECT_NAME} ${SOURCES} ${QT_RESOURCES})
+felgo_configure_executable(${PROJECT_NAME})
 
 if(IOS)
     # https://doc.qt.io/qt-6/ios-platform-notes.html — absolute path required
@@ -176,6 +178,7 @@ endif()
 
 qt6_import_qml_plugins(${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    Felgo
     Qt6::Quick
     Qt6::QuickLayouts
     Qt6::QuickControls2
