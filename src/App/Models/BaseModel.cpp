@@ -4,6 +4,7 @@
 #include <QGeoPositionInfoSource>
 #include <QGeoRectangle>
 #include <QJsonArray>
+#include <QJsonDocument>
 #include <QJsonObject>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>

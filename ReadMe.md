@@ -62,7 +62,7 @@ The app currently includes translations for English, German, Spanish, French, It
 ### Requirements
 
 - CMake 3.28 or later
-- Qt 6.10.2 or later
+- Qt 6.8.3 or later (Felgo SDK ships Qt 6.8.3)
 - Conan
 - C++20-compatible compiler
 - Stadia Maps API key (optional — map tiles need `OSM_API_KEY`)
