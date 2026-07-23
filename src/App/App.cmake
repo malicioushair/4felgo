@@ -4,7 +4,7 @@ if(IOS)
     list(APPEND CMAKE_FIND_ROOT_PATH "${CMAKE_BINARY_DIR}")
 endif()
 
-find_package(Felgo)
+find_package(Felgo REQUIRED)
 find_package(glog REQUIRED)
 find_package(gflags CONFIG REQUIRED)
 
@@ -64,8 +64,16 @@ else()
     list(FILTER SOURCES EXCLUDE REGEX ".*/SentryIntegration/platform/(android|ios|mac)/.*")
     list(APPEND SOURCES "${CMAKE_CURRENT_LIST_DIR}/SentryIntegration/platform/stub/SentryIntegration_Stub.cpp")
 endif()
-qt_add_executable(${PROJECT_NAME} ${SOURCES} ${QT_RESOURCES})
+
+file(GLOB_RECURSE QmlFiles RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} qml/*.qml qml/*.js)
+file(GLOB_RECURSE AssetsFiles RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} qml/*)
+list(REMOVE_ITEM AssetsFiles ${QmlFiles})
+
+qt_add_executable(${PROJECT_NAME} ${SOURCES} ${QmlFiles} ${AssetsFiles} ${QT_RESOURCES})
 felgo_configure_executable(${PROJECT_NAME})
+
+# Dev only — comment out for publish builds
+deploy_resources("${QmlFiles};${AssetsFiles}")
 
 if(IOS)
     # https://doc.qt.io/qt-6/ios-platform-notes.html — absolute path required
@@ -122,7 +130,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE VERSION_PATCH="${CMAKE_PROJEC
 if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
     target_compile_definitions(${PROJECT_NAME} PRIVATE NDEBUG=1)
 else()
-    target_compile_definitions(${PROJECT_NAME} PRIVATE MAIN_QML="${CMAKE_CURRENT_LIST_DIR}/qml/Main.qml")
+    target_compile_definitions(${PROJECT_NAME} PRIVATE MAIN_QML="${CMAKE_CURRENT_SOURCE_DIR}/qml/Main.qml")
 endif()
 
 if (APPLE)
@@ -227,7 +235,7 @@ if(IOS)
 endif()
 
 file(GLOB_RECURSE ABS_QML CONFIGURE_DEPENDS
-    "${CMAKE_CURRENT_LIST_DIR}/qml/*.qml"
+    "${CMAKE_CURRENT_SOURCE_DIR}/qml/*.qml"
 )
 
 AbsToRelPath(REL_QML "${CMAKE_CURRENT_SOURCE_DIR}" ${ABS_QML})
@@ -237,9 +245,9 @@ qt_add_qml_module(${PROJECT_NAME}
     VERSION 1.0
     RESOURCE_PREFIX "/qt/qml"
     RESOURCES
-        "src/App/qml/Helpers/colors.js"
-        "src/App/qml/Helpers/utils.js"
-        "src/App/qml/resources/share.png"
+        "qml/Helpers/colors.js"
+        "qml/Helpers/utils.js"
+        "qml/resources/share.png"
     QML_FILES
         ${REL_QML}
 )

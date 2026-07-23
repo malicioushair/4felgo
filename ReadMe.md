@@ -120,7 +120,7 @@ Before distributing the app to another Mac, create a self-contained bundle with 
 ```bash
 path/to/Felgo/Felgo/bin/macdeployqt \
   build-macos-release/bin/PastViewer.app \
-  -qmldir=src/App/qml
+  -qmldir=qml
 ```
 
 ### iOS Device and App Store Build
