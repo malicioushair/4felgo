@@ -115,6 +115,24 @@ open build-macos-release/bin/PastViewer.app
 
 Add the optional key options to the `qt-cmake` command when required. For a Debug build, use a separate directory such as `build-macos-debug` and set both Conan and CMake to `Debug`.
 
+### Felgo Hot Reload
+
+Enable the custom Felgo Hot Reload client in a development build with:
+
+```text
+-DENABLE_FELGO_HOT_RELOAD=ON
+```
+
+You can pass this option on the command line or add it to your IDE's CMake
+configuration settings.
+
+Start the Felgo Hot Reload application, build and run PastViewer, then connect
+the PastViewer client to the Hot Reload session. QML, JavaScript, and asset
+changes are applied without rebuilding; C++ changes still require a rebuild.
+Configure release or publishing builds with
+`-DENABLE_FELGO_HOT_RELOAD=OFF` (the default) so they start `qml/Main.qml`
+directly.
+
 Before distributing the app to another Mac, create a self-contained bundle with the `macdeployqt` from the same Felgo installation:
 
 ```bash

@@ -19,6 +19,11 @@ App {
 
     title: "Past Viewer"
 
+    Component.onCompleted: {
+        if (typeof felgoHotReloadEngine !== "undefined")
+            felgoHotReloadEngine.contentLoader = mainWindowLoaderID
+    }
+
     Loader {
         id: mainWindowLoaderID
 

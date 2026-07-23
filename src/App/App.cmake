@@ -72,6 +72,11 @@ list(REMOVE_ITEM AssetsFiles ${QmlFiles})
 qt_add_executable(${PROJECT_NAME} ${SOURCES} ${QmlFiles} ${AssetsFiles} ${QT_RESOURCES})
 felgo_configure_executable(${PROJECT_NAME})
 
+if(ENABLE_FELGO_HOT_RELOAD)
+    find_package(FelgoHotReload REQUIRED)
+    felgohotreload_configure_executable(${PROJECT_NAME})
+endif()
+
 # Dev only — comment out for publish builds
 deploy_resources("${QmlFiles};${AssetsFiles}")
 
