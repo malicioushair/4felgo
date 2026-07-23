@@ -80,6 +80,7 @@ android {
     }
 
     defaultConfig {
+        applicationId productIdentifier
         resConfig "en"
         minSdkVersion qtMinSdkVersion
         targetSdkVersion qtTargetSdkVersion
