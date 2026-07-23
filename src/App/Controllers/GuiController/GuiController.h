@@ -18,11 +18,10 @@ signals:
 	void onboardingReset();
 
 public:
-	GuiController(QObject * parent = nullptr);
+	explicit GuiController(QQmlApplicationEngine & engine, QObject * parent = nullptr);
 	~GuiController();
 
 	Q_INVOKABLE bool IsDebug();
-	Q_INVOKABLE void BumpHotReloadToken();
 	Q_INVOKABLE QString GetAppVersion();
 	Q_INVOKABLE void RequestCameraPermission();
 	Q_INVOKABLE bool SaveScreenshotToGallery(const QString & filePath);

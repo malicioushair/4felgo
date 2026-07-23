@@ -1,3 +1,4 @@
+import Felgo
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -5,7 +6,7 @@ import QtQuick.Window
 import QtLocation
 import QtPositioning
 
-ApplicationWindow {
+App {
     id: mainWindowID
 
     property bool isMobile: Qt.platform.os === "android" || Qt.platform.os === "ios"
@@ -17,20 +18,6 @@ ApplicationWindow {
     visible: true
 
     title: "Past Viewer"
-
-    Shortcut {
-        sequences: ["Ctrl+R"]
-        context: Qt.ApplicationShortcut
-        onActivated: {
-            if (!guiController.IsDebug())
-                return
-
-            guiController.BumpHotReloadToken()
-            const base = Qt.resolvedUrl("MainWindow.qml")
-            mainWindowLoaderID.source = ""
-            mainWindowLoaderID.source = base + "?r=" + Date.now()
-        }
-    }
 
     Loader {
         id: mainWindowLoaderID

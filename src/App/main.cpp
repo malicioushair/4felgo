@@ -1,8 +1,11 @@
+#include <FelgoApplication>
 #include <QDir>
 #include <QGuiApplication>
+#include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QScopeGuard>
 #include <QStandardPaths>
+#include <QUrl>
 #include <exception>
 #include <iostream>
 #include <stdexcept>
@@ -67,7 +70,20 @@ int RunApplication(int argc, char * argv[])
 
 	QGuiApplication app(argc, argv);
 
-	GuiController guiController;
+	FelgoApplication felgo;
+	QQmlApplicationEngine engine;
+	felgo.initialize(&engine);
+
+	felgo.setMainQmlFileName(QStringLiteral("qml/Main.qml"));
+
+	GuiController guiController(engine);
+	engine.load(QUrl(felgo.mainQmlFileName()));
+
+	if (engine.rootObjects().isEmpty())
+	{
+		LOG(ERROR) << "Failed to load QML";
+		throw std::runtime_error("Failed to load QML");
+	}
 
 	LOG(INFO) << "Starting PastViewer application";
 	return QGuiApplication::exec();
