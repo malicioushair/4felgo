@@ -4,15 +4,38 @@ import PastViewer 1.0
 
 import "colors.js" as Colors
 
-// Note: only one hole is supported by now
+/*!
+    \qmltype RectangleWithHoles
+    \inqmlmodule PastViewer
+    \ingroup pastviewer-helpers
+    \brief Dimmed overlay with transparent rectangular cutouts.
+
+    Renders framing rectangles around the first hole for a spotlight effect and
+    uses the C++ \l {PastViewer::HoleItem} type to forward pointer events.
+ */
 Item {
     id: rectWithHolesID
 
+    /*!
+        Rectangles that remain transparent and accept pointer events.
+     */
     property var holes: []
+    /*!
+        Corner radius used for highlighted holes.
+     */
     property int holeRadius: 8
+    /*!
+        Color of the dimmed area around the holes.
+     */
     property color overlayColor: Colors.palette.overlayDim
 
+    /*!
+        Color of each highlighted hole border.
+     */
     property color highlightBorderColor: "white"
+    /*!
+        Width of each highlighted hole border.
+     */
     property int highlightBorderWidth: 2
 
     // Dimmed overlay: 4 rectangles framing the hole

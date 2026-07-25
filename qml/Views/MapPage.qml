@@ -13,10 +13,22 @@ import "../Helpers"
 import "../Helpers/colors.js" as Colors
 import "../Helpers/utils.js" as Utils
 
+/*!
+    \qmltype MapPage
+    \inqmlmodule PastViewer
+    \brief Primary map screen with markers, controls, and onboarding.
+ */
 Item {
     id: mapPageID
 
+    /*!
+        Read-only device position from \c pastVuModelController.
+     */
     readonly property var positionSource: pastVuModelController.GetPositionSource()
+    /*!
+        \qmlproperty Map MapPage::map
+        Alias to the internal map instance.
+     */
     property alias map: mapViewID.internalMap
 
     Connections {
@@ -178,6 +190,7 @@ Item {
                 copyrightsVisible: false
                 onBearingChanged: updateViewCoordinates()
 
+                //! [map-plugin]
                 plugin: Plugin {
                     id: mapPluginID
 
@@ -188,6 +201,7 @@ Item {
                         value: "https://tiles.stadiamaps.com/tiles/outdoors/%z/%x/%y.png?api_key=" + pastVuModelController.GetMapHostApiKey()
                     }
                 }
+                //! [map-plugin]
 
                 activeMapType: supportedMapTypes.find((map) => { return map.style === MapType.CustomMap })
 

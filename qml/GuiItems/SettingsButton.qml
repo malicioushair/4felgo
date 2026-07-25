@@ -4,9 +4,19 @@ import QtQuick.Layouts
 
 import "../Helpers/colors.js" as Colors
 
+/*!
+    \qmltype SettingsButton
+    \inqmlmodule PastViewer
+    \ingroup pastviewer-gui-items
+    \brief Hamburger-menu icon button that opens settings.
+ */
 Rectangle {
     id: rootID
 
+    /*!
+        \qmlsignal void SettingsButton::clicked()
+        Emitted when the user taps the button.
+     */
     signal clicked()
 
     width: 40

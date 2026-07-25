@@ -4,15 +4,33 @@ import QtQuick.Layouts
 
 import "../Helpers/colors.js" as Colors
 
+/*!
+    \qmltype StyledRangeSlider
+    \inqmlmodule PastViewer
+    \ingroup pastviewer-gui-items
+    \brief Dual-handle range slider for selecting a year timeline.
+ */
 ColumnLayout {
     id: timelineSettingID
 
     Layout.leftMargin: 5
     Layout.rightMargin: 5
 
+    /*!
+        Lowest selectable value.
+     */
     property real rangeMin: 0
+    /*!
+        Highest selectable value.
+     */
     property real rangeMax: 100
+    /*!
+        Value selected by the lower handle.
+     */
     property real selectedMin: 0
+    /*!
+        Value selected by the upper handle.
+     */
     property real selectedMax: 100
 
     Text {
@@ -60,4 +78,3 @@ ColumnLayout {
         }
     }
 }
-

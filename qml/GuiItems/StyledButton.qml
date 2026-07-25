@@ -3,6 +3,12 @@ import QtQuick.Controls
 
 import "../Helpers/colors.js" as Colors
 
+/*!
+    \qmltype StyledButton
+    \inqmlmodule PastViewer
+    \ingroup pastviewer-gui-items
+    \brief Themed push button with accent background and rounded corners.
+ */
 Button {
     id: controlID
 

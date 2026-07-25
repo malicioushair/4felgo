@@ -28,6 +28,13 @@ set(PRODUCT_STAGE "test")
 include(src/App/App.cmake)
 
 if (NOT ANDROID AND NOT IOS)
+    option(BUILD_DOCS "Add pastviewer-docs QDoc generation target" ON)
+    if(BUILD_DOCS)
+        include(cmake/Docs.cmake)
+    endif()
+endif()
+
+if (NOT ANDROID AND NOT IOS)
     option(BUILD_TESTS "Build unit tests" ON)
     if(BUILD_TESTS)
         enable_testing()

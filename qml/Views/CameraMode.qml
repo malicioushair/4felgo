@@ -9,10 +9,21 @@ import "../Helpers/utils.js" as Utils
 import "../Helpers"
 import "Helpers"
 
+/*!
+    \qmltype CameraMode
+    \inqmlmodule PastViewer
+    \brief Camera overlay that aligns a historical photo with the live viewfinder.
+ */
 BasePage {
     id: rootID
 
+    /*!
+        URL of the historical photo to overlay.
+     */
     required property string imageSource
+    /*!
+        Year shown in the footer.
+     */
     required property int year
     
     property string thumbnailSource: ""
@@ -21,10 +32,18 @@ BasePage {
     property bool controlsHidden: false
     property double thumbnailScale: 0.2
 
+    /*!
+        \qmlmethod void CameraMode::triggerShutterEffect()
+        Plays the white flash animation on capture.
+     */
     function triggerShutterEffect() {
         shutterAnimationID.restart()
     }
 
+    /*!
+        \qmlmethod void CameraMode::animateThumbnail(savedImageUrl)
+        Animates the captured image from \a savedImageUrl to a corner thumbnail.
+     */
     function animateThumbnail(savedImageUrl) {
         thumbnailSource = savedImageUrl
         thumbnailVisible = false
@@ -37,6 +56,7 @@ BasePage {
         thumbnailShrinkAnimationID.restart()
     }
 
+    //! [capture-session]
     CaptureSession {
         id: captureSessionID
 
@@ -47,6 +67,7 @@ BasePage {
 
         videoOutput: videoOutputID
     }
+    //! [capture-session]
 
     header: Header {
         label.text: qsTr("Back")

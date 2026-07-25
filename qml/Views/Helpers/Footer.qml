@@ -4,9 +4,17 @@ import QtQuick.Layouts
 
 import "../../Helpers/colors.js" as Colors
 
+/*!
+    \qmltype Footer
+    \inqmlmodule PastViewer
+    \brief Bottom toolbar displaying contextual page information.
+ */
 ToolBar {
     id: rootID
 
+    /*!
+        Text displayed by the footer label.
+     */
     required property string text
 
     background: Rectangle {

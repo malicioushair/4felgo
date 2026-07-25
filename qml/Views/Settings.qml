@@ -7,6 +7,11 @@ import "../GuiItems"
 import "Helpers"
 
 
+/*!
+    \qmltype Settings
+    \inqmlmodule PastViewer
+    \brief Application settings: language, timeline filter, and display options.
+ */
 BasePage {
     id: rootID
 

@@ -1,3 +1,24 @@
+/*!
+    \namespace ModelType
+    \inmodule PastViewer
+    \brief Selects which QAbstractItemModel to display in QML.
+ */
+
+/*!
+    \enum ModelType::Type
+
+    \value Clustered Map marker model with clustering applied.
+    \value Raw Flat list of individual photos.
+ */
+
+/*!
+    \class PastVuModelController
+    \inmodule PastViewer
+    \brief Central controller for photo data, map viewport, and user filters.
+
+    Owns the model stack and is registered as the QML context property
+    \c pastVuModelController.
+ */
 #include "PastViewModelController.h"
 
 #include <memory>
@@ -82,6 +103,9 @@ PastVuModelController::PastVuModelController(const QLocationPermission & permiss
 
 PastVuModelController::~PastVuModelController() = default;
 
+/*!
+    Returns the model selected by \a modelType.
+*/
 QAbstractItemModel * PastVuModelController::GetModel(ModelType::Type modelType)
 {
 	switch (modelType)
@@ -98,16 +122,25 @@ QAbstractItemModel * PastVuModelController::GetModel(ModelType::Type modelType)
 	assert(false && "Unknown model type");
 }
 
+/*!
+    Returns the map-host API key compiled into the application.
+*/
 QString PastVuModelController::GetMapHostApiKey()
 {
 	return QString::fromUtf8(API_KEY);
 }
 
+/*!
+    Returns the position adapter used by the QML map and compass.
+*/
 PositionSourceAdapter * PastVuModelController::GetPositionSource()
 {
 	return m_impl->positionSourceAdapter.get();
 }
 
+/*!
+    Forwards a location-permission grant to the underlying models.
+*/
 void PastVuModelController::OnPositionPermissionGranted()
 {
 	emit PositionPermissionGranted();
@@ -164,25 +197,127 @@ void PastVuModelController::SetUserSelectedTimelineRange(const Range & range)
 	emit UserSelectedTimelineRangeChanged(range);
 }
 
+/*!
+    Toggles \l nearestObjectsOnly.
+*/
 void PastVuModelController::ToggleOnlyNearestObjects()
 {
 	SetNearestObjectsOnly(!GetNearestObjectsOnly());
 	emit ModelChanged();
 }
 
+/*!
+    Toggles \l historyNearModelType.
+*/
 void PastVuModelController::ToggleHistoryNearYouModel()
 {
 	SetHistoryNearModelType(!GetHistoryNearModelType());
 	emit HistoryNearModelChanged();
 }
 
+/*!
+    Forces a refresh of photo data for the current viewport.
+*/
 void PastVuModelController::ReloadItems()
 {
 	m_impl->baseModel->ReloadItems();
 }
 
+/*!
+    Updates the visible map rectangle to \a viewport and requests photo data.
+*/
 void PastVuModelController::SetViewportCoordinates(const QGeoRectangle & viewport)
 {
 	m_impl->viewPort = viewport;
 	emit m_impl->baseModel->UpdateCoords(viewport);
 }
+
+/*!
+    \property PastVuModelController::nearestObjectsOnly
+
+    Holds whether map markers use the nearest-objects cluster model.
+*/
+
+/*!
+    \property PastVuModelController::historyNearModelType
+
+    Holds the data-source selection for the "History near you" carousel.
+*/
+
+/*!
+    \property PastVuModelController::zoomLevel
+
+    Holds the map zoom level synchronized with the QML Map.
+*/
+
+/*!
+    \property PastVuModelController::timelineRange
+
+    Holds the read-only full year range supported by the application.
+*/
+
+/*!
+    \property PastVuModelController::userSelectedTimelineRange
+
+    Holds the user-adjustable year range applied by ScreenObjectsModel.
+*/
+
+/*!
+    \fn void PastVuModelController::PositionPermissionGranted()
+
+    Emitted after location permission is granted.
+*/
+
+/*!
+    \fn void PastVuModelController::NearestObjectsOnlyChanged()
+
+    Emitted when \l nearestObjectsOnly changes.
+*/
+
+/*!
+    \fn void PastVuModelController::ModelChanged()
+
+    Emitted when the active map model changes.
+*/
+
+/*!
+    \fn void PastVuModelController::HistoryNearModelChanged()
+
+    Emitted when \l historyNearModelType changes.
+*/
+
+/*!
+    \fn void PastVuModelController::ZoomLevelChanged()
+
+    Emitted when \l zoomLevel changes.
+*/
+
+/*!
+    \fn void PastVuModelController::YearFromChanged()
+
+    Emitted when the lower bound of the selected timeline changes.
+*/
+
+/*!
+    \fn void PastVuModelController::YearToChanged()
+
+    Emitted when the upper bound of the selected timeline changes.
+*/
+
+/*!
+    \fn void PastVuModelController::UserSelectedTimelineRangeChanged(const Range &timeline)
+
+    Emitted after the selected range changes to \a timeline.
+*/
+
+/*!
+    \fn void PastVuModelController::loadingItems()
+
+    Emitted when a photo fetch starts.
+*/
+
+/*!
+    \fn void PastVuModelController::itemsLoaded()
+
+    Emitted when a photo fetch completes.
+*/

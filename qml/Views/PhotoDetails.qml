@@ -7,11 +7,25 @@ import "../Helpers/colors.js" as Colors
 import "../Helpers"
 import "Helpers"
 
+/*!
+    \qmltype PhotoDetails
+    \inqmlmodule PastViewer
+    \brief Full-screen photo viewer with pinch-to-zoom and share action.
+ */
 BasePage {
     id: photoDetailsPageID
 
+    /*!
+        URL of the full-resolution historical photo.
+     */
     required property string imageSource
+    /*!
+        URL of the preview shown until the full image loads.
+     */
     required property string thumbnailSource
+    /*!
+        Year in which the historical photo was captured.
+     */
     required property int year
 
     header: Header {}

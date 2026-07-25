@@ -1,3 +1,11 @@
+/*!
+    \class ClusterModel
+    \inmodule PastViewer
+    \brief Groups nearby map markers into screen-space clusters.
+
+    Reads from a source model and produces individual markers and cluster
+    nodes. Emits the zoom levels needed to split selected clusters.
+ */
 #include "ClusterModel.h"
 
 #include "App/Models/BaseModel.h"
@@ -315,11 +323,17 @@ ClusterModel::ClusterModel(QAbstractItemModel * sourceModel, QObject * parent)
 
 ClusterModel::~ClusterModel() = default;
 
+/*!
+    Returns the number of visible cluster nodes. The \a parent index is ignored.
+*/
 int ClusterModel::rowCount(const QModelIndex & parent) const
 {
 	return static_cast<int>(m_impl->nodes.size());
 }
 
+/*!
+    Returns cluster or individual-marker data for \a role at \a index.
+*/
 QVariant ClusterModel::data(const QModelIndex & index, int role) const
 {
 	if (!index.isValid() || index.row() < 0 || index.row() >= m_impl->nodes.size())
@@ -377,6 +391,9 @@ QVariant ClusterModel::data(const QModelIndex & index, int role) const
 	return {};
 }
 
+/*!
+    Returns the QML role names, including the cluster-specific roles.
+*/
 QHash<int, QByteArray> ClusterModel::roleNames() const
 {
 	auto roles = m_impl->sourceModel->roleNames();
@@ -388,6 +405,9 @@ QHash<int, QByteArray> ClusterModel::roleNames() const
 	return roles;
 }
 
+/*!
+    Rebuilds and returns the cluster tree for the current viewport.
+*/
 std::vector<Node> ClusterModel::BuildClusters() const
 {
 	const auto items = BuildClusterItems(*m_impl->sourceModel, m_impl->viewport);
@@ -411,6 +431,9 @@ std::vector<Node> ClusterModel::BuildClusters() const
 	return nodes;
 }
 
+/*!
+    Recomputes clusters for map \a viewport.
+*/
 void ClusterModel::OnViewportChanged(const QGeoRectangle & viewport)
 {
 	m_impl->viewport = viewport;
@@ -435,3 +458,22 @@ void ClusterModel::OnViewportChanged(const QGeoRectangle & viewport)
 	m_impl->nodes = BuildClusters();
 	endResetModel();
 }
+
+/*!
+    \property ClusterModel::count
+
+    Holds the number of cluster nodes and individual markers.
+*/
+
+/*!
+    \fn void ClusterModel::CountChanged()
+
+    Emitted when \l count changes.
+*/
+
+/*!
+    \fn void ClusterModel::ZoomsToDecluster(const QHash<int, int> &cidToZoom)
+
+    Provides the zoom level needed to split each cluster representative in
+    \a cidToZoom.
+*/

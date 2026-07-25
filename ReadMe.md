@@ -57,6 +57,46 @@ When a photo catches your eye, open it full screen, inspect the details, then sw
 
 The app currently includes translations for English, German, Spanish, French, Italian, Japanese, Korean, Portuguese, Russian, Serbian, and Simplified Chinese.
 
+## Documentation
+
+API documentation has one authoritative location per topic:
+
+- regular C++ APIs are documented in their implementation (`.cpp`) files;
+- inline and template C++ APIs are documented in `docs/header-only.qdoc`,
+  because Felgo's QDoc 6.8 cannot consume documentation from headers;
+- QML APIs are documented in their owning `.qml` files.
+
+Place regular C++ function comments immediately before their definitions so
+QDoc derives the signature from the code. Use an explicit `\fn` topic only for
+signals, pure virtual functions, and other APIs without a canonical
+implementation definition.
+
+Headers contain declarations only. The generator discovers C++ headers,
+implementation files, and QML components from the source tree, and reads the
+project version from `CMakeLists.txt`.
+
+Generate the reference from a configured build tree:
+
+```bash
+cmake --build build --target pastviewer-docs
+```
+
+The `pastviewer-docs` target is added on desktop when `BUILD_DOCS=ON` (the
+default). It uses the Felgo QDoc binary from your configured Felgo kit and
+the Conan glog/gflags headers from the same build directory.
+
+Override the Felgo install path when configuring CMake if needed:
+
+```bash
+cmake -B build -DFELGO_ROOT=/path/to/Felgo/Felgo/macos
+```
+
+Output is written to `docs/html/`. Open the generated landing page:
+
+```bash
+open docs/html/index.html
+```
+
 ## Developer Setup
 
 ### Requirements

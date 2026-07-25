@@ -3,9 +3,18 @@ import QtQuick.Controls
 
 import "../Helpers/colors.js" as Colors
 
+/*!
+    \qmltype SettingHelpHint
+    \inqmlmodule PastViewer
+    \ingroup pastviewer-gui-items
+    \brief "?" button that opens a popup with a setting description.
+ */
 AbstractButton {
     id: controlID
 
+    /*!
+        Help text displayed in the popup.
+     */
     property string description: ""
 
     implicitWidth: 22

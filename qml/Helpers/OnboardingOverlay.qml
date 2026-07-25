@@ -5,18 +5,41 @@ import QtQuick.Layouts
 import "colors.js" as Colors
 import "../GuiItems"
 
+/*!
+    \qmltype OnboardingOverlay
+    \inqmlmodule PastViewer
+    \ingroup pastviewer-helpers
+    \brief Step-by-step tutorial overlay with optional UI element highlighting.
+ */
 Item {
     id: rootID
 
-    // Array of step objects: { title, body }
+    /*!
+        Ordered tutorial step objects. Each object provides \c title and
+        \c body fields.
+     */
     property var steps: []
+    /*!
+        Zero-based index of the currently displayed step.
+     */
     property int currentIndex: 0
+    /*!
+        Whether the tutorial card is vertically centered.
+     */
     property bool centered: false
+    /*!
+        Whether the tutorial card is aligned near the top.
+     */
     property bool topped: false
 
-    // Array of { target: Item, stepIndex: int } — when currentIndex === stepIndex, cut a hole to highlight target
+    /*!
+        Highlight definitions containing a target Item and its step index.
+     */
     property var highlightSteps: []
 
+    /*!
+        Persistence key used to record completion of the tutorial.
+     */
     required property string completionKey
 
     function _highlightTargetForCurrentStep() {
@@ -39,7 +62,9 @@ Item {
         : Qt.rect(0, 0, 0, 0)
     }
 
-    // Whether the overlay is currently active. When false, it is hidden and does not block input.
+    /*!
+        Whether the overlay is visible and blocks normal interaction.
+     */
     property bool active: false
 
     visible: active
@@ -195,4 +220,3 @@ Item {
         }
     }
 }
-

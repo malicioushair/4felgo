@@ -3,17 +3,42 @@ import QtQuick.Shapes
 
 import "../Helpers/colors.js" as Colors
 
+/*!
+    \qmltype PovDirection
+    \inqmlmodule PastViewer
+    \ingroup pastviewer-gui-items
+    \brief Map marker with a directional arrow indicating photo point of view.
+ */
 Rectangle {
     id: rootID
 
+    /*!
+        Diameter of the marker in pixels.
+     */
     required property int size
+    /*!
+        Photo bearing in degrees clockwise from north.
+     */
     required property real bearing // degrees, 0=N, 90=E (clockwise)
+    /*!
+        Current map rotation in degrees clockwise from north.
+     */
     required property real mapBearing
 
+    /*!
+        Whether the marker is currently selected.
+     */
     property bool selected: false
 
+    /*!
+        \qmlsignal void PovDirection::clicked()
+        Emitted when the user taps the marker.
+     */
     signal clicked()
 
+    /*!
+        Color used to draw the direction arrow.
+     */
     property color arrowColor: "black"
 
     width: size

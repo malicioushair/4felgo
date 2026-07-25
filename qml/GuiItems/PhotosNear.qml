@@ -10,9 +10,18 @@ import PastViewer 1.0
 import "../Helpers/colors.js" as Colors
 import "../Helpers/utils.js" as Utils
 
+/*!
+    \qmltype PhotosNear
+    \inqmlmodule PastViewer
+    \ingroup pastviewer-gui-items
+    \brief Horizontal carousel of historical photos near the user's location.
+ */
 Rectangle {
     id: rootID
 
+    /*!
+        Map whose center and zoom are animated when the user selects a photo.
+     */
     property Map map: null
 
     Layout.fillWidth: true

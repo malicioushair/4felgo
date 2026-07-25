@@ -1,3 +1,16 @@
+/*!
+    \namespace SentryIntegration
+    \inmodule PastViewer
+    \brief Optional crash reporting via the Sentry SDK.
+
+    Active only when the application is built with \c SENTRY_DSN defined.
+ */
+
+/*!
+    \class SentryIntegration::ISentry
+    \inmodule PastViewer
+    \brief Platform abstraction for Sentry SDK operations.
+ */
 #include "SentryIntegration.h"
 
 #include <cstdlib>
@@ -98,6 +111,10 @@ void TerminateHandler()
 
 } // namespace
 
+/*!
+    Initializes Sentry for \a release and installs the logging integrations.
+    Returns \c true on success.
+*/
 bool InitSentry(const QString & release)
 {
 	if (g_sentryInitialized)
@@ -113,6 +130,9 @@ bool InitSentry(const QString & release)
 	return true;
 }
 
+/*!
+    Routes glog messages to Sentry breadcrumbs.
+*/
 void InstallBreadcrumbSink()
 {
 	if (!g_breadcrumbSink)
@@ -122,9 +142,49 @@ void InstallBreadcrumbSink()
 	}
 }
 
+/*!
+    Installs the process-wide uncaught C++ exception handler.
+*/
 void InstallExceptionHandler()
 {
 	std::set_terminate(TerminateHandler);
 }
 
 } // namespace SentryIntegration
+
+/*!
+    \fn bool SentryIntegration::ISentry::Initialize(const QString &release)
+
+    Initializes the platform Sentry SDK with \a release. Returns \c true on
+    success.
+*/
+
+/*!
+    \fn void SentryIntegration::ISentry::Shutdown()
+
+    Shuts down the platform Sentry SDK.
+*/
+
+/*!
+    \fn void SentryIntegration::ISentry::AddBreadcrumb(const std::string &message, const std::string &level)
+
+    Records \a message as a breadcrumb at severity \a level.
+*/
+
+/*!
+    \fn void SentryIntegration::ISentry::CaptureException(const QString &message, const QString &type)
+
+    Reports an exception with \a message and \a type.
+*/
+
+/*!
+    \fn void SentryIntegration::ISentry::Flush()
+
+    Flushes pending Sentry events.
+*/
+
+/*!
+    \fn SentryIntegration::ISentry &SentryIntegration::GetPlatform()
+
+    Returns the platform-specific Sentry implementation.
+*/

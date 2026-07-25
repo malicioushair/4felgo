@@ -4,17 +4,24 @@ import QtPositioning
 
 import PastViewer 1.0
 
-/**
- * MapAnimationHelper - QML component for animating map center and zoom
- *
- * Provides smooth animations for centering the map and zooming in/out,
- * with support for cluster splitting detection.
+/*!
+    \qmltype MapAnimationHelper
+    \inqmlmodule PastViewer
+    \ingroup pastviewer-helpers
+    \brief Smooth map center and zoom animations with cluster-split detection.
+
+    Provides animated transitions when the user selects a photo from the carousel
+    or taps a clustered marker. After animation completes, triggers a viewport
+    update on \c pastVuModelController.
  */
 Item {
     id: rootID
 
     visible: false
 
+    /*!
+        The Map instance to animate. This property is required.
+     */
     required property var map
 
     // Exposed to make the user code handle the animatedSmthChanged signals
@@ -23,6 +30,9 @@ Item {
     property real animatedZoom: 0
 
     property var pendingClusterCheck: null
+    /*!
+        Read-only; \c true while a center or zoom animation is in progress.
+     */
     readonly property bool running: animationGroup.running
 
     ParallelAnimation {
@@ -59,10 +69,7 @@ Item {
     }
 
 
-    /**
-     * Internal helper: Set up center animation properties
-     * @param {Object} targetCoordinate - Target coordinate to center on (null to keep current)
-     */
+    // Internal: set up center animation from targetCoordinate (null keeps current).
     function _setupCenterAnimation(targetCoordinate) {
         if (!targetCoordinate || !targetCoordinate.isValid)
             return
@@ -76,10 +83,7 @@ Item {
         lonAnimation.to = targetCoordinate.longitude
     }
 
-    /**
-     * Internal helper: Set up zoom animation properties
-     * @param {number} targetZoom - Target zoom level (0 or negative to keep current)
-     */
+    // Internal: set up zoom animation; targetZoom <= 0 keeps current zoom.
     function _setupZoomAnimation(targetZoom) {
         animatedZoom = map.zoomLevel
 
@@ -93,9 +97,10 @@ Item {
         }
     }
 
-    /**
-     * Animation function for center only
-     * @param {Object} targetCoordinate - Target coordinate to center on
+    // Animate map center to targetCoordinate without changing zoom.
+    /*!
+        \qmlmethod void MapAnimationHelper::animateMapCenter(targetCoordinate)
+        Animates the map center to \a targetCoordinate without changing zoom.
      */
     function animateMapCenter(targetCoordinate) {
         if (!map || !targetCoordinate || !targetCoordinate.isValid)
@@ -109,9 +114,7 @@ Item {
         animationGroup.start()
     }
 
-    /**
-    * Stores cluster info for checking split after animation
-    */
+    // Store cluster info for viewport refresh after animation.
     function _handleClustering(targetZoom, clusterCoordinate) {
         pendingClusterCheck = {
             map: map,
@@ -120,10 +123,10 @@ Item {
         }
     }
 
-    /**
-     * Animation function for zoom only
-     * @param {number} targetZoom - Target zoom level
-     * @param {Object} clusterCoordinate - Original cluster coordinate (for split checking)
+    // Animate zoom to targetZoom and schedule viewport refresh on completion.
+    /*!
+        \qmlmethod void MapAnimationHelper::animateMapZoom(targetZoom, clusterCoordinate)
+        Animates zoom to \a targetZoom; \a clusterCoordinate is used for viewport refresh.
      */
     function animateMapZoom(targetZoom, clusterCoordinate) {
         if (!map || targetZoom <= 0 || targetZoom === map.zoomLevel)
@@ -137,11 +140,11 @@ Item {
         animationGroup.start()
     }
 
-    /**
-     * Unified animation function for both center and zoom
-     * @param {Object} targetCoordinate - Target coordinate to center on
-     * @param {number} targetZoom - Target zoom level (0 to skip zoom animation)
-     * @param {Object} clusterCoordinate - Original cluster coordinate (for split checking)
+    // Animate center and zoom in parallel.
+    /*!
+        \qmlmethod void MapAnimationHelper::animateMapCenterAndZoom(targetCoordinate, targetZoom, clusterCoordinate)
+        Animates center to \a targetCoordinate, zoom to \a targetZoom;
+        \a clusterCoordinate is used for viewport refresh.
      */
     function animateMapCenterAndZoom(targetCoordinate, targetZoom, clusterCoordinate) {
         if (!map || !targetCoordinate || !targetCoordinate.isValid)
@@ -156,9 +159,7 @@ Item {
         animationGroup.start()
     }
 
-    /**
-     * Handle animation finished - trigger viewport update and check cluster split
-     */
+    // Refresh viewport after animation completes.
     function _handleAnimationFinished() {
         if (!pendingClusterCheck)
             return
@@ -171,4 +172,3 @@ Item {
         pendingClusterCheck = null
     }
 }
-

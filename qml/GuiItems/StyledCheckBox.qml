@@ -4,6 +4,12 @@ import QtQuick.Layouts
 
 import "../Helpers/colors.js" as Colors
 
+/*!
+    \qmltype StyledCheckBox
+    \inqmlmodule PastViewer
+    \ingroup pastviewer-gui-items
+    \brief Themed checkbox with rounded indicator and accent fill.
+ */
 CheckBox {
     id: controlID
     
@@ -37,4 +43,3 @@ CheckBox {
         verticalAlignment: Text.AlignVCenter
     }
 }
-

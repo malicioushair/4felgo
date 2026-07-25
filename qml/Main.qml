@@ -6,9 +6,17 @@ import QtQuick.Window
 import QtLocation
 import QtPositioning
 
+/*!
+    \qmltype Main
+    \inqmlmodule PastViewer
+    \brief Felgo application root with QML hot-reload support.
+ */
 App {
     id: mainWindowID
 
+    /*!
+        Whether the application is running on Android or iOS.
+     */
     property bool isMobile: Qt.platform.os === "android" || Qt.platform.os === "ios"
 
     width: isMobile ? Screen.width : 1080 / 3

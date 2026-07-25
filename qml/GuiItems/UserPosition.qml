@@ -3,10 +3,22 @@ import QtQuick.Shapes
 
 import "../Helpers/colors.js" as Colors
 
+/*!
+    \qmltype UserPosition
+    \inqmlmodule PastViewer
+    \ingroup pastviewer-gui-items
+    \brief Device location indicator shown on the map.
+ */
 Item {
     id: rootID
 
+    /*!
+        Device heading in degrees clockwise from north.
+     */
     required property real bearing
+    /*!
+        Current map rotation in degrees clockwise from north.
+     */
     required property real mapBearing
 
     width: 14

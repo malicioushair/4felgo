@@ -4,9 +4,18 @@ import QtQuick.Shapes
 
 import "../Helpers/colors.js" as Colors
 
+/*!
+    \qmltype Compass
+    \inqmlmodule PastViewer
+    \ingroup pastviewer-gui-items
+    \brief North-up compass dial that snaps the map bearing to zero on tap.
+ */
 Item {
     id: compassID
 
+    /*!
+        Read-only rotation of the compass needle in degrees.
+     */
     readonly property alias bearing: needleID.rotation
 
     Rectangle {

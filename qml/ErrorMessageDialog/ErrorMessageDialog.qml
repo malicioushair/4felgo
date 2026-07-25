@@ -4,12 +4,21 @@ import QtQuick.Layouts
 
 import "../Helpers/colors.js" as Colors
 
+/*!
+    \qmltype ErrorMessageDialog
+    \inqmlmodule PastViewer
+    \ingroup pastviewer-dialogs
+    \brief Fatal error dialog that quits the application on dismissal.
+ */
 Dialog {
     id: errorDialogID
 
     modal: true
     width: Math.min(parent.width * 0.9, 400)
 
+    /*!
+        Fatal error message displayed in the dialog.
+     */
     property string errorMessage: ""
 
     standardButtons: Dialog.Ok

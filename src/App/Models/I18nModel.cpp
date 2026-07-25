@@ -1,3 +1,8 @@
+/*!
+    \class I18nModel
+    \inmodule PastViewer
+    \brief List model of supported application languages.
+ */
 #include "App/Models/I18nModel.h"
 
 #include <QCoreApplication>
@@ -27,11 +32,18 @@ I18nModel::I18nModel(QObject * parent)
 {
 }
 
+/*!
+    Returns the number of supported languages. The \a parent index is ignored.
+*/
 int I18nModel::rowCount(const QModelIndex &) const
 {
 	return languages.size();
 }
 
+/*!
+    Returns the language code or display name selected by \a role for
+    \a index.
+*/
 QVariant I18nModel::data(const QModelIndex & index, int role) const
 {
 	if (!index.isValid() || index.row() >= languages.size())
@@ -49,6 +61,9 @@ QVariant I18nModel::data(const QModelIndex & index, int role) const
 	}
 }
 
+/*!
+    Returns the language-model roles exposed to QML.
+*/
 QHash<int, QByteArray> I18nModel::roleNames() const
 {
 	QHash<int, QByteArray> roles;
@@ -59,6 +74,9 @@ QHash<int, QByteArray> I18nModel::roleNames() const
 	return roles;
 }
 
+/*!
+    Returns the fixed list of supported languages.
+*/
 I18nModel::LanguageItems I18nModel::GetAllLanguages()
 {
 	return languages;

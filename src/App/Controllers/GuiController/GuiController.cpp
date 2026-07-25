@@ -1,3 +1,16 @@
+/*!
+    \namespace PastViewer
+    \inmodule PastViewer
+    \brief Application-specific C++ types registered to the PastViewer QML module.
+ */
+/*!
+    \class PastViewer::GuiController
+    \inmodule PastViewer
+    \brief Platform services exposed to QML as guiController.
+
+    Handles permissions, image sharing, onboarding persistence, and
+    development utilities.
+ */
 #include "GuiController.h"
 
 #include <QCameraDevice>
@@ -82,6 +95,9 @@ GuiController::GuiController(QQmlApplicationEngine & engine, QObject * parent)
 
 GuiController::~GuiController() = default;
 
+/*!
+    Returns \c true when the application is running a debug build.
+*/
 bool GuiController::IsDebug()
 {
 	return
@@ -93,11 +109,17 @@ bool GuiController::IsDebug()
 		;
 }
 
+/*!
+    Returns the application version string.
+*/
 QString GuiController::GetAppVersion()
 {
 	return QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_PATCH);
 }
 
+/*!
+    Returns whether onboarding step \a key has been completed.
+*/
 bool GuiController::IsOnboardingStepCompleted(const QString & key)
 {
 	m_impl->settings.beginGroup("Onboarding");
@@ -106,6 +128,9 @@ bool GuiController::IsOnboardingStepCompleted(const QString & key)
 	return res;
 }
 
+/*!
+    Marks onboarding step \a key as completed.
+*/
 void GuiController::SetOnboardingStepCompleted(const QString & key)
 {
 	m_impl->settings.beginGroup("Onboarding");
@@ -113,12 +138,18 @@ void GuiController::SetOnboardingStepCompleted(const QString & key)
 	m_impl->settings.endGroup();
 }
 
+/*!
+    Clears all onboarding progress and emits onboardingReset().
+*/
 void GuiController::ResetOnboarding()
 {
 	m_impl->settings.remove("Onboarding");
 	emit onboardingReset();
 }
 
+/*!
+    Requests camera permission for camera mode.
+*/
 void GuiController::RequestCameraPermission()
 {
 	QMediaDevices devices;
@@ -131,11 +162,18 @@ void GuiController::RequestCameraPermission()
 	RequestPermission(m_impl->cameraPermission);
 }
 
+/*!
+    Saves the image at \a filePath to the device photo gallery. Returns
+    \c true on success.
+*/
 bool GuiController::SaveScreenshotToGallery(const QString & filePath)
 {
 	return PlatformDependentLogic::SaveScreenshotToGallery(filePath);
 }
 
+/*!
+    Persists \a grabResult to a temporary file and returns its URL.
+*/
 QString GuiController::SaveImage(const QQuickItemGrabResult * grabResult)
 {
 	if (!grabResult)
@@ -169,6 +207,10 @@ QString GuiController::SaveImage(const QQuickItemGrabResult * grabResult)
 	return QUrl::fromLocalFile(filePath).toString();
 }
 
+/*!
+    Opens the platform share sheet for the last saved image. Returns \c true
+    when the share request is accepted.
+*/
 bool GuiController::ShareImage()
 {
 	if (m_impl->lastSavedImagePath.isEmpty())
@@ -210,3 +252,21 @@ void GuiController::RequestPermission(const QPermission & permission)
 			throw std::runtime_error("Unknown permission status");
 	}
 }
+
+/*!
+    \fn void PastViewer::GuiController::PermissionGranted(const QPermission &permission)
+
+    Emitted when the user grants \a permission.
+*/
+
+/*!
+    \fn void PastViewer::GuiController::showErrorDialog(const QString &errorMessage)
+
+    Requests display of a fatal error dialog containing \a errorMessage.
+*/
+
+/*!
+    \fn void PastViewer::GuiController::onboardingReset()
+
+    Emitted after onboarding progress is cleared.
+*/

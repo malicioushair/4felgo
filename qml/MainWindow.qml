@@ -14,11 +14,24 @@ import "Views"
 
 import "Helpers/colors.js" as Colors
 
+/*!
+    \qmltype MainWindow
+    \inqmlmodule PastViewer
+    \brief Root visual container with navigation stack and error handling.
+ */
 Rectangle {
     id: mainWindowID
 
+    /*!
+        \qmlproperty MapAnimationHelper MainWindow::mapAnimationHelper
+        Shared animation helper for smooth map transitions.
+     */
     property alias mapAnimationHelper: mapAnimationHelperID
 
+    /*!
+        \qmlmethod void MainWindow::openPhotoDetails(string photo, string thumbnail, string title, int year)
+        Pushes PhotoDetails for \a photo and \a thumbnail with \a title and \a year.
+     */
     function openPhotoDetails(photo, thumbnail, title, year) {
         stackViewID.push("Views/PhotoDetails.qml", {
             imageSource: photo,
@@ -28,6 +41,10 @@ Rectangle {
         })
     }
 
+    /*!
+        \qmlmethod void MainWindow::openSettings()
+        Pushes Settings onto the navigation stack.
+     */
     function openSettings() {
         stackViewID.push("Views/Settings.qml")
     }
