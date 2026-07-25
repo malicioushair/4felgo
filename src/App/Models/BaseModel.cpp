@@ -1,3 +1,53 @@
+/*!
+    \struct Item
+    \inmodule PastViewer
+    \brief A single historical photo record from the PastVu API.
+ */
+
+/*!
+    \variable Item::cid
+    \brief PastVu identifier for the photo.
+*/
+
+/*!
+    \variable Item::coord
+    \brief Geographic coordinate where the photo was captured.
+*/
+
+/*!
+    \variable Item::file
+    \brief URL of the full-resolution photo.
+*/
+
+/*!
+    \variable Item::title
+    \brief Human-readable photo title.
+*/
+
+/*!
+    \variable Item::bearing
+    \brief Camera bearing in degrees clockwise from north.
+*/
+
+/*!
+    \variable Item::year
+    \brief Year in which the photo was captured.
+*/
+
+/*!
+    \variable Item::selected
+    \brief Whether the photo is selected in the current view.
+*/
+
+/*!
+    \class BaseModel
+    \inmodule PastViewer
+    \brief Fetches historical photos from PastVu for the current map viewport.
+
+    Queries the PastVu REST API when the viewport changes, stores up to
+    \c MAX_ITEMS unique \l Item values, and exposes them to QML through custom
+    model roles.
+ */
 #include "BaseModel.h"
 
 #include <QAbstractListModel>
@@ -100,11 +150,17 @@ BaseModel::BaseModel(QGeoPositionInfoSource * positionSource, QObject * parent)
 
 BaseModel::~BaseModel() = default;
 
+/*!
+    Returns the number of stored photos. The \a parent index is ignored.
+*/
 int BaseModel::rowCount(const QModelIndex & parent) const
 {
 	return static_cast<int>(m_impl->items.Size());
 }
 
+/*!
+    Returns the value identified by \a role for the item at \a index.
+*/
 QVariant BaseModel::data(const QModelIndex & index, int role) const
 {
 	if (!index.isValid())
@@ -151,6 +207,10 @@ QVariant BaseModel::data(const QModelIndex & index, int role) const
 	return {};
 }
 
+/*!
+    Sets \a value for \a role at \a index. Only the \c Selected role is
+    writable. Returns \c true when the value is accepted.
+*/
 bool BaseModel::setData(const QModelIndex & index, const QVariant & value, int role)
 {
 	if (!index.isValid())
@@ -193,6 +253,9 @@ bool BaseModel::setData(const QModelIndex & index, const QVariant & value, int r
 	return false;
 }
 
+/*!
+    Returns the role names exposed to QML.
+*/
 QHash<int, QByteArray> BaseModel::roleNames() const
 {
 #define ROLENAME(NAME)     \
@@ -213,18 +276,27 @@ QHash<int, QByteArray> BaseModel::roleNames() const
 #undef ROLENAME
 }
 
+/*!
+    Starts location updates after the user grants location permission.
+*/
 void BaseModel::OnPositionPermissionGranted()
 {
 	if (m_impl->positionSource)
 		m_impl->positionSource->startUpdates();
 }
 
+/*!
+    Clears cached items and fetches the last requested viewport again.
+*/
 void BaseModel::ReloadItems()
 {
 	m_impl->items.Clear();
 	emit UpdateCoords(m_impl->lastKnownViewport);
 }
 
+/*!
+    Returns the most recently requested map viewport.
+*/
 QGeoRectangle BaseModel::GetLastKnownViewport() const
 {
 	return m_impl->lastKnownViewport;
@@ -283,3 +355,33 @@ void BaseModel::AddItemsToModel(std::span<const Item> newItems)
 	endResetModel();
 	emit ItemsLoaded();
 }
+
+/*!
+    \property BaseModel::count
+
+    Holds the number of historical-photo items currently in the model.
+*/
+
+/*!
+    \fn void BaseModel::CountChanged()
+
+    Emitted when \l count changes.
+*/
+
+/*!
+    \fn void BaseModel::UpdateCoords(const QGeoRectangle &viewport)
+
+    Requests a PastVu fetch for \a viewport.
+*/
+
+/*!
+    \fn void BaseModel::LoadingItems()
+
+    Emitted when a network request starts.
+*/
+
+/*!
+    \fn void BaseModel::ItemsLoaded()
+
+    Emitted when a network request completes and returned items are merged.
+*/

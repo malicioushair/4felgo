@@ -1,0 +1,84 @@
+import QtQuick
+import QtQuick.Shapes
+
+import "../Helpers/colors.js" as Colors
+
+/*!
+    \qmltype UserPosition
+    \inqmlmodule PastViewer
+    \ingroup pastviewer-gui-items
+    \brief Device location indicator shown on the map.
+ */
+Item {
+    id: rootID
+
+    /*!
+        Device heading in degrees clockwise from north.
+     */
+    required property real bearing
+    /*!
+        Current map rotation in degrees clockwise from north.
+     */
+    required property real mapBearing
+
+    width: 14
+    height: width
+
+    Loader {
+        anchors.fill: parent
+        sourceComponent: isNaN(bearing) ? noDirectionMarkerID : directionMarkerID
+    }
+
+    Component {
+        id: noDirectionMarkerID
+
+        Rectangle {
+            anchors.fill: parent
+
+            radius: width
+            color: Colors.palette.userPosition
+        }
+    }
+
+    Component {
+        id: directionMarkerID
+
+        Item {
+            id: arrowContainerID
+
+            property real bearing: rootID.bearing
+            property real mapBearing: rootID.mapBearing
+
+            anchors.fill: parent
+
+            transform: Rotation {
+                origin.x: arrowContainerID.width / 2
+                origin.y: arrowContainerID.height / 2
+                angle: isNaN(arrowContainerID.bearing) ? 0 : ((arrowContainerID.bearing - arrowContainerID.mapBearing) % 360 + 360) % 360
+            }
+
+            Shape {
+                id: arrowHeadID
+
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
+
+                width: rootID.width
+                height: width
+
+                ShapePath {
+                    fillColor: Colors.palette.userPosition
+                    PathPolyline {
+                        path: [
+                            Qt.point(arrowHeadID.width / 2, 0),
+                            Qt.point(0, arrowHeadID.height),
+                            Qt.point(arrowHeadID.width / 2, arrowHeadID.height / 1.5),
+                            Qt.point(arrowHeadID.width, arrowHeadID.height),
+                            Qt.point(arrowHeadID.width / 2, 0)
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

@@ -5,7 +5,6 @@
 
 namespace SentryIntegration {
 
-// Platform abstraction interface
 class ISentry
 {
 public:
@@ -17,17 +16,12 @@ public:
 	virtual void Flush() = 0;
 };
 
-// Get platform-specific implementation
 ISentry & GetPlatform();
 
-// Initialize Sentry SDK and install integrations (breadcrumbs + exception handler)
-// Returns true if initialization was successful
 bool InitSentry(const QString & release);
 
-// Install glog sink to send logs as Sentry breadcrumbs
 void InstallBreadcrumbSink();
 
-// Install global exception handler to capture uncaught exceptions to Sentry
 void InstallExceptionHandler();
 
 } // namespace SentryIntegration

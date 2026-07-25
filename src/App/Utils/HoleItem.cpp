@@ -1,3 +1,11 @@
+/*!
+    \class PastViewer::HoleItem
+    \inmodule PastViewer
+    \brief QQuickItem that forwards pointer events only outside rectangular holes.
+
+    Used by onboarding overlays to let users interact with highlighted
+    controls. Registered as the creatable QML type \c HoleItem.
+ */
 #include "HoleItem.h"
 
 #include <QHoverEvent>
@@ -37,6 +45,9 @@ HoleItem::HoleItem(QQuickItem * parent)
 	setAcceptedMouseButtons(Qt::AllButtons);
 }
 
+/*!
+    Returns the current pass-through rectangles.
+*/
 QVariantList HoleItem::holes() const
 {
 	QVariantList list;
@@ -45,9 +56,12 @@ QVariantList HoleItem::holes() const
 	return list;
 }
 
-void HoleItem::setHoles(const QVariantList & list)
+/*!
+    Replaces the pass-through rectangles with \a holes.
+*/
+void HoleItem::setHoles(const QVariantList & holes)
 {
-	const auto newHoles = variantListToRectFs(list);
+	const auto newHoles = variantListToRectFs(holes);
 	if (newHoles == m_holes)
 		return;
 
@@ -113,3 +127,16 @@ void HoleItem::wheelEvent(QWheelEvent * event)
 }
 
 }
+
+/*!
+    \property PastViewer::HoleItem::holes
+
+    Holds the \c {x, y, width, height} rectangles that allow pointer events
+    through the overlay.
+*/
+
+/*!
+    \fn void PastViewer::HoleItem::holesChanged()
+
+    Emitted when \l holes changes.
+*/

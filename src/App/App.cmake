@@ -4,6 +4,7 @@ if(IOS)
     list(APPEND CMAKE_FIND_ROOT_PATH "${CMAKE_BINARY_DIR}")
 endif()
 
+find_package(Felgo REQUIRED)
 find_package(glog REQUIRED)
 find_package(gflags CONFIG REQUIRED)
 
@@ -48,12 +49,36 @@ include_sources(SOURCES
     "${CMAKE_CURRENT_LIST_DIR}/*.mm"
 )
 
-if(NOT SENTRY_DSN)
+if(SENTRY_DSN)
+    if(IOS)
+        list(FILTER SOURCES EXCLUDE REGEX ".*/SentryIntegration/platform/(android|mac|stub)/.*")
+    elseif(ANDROID)
+        list(FILTER SOURCES EXCLUDE REGEX ".*/SentryIntegration/platform/(ios|mac|stub)/.*")
+    elseif(APPLE)
+        list(FILTER SOURCES EXCLUDE REGEX ".*/SentryIntegration/platform/(android|ios|stub)/.*")
+    else()
+        list(FILTER SOURCES EXCLUDE REGEX ".*/SentryIntegration/platform/.*")
+        list(APPEND SOURCES "${CMAKE_CURRENT_LIST_DIR}/SentryIntegration/platform/stub/SentryIntegration_Stub.cpp")
+    endif()
+else()
     list(FILTER SOURCES EXCLUDE REGEX ".*/SentryIntegration/platform/(android|ios|mac)/.*")
     list(APPEND SOURCES "${CMAKE_CURRENT_LIST_DIR}/SentryIntegration/platform/stub/SentryIntegration_Stub.cpp")
 endif()
-include(ext/android_openssl/android_openssl.cmake)
-qt_add_executable(${PROJECT_NAME} ${SOURCES} ${QT_RESOURCES})
+
+file(GLOB_RECURSE QmlFiles RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} qml/*.qml qml/*.js)
+file(GLOB_RECURSE AssetsFiles RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} qml/*)
+list(REMOVE_ITEM AssetsFiles ${QmlFiles})
+
+qt_add_executable(${PROJECT_NAME} ${SOURCES} ${QmlFiles} ${AssetsFiles} ${QT_RESOURCES})
+felgo_configure_executable(${PROJECT_NAME})
+
+if(ENABLE_FELGO_HOT_RELOAD)
+    find_package(FelgoHotReload REQUIRED)
+    felgohotreload_configure_executable(${PROJECT_NAME})
+endif()
+
+# Dev only — comment out for publish builds
+deploy_resources("${QmlFiles};${AssetsFiles}")
 
 if(IOS)
     # https://doc.qt.io/qt-6/ios-platform-notes.html — absolute path required
@@ -107,11 +132,6 @@ endif()
 target_compile_definitions(${PROJECT_NAME} PRIVATE VERSION_MAJOR="${CMAKE_PROJECT_VERSION_MAJOR}")
 target_compile_definitions(${PROJECT_NAME} PRIVATE VERSION_MINOR="${CMAKE_PROJECT_VERSION_MINOR}")
 target_compile_definitions(${PROJECT_NAME} PRIVATE VERSION_PATCH="${CMAKE_PROJECT_VERSION_PATCH}")
-if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE NDEBUG=1)
-else()
-    target_compile_definitions(${PROJECT_NAME} PRIVATE MAIN_QML="${CMAKE_CURRENT_LIST_DIR}/qml/Main.qml")
-endif()
 
 if (APPLE)
     if(IOS)
@@ -124,12 +144,12 @@ if (APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES
         MACOSX_BUNDLE ON
         MACOSX_BUNDLE_INFO_PLIST "${_pastviewer_plist}"
-        MACOSX_BUNDLE_GUI_IDENTIFIER "${APPLE_APP_REVERSED_DOMAIN}"
+        MACOSX_BUNDLE_GUI_IDENTIFIER "${PRODUCT_IDENTIFIER}"
     )
     if(NOT IOS)
         set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_ICON_FILE "PastViewer")
     endif()
-    if(IOS)
+    if(IOS AND NOT CMAKE_OSX_SYSROOT MATCHES "iphonesimulator")
         if("${APPLE_TEAM_ID}" STREQUAL "")
             message(FATAL_ERROR "APPLE_TEAM_ID required. Pass it via -D cmake option.")
         endif()
@@ -148,7 +168,6 @@ if (APPLE)
         target_sources(${PROJECT_NAME} PRIVATE ${APP_ICON})
     endif()
 elseif(ANDROID)
-    add_android_openssl_libraries(${PROJECT_NAME})
     set_target_properties(${PROJECT_NAME} PROPERTIES
         QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_SOURCE_DIR}/resources/android"
         QT_ANDROID_APP_ICON "@mipmap/ic_launcher"
@@ -176,6 +195,7 @@ endif()
 
 qt6_import_qml_plugins(${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    Felgo
     Qt6::Quick
     Qt6::QuickLayouts
     Qt6::QuickControls2
@@ -191,14 +211,31 @@ if(SENTRY_DSN AND NOT ANDROID)
     target_link_libraries(${PROJECT_NAME} PRIVATE sentry::sentry)
 endif()
 
-# Qt 6 static FFmpeg media plugin does not pull in libav*; link Qt's bundled xcframeworks.
+# The Felgo iOS SDK ships x86_64 simulator slices for Qt's static plugins, while
+# its FFmpeg xcframeworks only contain arm64 simulator slices. Use the native
+# Darwin backend in the simulator and keep FFmpeg for physical devices.
 if(IOS)
+    if(CMAKE_OSX_SYSROOT MATCHES "iphonesimulator")
+        # felgo_configure_executable() links and embeds the arm64-only FFmpeg
+        # xcframeworks unconditionally. Remove them for the x86_64 simulator.
+        get_target_property(_pastviewer_ios_links ${PROJECT_NAME} LINK_LIBRARIES)
+        list(FILTER _pastviewer_ios_links EXCLUDE REGEX "/ffmpeg/.*[.]xcframework$")
+        set_property(TARGET ${PROJECT_NAME} PROPERTY LINK_LIBRARIES "${_pastviewer_ios_links}")
+
+        get_target_property(_pastviewer_ios_embedded_frameworks ${PROJECT_NAME} XCODE_EMBED_FRAMEWORKS)
+        list(FILTER _pastviewer_ios_embedded_frameworks EXCLUDE REGEX "/ffmpeg/.*[.]xcframework$")
+        set_property(TARGET ${PROJECT_NAME} PROPERTY XCODE_EMBED_FRAMEWORKS "${_pastviewer_ios_embedded_frameworks}")
+
+        qt_import_plugins(${PROJECT_NAME}
+            INCLUDE Qt6::QDarwinMediaPlugin
+            EXCLUDE Qt6::QFFmpegMediaPlugin
+        )
+    endif()
     enable_language(OBJCXX)
-    qt_add_ios_ffmpeg_libraries(${PROJECT_NAME})
 endif()
 
 file(GLOB_RECURSE ABS_QML CONFIGURE_DEPENDS
-    "${CMAKE_CURRENT_LIST_DIR}/qml/*.qml"
+    "${CMAKE_CURRENT_SOURCE_DIR}/qml/*.qml"
 )
 
 AbsToRelPath(REL_QML "${CMAKE_CURRENT_SOURCE_DIR}" ${ABS_QML})
@@ -208,9 +245,9 @@ qt_add_qml_module(${PROJECT_NAME}
     VERSION 1.0
     RESOURCE_PREFIX "/qt/qml"
     RESOURCES
-        "src/App/qml/Helpers/colors.js"
-        "src/App/qml/Helpers/utils.js"
-        "src/App/qml/resources/share.png"
+        "qml/Helpers/colors.js"
+        "qml/Helpers/utils.js"
+        "qml/resources/share.png"
     QML_FILES
         ${REL_QML}
 )

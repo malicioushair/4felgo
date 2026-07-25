@@ -1,3 +1,11 @@
+/*!
+    \class NearestObjectsModel
+    \inmodule PastViewer
+    \brief Keeps only photos within a distance threshold of the user.
+
+    Filters \l ScreenObjectsModel rows near the device position. The proxy is
+    intentionally unsorted to avoid recursive proxy sorting stack overflows.
+ */
 #include "NearestObjectsModel.h"
 
 #include <algorithm>
@@ -126,3 +134,15 @@ void NearestObjectsModel::UpdateAcceptedRows()
 		}
 	}
 }
+
+/*!
+    \property NearestObjectsModel::count
+
+    Holds the number of photos within the configured distance threshold.
+*/
+
+/*!
+    \fn void NearestObjectsModel::CountChanged()
+
+    Emitted when \l count changes.
+*/

@@ -1,8 +1,14 @@
+#include <FelgoApplication>
+#ifdef USE_FELGO_HOT_RELOAD
+#include <FelgoHotReload>
+#endif
 #include <QDir>
 #include <QGuiApplication>
+#include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QScopeGuard>
 #include <QStandardPaths>
+#include <QUrl>
 #include <exception>
 #include <iostream>
 #include <stdexcept>
@@ -67,7 +73,24 @@ int RunApplication(int argc, char * argv[])
 
 	QGuiApplication app(argc, argv);
 
-	GuiController guiController;
+	FelgoApplication felgo;
+	QQmlApplicationEngine engine;
+	felgo.initialize(&engine);
+
+	GuiController guiController(engine);
+
+#ifdef USE_FELGO_HOT_RELOAD
+	FelgoHotReload felgoHotReload(&engine);
+#else
+	felgo.setMainQmlFileName(QStringLiteral("qml/Main.qml"));
+	engine.load(QUrl(felgo.mainQmlFileName()));
+
+	if (engine.rootObjects().isEmpty())
+	{
+		LOG(ERROR) << "Failed to load QML";
+		throw std::runtime_error("Failed to load QML");
+	}
+#endif
 
 	LOG(INFO) << "Starting PastViewer application";
 	return QGuiApplication::exec();

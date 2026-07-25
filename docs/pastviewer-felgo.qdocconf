@@ -1,0 +1,40 @@
+# QDoc configuration for PastViewer API reference.
+# Documentation is extracted from C++ implementation files, the header-only
+# companion source, and QML components.
+#
+# Run from a configured macOS build tree:
+#   cmake --build build --target pastviewer-docs
+
+project = PastViewer
+description = API reference for PastViewer on Felgo
+
+outputformats = HTML
+outputdir = html
+
+sourcedirs = ../qml \
+             ../src/App
+sources = index.qdoc \
+          header-only.qdoc
+
+moduleheader = .pastviewer-documentation.generated.h
+headerdirs = ../src/App
+headers = .pastviewer-documentation.generated.h
+
+includepaths = . \
+               .. \
+               ../src
+
+headers.fileextensions = "*.h"
+sources.fileextensions = "*.qml *.qdoc *.cpp"
+sourceencoding = UTF-8
+outputencoding = UTF-8
+
+navigation.homepage = index.html
+navigation.hometitle = "PastViewer API"
+navigation.cppclassespage = "PastViewer C++ API"
+navigation.qmltypespage = "PastViewer QML Types"
+navigation.toctitles = "PastViewer API Reference"
+
+# Do not cap QDoc's diagnostic output. The CMake generator treats every
+# warning or error as a failure and also validates the generated index.
+warninglimit = 0

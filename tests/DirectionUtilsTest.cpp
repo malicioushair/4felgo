@@ -79,3 +79,8 @@ TEST_F(DirectionUtilsTest, CaseMatters)
 	EXPECT_EQ(DirectionUtils::BearingFromDirection("N"), 361);
 	EXPECT_EQ(DirectionUtils::BearingFromDirection("NE"), 361);
 }
+
+/*!
+    \fn int DirectionUtils::BearingFromDirection(const QString &direction)
+    Maps PastVu direction code \a direction to degrees clockwise from north.
+ */

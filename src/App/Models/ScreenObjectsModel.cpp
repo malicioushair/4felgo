@@ -1,3 +1,11 @@
+/*!
+    \class ScreenObjectsModel
+    \inmodule PastViewer
+    \brief Filters BaseModel by timeline range and annotates clustered items.
+
+    Accepts source rows whose year falls within the user-selected timeline
+    range and adds declustering metadata.
+ */
 #include "ScreenObjectsModel.h"
 
 #include <QAbstractListModel>
@@ -58,17 +66,27 @@ ScreenObjectsModel::ScreenObjectsModel(QAbstractListModel * sourceModel, QObject
 
 ScreenObjectsModel::~ScreenObjectsModel() = default;
 
+/*!
+    Updates the accepted year range to \a timeline.
+*/
 void ScreenObjectsModel::OnUserSelectedTimelineRangeChanged(const Range & timeline)
 {
 	m_impl->timeline = timeline;
 	OnSourceModelChanged();
 }
 
+/*!
+    Stores the per-cluster zoom hints supplied in \a cidsToZooms.
+*/
 void ScreenObjectsModel::UpdateZoomsToDecluster(const QHash<int, int> & cidsToZooms)
 {
 	m_impl->cidToZoomToDecluster = cidsToZooms;
 }
 
+/*!
+    Returns filtered model data for \a role at \a index, including
+    declustering metadata.
+*/
 QVariant ScreenObjectsModel::data(const QModelIndex & index, int role) const
 {
 	const auto sourceIndex = mapToSource(index);
@@ -91,6 +109,9 @@ QVariant ScreenObjectsModel::data(const QModelIndex & index, int role) const
 	return sourceModel()->data(sourceIndex, role);
 }
 
+/*!
+    Returns the role names exposed to QML.
+*/
 QHash<int, QByteArray> ScreenObjectsModel::roleNames() const
 {
 	auto roles = sourceModel()->roleNames();
@@ -143,3 +164,15 @@ void ScreenObjectsModel::UpdateAcceptedRows()
 			m_impl->belongsToTimeline.insert(i);
 	}
 }
+
+/*!
+    \property ScreenObjectsModel::count
+
+    Holds the number of rows accepted by the timeline filter.
+*/
+
+/*!
+    \fn void ScreenObjectsModel::CountChanged()
+
+    Emitted when \l count changes.
+*/

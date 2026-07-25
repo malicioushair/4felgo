@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<!-- BaseModel.cpp -->
+  <meta name="description" content="Fetches historical photos from PastVu for the current map viewport.">
+  <title>BaseModel Class | PastViewer API 1.1.0</title>
+  <link rel="stylesheet" type="text/css" href="style/offline-simple.css" />
+  <script type="text/javascript">
+    document.getElementsByTagName("link").item(0).setAttribute("href", "style/offline.css");
+    // loading style sheet breaks anchors that were jumped to before
+    // so force jumping to anchor again
+    setTimeout(function() {
+        var anchor = location.hash;
+        // need to jump to different anchor first (e.g. none)
+        location.hash = "#";
+        setTimeout(function() {
+            location.hash = anchor;
+        }, 0);
+    }, 0);
+  </script>
+</head>
+<body>
+<div class="header" id="qtdocheader">
+    <div class="main">
+    <div class="main-rounded">
+        <div class="navigationbar">
+        <ul>
+<li><a href="index.html">PastViewer API</a></li>
+<li><a href="pastviewer-module.html" translate="no">C++ Classes</a></li>
+<li>BaseModel</li>
+    </ul>
+    </div>
+</div>
+<div class="content">
+<div class="line">
+<div class="content mainContent">
+<div class="sidebar">
+<div class="toc">
+<h3 id="toc">Contents</h3>
+<ul>
+<li class="level1"><a href="#properties">Properties</a></li>
+<li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#reimplemented-public-functions">Reimplemented Public Functions</a></li>
+<li class="level1"><a href="#signals">Signals</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<div class="sidebar-content" id="sidebar-content"></div></div>
+<h1 class="title" translate="no">BaseModel Class</h1>
+<!-- $$$BaseModel-brief -->
+<p>Fetches historical photos from PastVu for the current map viewport. <a href="#details">More...</a></p>
+<!-- @@@BaseModel -->
+<div class="table"><table class="alignedsummary requisites" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <code translate="no">#include &lt;BaseModel&gt;</code></td></tr>
+</table></div>
+<ul>
+<li><a href="basemodel-members.html">List of all members, including inherited members</a></li>
+</ul>
+<h2 id="properties">Properties</h2>
+<ul>
+<li class="fn" translate="no"><b><a href="basemodel.html#count-prop" translate="no">count</a></b> : const int</li>
+</ul>
+<h2 id="public-functions">Public Functions</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> QGeoRectangle </td><td class="memItemRight bottomAlign"><b><a href="basemodel.html#GetLastKnownViewport" translate="no">GetLastKnownViewport</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basemodel.html#OnPositionPermissionGranted" translate="no">OnPositionPermissionGranted</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basemodel.html#ReloadItems" translate="no">ReloadItems</a></b>()</td></tr>
+</table></div>
+<h2 id="reimplemented-public-functions">Reimplemented Public Functions</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QVariant </td><td class="memItemRight bottomAlign"><b><a href="basemodel.html#data" translate="no">data</a></b>(const QModelIndex &amp;<i>index</i>, int <i>role</i> = Qt::DisplayRole) const override</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QHash&lt;int, QByteArray&gt; </td><td class="memItemRight bottomAlign"><b><a href="basemodel.html#roleNames" translate="no">roleNames</a></b>() const override</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual int </td><td class="memItemRight bottomAlign"><b><a href="basemodel.html#rowCount" translate="no">rowCount</a></b>(const QModelIndex &amp;<i>parent</i> = QModelIndex()) const override</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual bool </td><td class="memItemRight bottomAlign"><b><a href="basemodel.html#setData" translate="no">setData</a></b>(const QModelIndex &amp;<i>index</i>, const QVariant &amp;<i>value</i>, int <i>role</i>) override</td></tr>
+</table></div>
+<h2 id="signals">Signals</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basemodel.html#CountChanged" translate="no">CountChanged</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basemodel.html#ItemsLoaded" translate="no">ItemsLoaded</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basemodel.html#LoadingItems" translate="no">LoadingItems</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basemodel.html#UpdateCoords" translate="no">UpdateCoords</a></b>(const QGeoRectangle &amp;<i>viewport</i>)</td></tr>
+</table></div>
+<!-- $$$BaseModel-description -->
+<div class="descr">
+<h2 id="details">Detailed Description</h2>
+<p>Queries the PastVu REST API when the viewport changes, stores up to <code translate="no">MAX_ITEMS</code> unique <a href="item.html" translate="no">Item</a> values, and exposes them to QML through custom model roles.</p>
+</div>
+<!-- @@@BaseModel -->
+<div class="prop">
+<h2>Property Documentation</h2>
+<!-- $$$count-prop$$$rowCountconstQModelIndex&$$$CountChanged -->
+<h3 class="fn" translate="no" id="count-prop"><code class="details extra" translate="no">[read-only]</code> <span class="name">count</span> : const <span class="type">int</span></h3>
+<p>Holds the number of historical-photo items currently in the model.</p>
+<p><b>Access functions:</b></p>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft topAlign rightAlign"> virtual int </td><td class="memItemRight bottomAlign"><span class="name"><b><a href="basemodel.html#rowCount" translate="no">rowCount</a></b></span>(const QModelIndex &amp;<i>parent</i> = QModelIndex()) const override</td></tr>
+</table></div>
+<p><b>Notifier signal:</b></p>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft topAlign rightAlign"> void </td><td class="memItemRight bottomAlign"><span class="name"><b><a href="basemodel.html#CountChanged" translate="no">CountChanged</a></b></span>()</td></tr>
+</table></div>
+<!-- @@@count -->
+</div>
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$CountChanged -->
+<h3 class="fn" translate="no" id="CountChanged"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> BaseModel::<span class="name">CountChanged</span>()</h3>
+<p>Emitted when <a href="basemodel.html#count-prop" translate="no">count</a> changes.</p>
+<div class="admonition note"><p><b>Note: </b>Notifier signal for property <a href="basemodel.html#count-prop" translate="no">count</a>. </p>
+</div><!-- @@@CountChanged -->
+<!-- $$$GetLastKnownViewport[overload1]$$$GetLastKnownViewport -->
+<h3 class="fn" translate="no" id="GetLastKnownViewport"><span class="type">QGeoRectangle</span> BaseModel::<span class="name">GetLastKnownViewport</span>() const</h3>
+<p>Returns the most recently requested map viewport.</p>
+<!-- @@@GetLastKnownViewport -->
+<!-- $$$ItemsLoaded[overload1]$$$ItemsLoaded -->
+<h3 class="fn" translate="no" id="ItemsLoaded"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> BaseModel::<span class="name">ItemsLoaded</span>()</h3>
+<p>Emitted when a network request completes and returned items are merged.</p>
+<!-- @@@ItemsLoaded -->
+<!-- $$$LoadingItems[overload1]$$$LoadingItems -->
+<h3 class="fn" translate="no" id="LoadingItems"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> BaseModel::<span class="name">LoadingItems</span>()</h3>
+<p>Emitted when a network request starts.</p>
+<!-- @@@LoadingItems -->
+<!-- $$$OnPositionPermissionGranted[overload1]$$$OnPositionPermissionGranted -->
+<h3 class="fn" translate="no" id="OnPositionPermissionGranted"><span class="type">void</span> BaseModel::<span class="name">OnPositionPermissionGranted</span>()</h3>
+<p>Starts location updates after the user grants location permission.</p>
+<!-- @@@OnPositionPermissionGranted -->
+<!-- $$$ReloadItems[overload1]$$$ReloadItems -->
+<h3 class="fn" translate="no" id="ReloadItems"><span class="type">void</span> BaseModel::<span class="name">ReloadItems</span>()</h3>
+<p>Clears cached items and fetches the last requested viewport again.</p>
+<!-- @@@ReloadItems -->
+<!-- $$$UpdateCoords[overload1]$$$UpdateCoordsconstQGeoRectangle& -->
+<h3 class="fn" translate="no" id="UpdateCoords"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> BaseModel::<span class="name">UpdateCoords</span>(const <span class="type">QGeoRectangle</span> &amp;<i>viewport</i>)</h3>
+<p>Requests a PastVu fetch for <i translate="no">viewport</i>.</p>
+<!-- @@@UpdateCoords -->
+<!-- $$$data[overload1]$$$dataconstQModelIndex&int -->
+<h3 class="fn" translate="no" id="data"><code class="details extra" translate="no">[override virtual]</code> <span class="type">QVariant</span> BaseModel::<span class="name">data</span>(const <span class="type">QModelIndex</span> &amp;<i>index</i>, <span class="type">int</span> <i>role</i> = Qt::DisplayRole) const</h3>
+<p>Returns the value identified by <i translate="no">role</i> for the item at <i translate="no">index</i>.</p>
+<p><b>See also </b><a href="basemodel.html#setData" translate="no">setData</a>().</p>
+<!-- @@@data -->
+<!-- $$$roleNames[overload1]$$$roleNames -->
+<h3 class="fn" translate="no" id="roleNames"><code class="details extra" translate="no">[override virtual]</code> <span class="type">QHash</span>&lt;<span class="type">int</span>, <span class="type">QByteArray</span>&gt; BaseModel::<span class="name">roleNames</span>() const</h3>
+<p>Returns the role names exposed to QML.</p>
+<!-- @@@roleNames -->
+<!-- $$$rowCount -->
+<h3 class="fn" translate="no" id="rowCount"><code class="details extra" translate="no">[override virtual]</code> <span class="type">int</span> BaseModel::<span class="name">rowCount</span>(const <span class="type">QModelIndex</span> &amp;<i>parent</i> = QModelIndex()) const</h3>
+<p>Returns the number of stored photos. The <i translate="no">parent</i> index is ignored.</p>
+<div class="admonition note"><p><b>Note: </b>Getter function for property <a href="basemodel.html#count-prop" translate="no">count</a>. </p>
+</div><!-- @@@rowCount -->
+<!-- $$$setData[overload1]$$$setDataconstQModelIndex&constQVariant&int -->
+<h3 class="fn" translate="no" id="setData"><code class="details extra" translate="no">[override virtual]</code> <span class="type">bool</span> BaseModel::<span class="name">setData</span>(const <span class="type">QModelIndex</span> &amp;<i>index</i>, const <span class="type">QVariant</span> &amp;<i>value</i>, <span class="type">int</span> <i>role</i>)</h3>
+<p>Sets <i translate="no">value</i> for <i translate="no">role</i> at <i translate="no">index</i>. Only the <code translate="no">Selected</code> role is writable. Returns <code translate="no">true</code> when the value is accepted.</p>
+<p><b>See also </b><a href="basemodel.html#data" translate="no">data</a>().</p>
+<!-- @@@setData -->
+</div>
+        </div>
+       </div>
+   </div>
+   </div>
+</div>
+<div class="footer">
+   <p>
+   <abbr title="Copyright">&copy;</abbr> 2024 <span translate="no">The Qt Company Ltd.</span>
+   Documentation contributions included herein are the copyrights of
+   their respective owners.<br/>    The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the <span translate="no">Free Software Foundation</span>.<br/>    <span translate="no">Qt</span> and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of <span translate="no">The Qt Company Ltd.</span> in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+</div>
+</body>
+</html>

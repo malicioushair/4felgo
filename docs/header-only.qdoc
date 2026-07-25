@@ -1,0 +1,80 @@
+/*!
+    \class UniqueCircularBuffer
+    \inmodule PastViewer
+    \brief Fixed-capacity FIFO buffer that rejects duplicate entries by key.
+
+    When full, the oldest entry is evicted on push. Duplicate keys are ignored.
+
+    Felgo's QDoc 6.8 does not create member nodes for this inline class
+    template, so its public API is recorded here:
+
+    \table
+        \header
+            \li Signature
+            \li Behavior
+        \row
+            \li \c {UniqueCircularBuffer(KeyOfFn f)}
+            \li Creates an empty buffer that uses \c f to extract unique keys.
+        \row
+            \li \c {size_t Size() const}
+            \li Returns the number of stored items.
+        \row
+            \li \c {const T &At(size_t idx) const}
+            \li Returns the item at logical index \c idx, where zero is oldest.
+        \row
+            \li \c {T &At(size_t idx)}
+            \li Returns a mutable item reference. Both \c At overloads throw
+                \c std::out_of_range for an invalid index.
+        \row
+            \li \c {void Push(const T &item)}
+            \li Copies a uniquely keyed item into the buffer.
+        \row
+            \li \c {void Push(T &&item)}
+            \li Moves a uniquely keyed item into the buffer.
+        \row
+            \li \c {void Push(Range &&newItems)}
+            \li Inserts every compatible item from an input range.
+        \row
+            \li \c {T Pop()}
+            \li Removes and returns the oldest item, or throws
+                \c std::out_of_range when empty.
+        \row
+            \li \c {bool IsFull() const}
+            \li Returns whether the buffer has reached its capacity.
+        \row
+            \li \c {void Clear()}
+            \li Removes all items and tracked keys.
+        \row
+            \li \c {begin(), cbegin(), end(), cend()}
+            \li Returns iterators over the underlying fixed-capacity storage.
+    \endtable
+*/
+
+/*!
+    \namespace DirectionUtils
+    \inmodule PastViewer
+    \brief Converts PastVu direction strings to compass bearings.
+
+    \c INCORRECT_DIRECTION (361) is returned when a direction is empty or
+    unknown.
+*/
+
+/*!
+    \fn int DirectionUtils::BearingFromDirection(const QString &direction)
+
+    Maps the PastVu direction code \a direction, such as \c "n", \c "ne", or
+    \c "e", to degrees clockwise from north. Returns \c INCORRECT_DIRECTION
+    on failure.
+*/
+
+/*!
+    \namespace Utils
+    \inmodule PastViewer
+    \brief Compile-time platform detection helpers.
+*/
+
+/*!
+    \fn constexpr bool Utils::IsMobile()
+
+    Returns \c true on Android and iOS targets and \c false on desktop.
+*/

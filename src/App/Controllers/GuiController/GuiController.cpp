@@ -1,3 +1,16 @@
+/*!
+    \namespace PastViewer
+    \inmodule PastViewer
+    \brief Application-specific C++ types registered to the PastViewer QML module.
+ */
+/*!
+    \class PastViewer::GuiController
+    \inmodule PastViewer
+    \brief Platform services exposed to QML as guiController.
+
+    Handles permissions, image sharing, onboarding persistence, and
+    development utilities.
+ */
 #include "GuiController.h"
 
 #include <QCameraDevice>
@@ -7,14 +20,12 @@
 #include <QLocationPermission>
 #include <QMediaDevices>
 #include <QPermissions>
-#include <QQmlAbstractUrlInterceptor>
 #include <QQmlContext>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QStringLiteral>
 #include <QTimer>
 #include <QUrl>
-#include <QUrlQuery>
 
 #include "glog/logging.h"
 
@@ -27,55 +38,14 @@
 
 using namespace PastViewer;
 
-namespace {
-
-class HotReloadUrlInterceptor
-	: public QQmlAbstractUrlInterceptor
-{
-public:
-	explicit HotReloadUrlInterceptor(std::string token = {})
-		: m_token(std::move(token))
-	{
-	}
-
-	void SetToken(const std::string & token)
-	{
-		m_token = token;
-	}
-
-	QUrl intercept(const QUrl & url, DataType type) override
-	{
-		if (true
-			&& type != QQmlAbstractUrlInterceptor::QmlFile
-			&& type != QQmlAbstractUrlInterceptor::JavaScriptFile
-			&& type != QQmlAbstractUrlInterceptor::QmldirFile)
-			return url;
-
-		if (m_token.empty())
-			return url;
-
-		const auto scheme = url.scheme();
-		if (scheme != QStringLiteral("file") && scheme != QStringLiteral("qrc"))
-			return url;
-
-		QUrl result(url);
-		QUrlQuery query(result);
-		query.removeAllQueryItems("r");
-		query.addQueryItem("r", QString::fromStdString(m_token));
-		result.setQuery(query);
-
-		return result;
-	}
-
-private:
-	std::string m_token;
-};
-}
-
 struct GuiController::Impl
 {
-	QQmlApplicationEngine engine;
-	I18nController i18nController { engine };
+	explicit Impl(QQmlApplicationEngine & engine)
+		: i18nController(engine)
+	{
+	}
+
+	I18nController i18nController;
 	QSettings settings;
 	QLocationPermission locationPermission { [] {
 		QLocationPermission p;
@@ -84,24 +54,12 @@ struct GuiController::Impl
 	}() };
 	QCameraPermission cameraPermission {};
 	std::unique_ptr<PastVuModelController> pastVuModelController;
-	std::unique_ptr<HotReloadUrlInterceptor> interceptor { std::make_unique<HotReloadUrlInterceptor>() };
 	QString lastSavedImagePath;
-
-	void LoadQml()
-	{
-		engine.
-#ifndef NDEBUG
-			load(MAIN_QML)
-#else
-			loadFromModule("PastViewer", "Main")
-#endif
-			;
-	}
 };
 
-GuiController::GuiController(QObject * parent)
+GuiController::GuiController(QQmlApplicationEngine & engine, QObject * parent)
 	: QObject(parent)
-	, m_impl(std::make_unique<Impl>())
+	, m_impl(std::make_unique<Impl>(engine))
 {
 	try
 	{
@@ -121,18 +79,10 @@ GuiController::GuiController(QObject * parent)
 	qmlRegisterUncreatableMetaObject(ModelType::staticMetaObject, "PastViewer", 1, 0, "ModelType", "ModelType is an enum namespace");
 	qRegisterMetaType<QGeoCoordinate>();
 	qRegisterMetaType<QGeoPositionInfo>();
-	m_impl->engine.rootContext()->setContextProperty("guiController", this);
-	m_impl->engine.rootContext()->setContextProperty("pastVuModelController", m_impl->pastVuModelController.get());
-	m_impl->engine.rootContext()->setContextProperty("i18nController", &m_impl->i18nController);
-	m_impl->engine.addImportPath("qrc:/qt/qml");
-	m_impl->engine.addUrlInterceptor(m_impl->interceptor.get());
-	m_impl->LoadQml();
-
-	if (m_impl->engine.rootObjects().isEmpty())
-	{
-		LOG(ERROR) << "Failed to load QML";
-		throw std::runtime_error("Failed to load QML");
-	}
+	engine.rootContext()->setContextProperty("guiController", this);
+	engine.rootContext()->setContextProperty("pastVuModelController", m_impl->pastVuModelController.get());
+	engine.rootContext()->setContextProperty("i18nController", &m_impl->i18nController);
+	engine.addImportPath("qrc:/qt/qml");
 
 	connect(this, &GuiController::PermissionGranted, m_impl->pastVuModelController.get(), [this](const QPermission & permission) {
 		if (permission.type() == QLocationPermission::staticMetaObject.metaType())
@@ -145,12 +95,9 @@ GuiController::GuiController(QObject * parent)
 
 GuiController::~GuiController() = default;
 
-void GuiController::BumpHotReloadToken()
-{
-	m_impl->interceptor->SetToken(QString::number(QDateTime::currentSecsSinceEpoch()).toStdString());
-	m_impl->engine.clearComponentCache();
-}
-
+/*!
+    Returns \c true when the application is running a debug build.
+*/
 bool GuiController::IsDebug()
 {
 	return
@@ -162,11 +109,17 @@ bool GuiController::IsDebug()
 		;
 }
 
+/*!
+    Returns the application version string.
+*/
 QString GuiController::GetAppVersion()
 {
 	return QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_PATCH);
 }
 
+/*!
+    Returns whether onboarding step \a key has been completed.
+*/
 bool GuiController::IsOnboardingStepCompleted(const QString & key)
 {
 	m_impl->settings.beginGroup("Onboarding");
@@ -175,6 +128,9 @@ bool GuiController::IsOnboardingStepCompleted(const QString & key)
 	return res;
 }
 
+/*!
+    Marks onboarding step \a key as completed.
+*/
 void GuiController::SetOnboardingStepCompleted(const QString & key)
 {
 	m_impl->settings.beginGroup("Onboarding");
@@ -182,12 +138,18 @@ void GuiController::SetOnboardingStepCompleted(const QString & key)
 	m_impl->settings.endGroup();
 }
 
+/*!
+    Clears all onboarding progress and emits onboardingReset().
+*/
 void GuiController::ResetOnboarding()
 {
 	m_impl->settings.remove("Onboarding");
 	emit onboardingReset();
 }
 
+/*!
+    Requests camera permission for camera mode.
+*/
 void GuiController::RequestCameraPermission()
 {
 	QMediaDevices devices;
@@ -200,11 +162,18 @@ void GuiController::RequestCameraPermission()
 	RequestPermission(m_impl->cameraPermission);
 }
 
+/*!
+    Saves the image at \a filePath to the device photo gallery. Returns
+    \c true on success.
+*/
 bool GuiController::SaveScreenshotToGallery(const QString & filePath)
 {
 	return PlatformDependentLogic::SaveScreenshotToGallery(filePath);
 }
 
+/*!
+    Persists \a grabResult to a temporary file and returns its URL.
+*/
 QString GuiController::SaveImage(const QQuickItemGrabResult * grabResult)
 {
 	if (!grabResult)
@@ -238,6 +207,10 @@ QString GuiController::SaveImage(const QQuickItemGrabResult * grabResult)
 	return QUrl::fromLocalFile(filePath).toString();
 }
 
+/*!
+    Opens the platform share sheet for the last saved image. Returns \c true
+    when the share request is accepted.
+*/
 bool GuiController::ShareImage()
 {
 	if (m_impl->lastSavedImagePath.isEmpty())
@@ -279,3 +252,21 @@ void GuiController::RequestPermission(const QPermission & permission)
 			throw std::runtime_error("Unknown permission status");
 	}
 }
+
+/*!
+    \fn void PastViewer::GuiController::PermissionGranted(const QPermission &permission)
+
+    Emitted when the user grants \a permission.
+*/
+
+/*!
+    \fn void PastViewer::GuiController::showErrorDialog(const QString &errorMessage)
+
+    Requests display of a fatal error dialog containing \a errorMessage.
+*/
+
+/*!
+    \fn void PastViewer::GuiController::onboardingReset()
+
+    Emitted after onboarding progress is cleared.
+*/

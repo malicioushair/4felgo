@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<!-- ScreenObjectsModel.cpp -->
+  <meta name="description" content="Filters BaseModel by timeline range and annotates clustered items.">
+  <title>ScreenObjectsModel Class | PastViewer API 1.1.0</title>
+  <link rel="stylesheet" type="text/css" href="style/offline-simple.css" />
+  <script type="text/javascript">
+    document.getElementsByTagName("link").item(0).setAttribute("href", "style/offline.css");
+    // loading style sheet breaks anchors that were jumped to before
+    // so force jumping to anchor again
+    setTimeout(function() {
+        var anchor = location.hash;
+        // need to jump to different anchor first (e.g. none)
+        location.hash = "#";
+        setTimeout(function() {
+            location.hash = anchor;
+        }, 0);
+    }, 0);
+  </script>
+</head>
+<body>
+<div class="header" id="qtdocheader">
+    <div class="main">
+    <div class="main-rounded">
+        <div class="navigationbar">
+        <ul>
+<li><a href="index.html">PastViewer API</a></li>
+<li><a href="pastviewer-module.html" translate="no">C++ Classes</a></li>
+<li>ScreenObjectsModel</li>
+    </ul>
+    </div>
+</div>
+<div class="content">
+<div class="line">
+<div class="content mainContent">
+<div class="sidebar">
+<div class="toc">
+<h3 id="toc">Contents</h3>
+<ul>
+<li class="level1"><a href="#properties">Properties</a></li>
+<li class="level1"><a href="#reimplemented-public-functions">Reimplemented Public Functions</a></li>
+<li class="level1"><a href="#public-slots">Public Slots</a></li>
+<li class="level1"><a href="#signals">Signals</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<div class="sidebar-content" id="sidebar-content"></div></div>
+<h1 class="title" translate="no">ScreenObjectsModel Class</h1>
+<!-- $$$ScreenObjectsModel-brief -->
+<p>Filters <a href="basemodel.html" translate="no">BaseModel</a> by timeline range and annotates clustered items. <a href="#details">More...</a></p>
+<!-- @@@ScreenObjectsModel -->
+<div class="table"><table class="alignedsummary requisites" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <code translate="no">#include &lt;ScreenObjectsModel&gt;</code></td></tr>
+</table></div>
+<ul>
+<li><a href="screenobjectsmodel-members.html">List of all members, including inherited members</a></li>
+</ul>
+<h2 id="properties">Properties</h2>
+<ul>
+<li class="fn" translate="no"><b><a href="screenobjectsmodel.html#count-prop" translate="no">count</a></b> : const int</li>
+</ul>
+<h2 id="reimplemented-public-functions">Reimplemented Public Functions</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QVariant </td><td class="memItemRight bottomAlign"><b><a href="screenobjectsmodel.html#data" translate="no">data</a></b>(const QModelIndex &amp;<i>index</i>, int <i>role</i> = Qt::DisplayRole) const override</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QHash&lt;int, QByteArray&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenobjectsmodel.html#roleNames" translate="no">roleNames</a></b>() const override</td></tr>
+</table></div>
+<h2 id="public-slots">Public Slots</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenobjectsmodel.html#OnUserSelectedTimelineRangeChanged" translate="no">OnUserSelectedTimelineRangeChanged</a></b>(const Range &amp;<i>timeline</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenobjectsmodel.html#UpdateZoomsToDecluster" translate="no">UpdateZoomsToDecluster</a></b>(const QHash&lt;int, int&gt; &amp;<i>cidsToZooms</i>)</td></tr>
+</table></div>
+<h2 id="signals">Signals</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenobjectsmodel.html#CountChanged" translate="no">CountChanged</a></b>()</td></tr>
+</table></div>
+<!-- $$$ScreenObjectsModel-description -->
+<div class="descr">
+<h2 id="details">Detailed Description</h2>
+<p>Accepts source rows whose year falls within the user-selected timeline range and adds declustering metadata.</p>
+</div>
+<!-- @@@ScreenObjectsModel -->
+<div class="prop">
+<h2>Property Documentation</h2>
+<!-- $$$count-prop$$$CountChanged -->
+<h3 class="fn" translate="no" id="count-prop"><code class="details extra" translate="no">[read-only]</code> <span class="name">count</span> : const <span class="type">int</span></h3>
+<p>Holds the number of rows accepted by the timeline filter.</p>
+<p><b>Notifier signal:</b></p>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft topAlign rightAlign"> void </td><td class="memItemRight bottomAlign"><span class="name"><b><a href="screenobjectsmodel.html#CountChanged" translate="no">CountChanged</a></b></span>()</td></tr>
+</table></div>
+<!-- @@@count -->
+</div>
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$CountChanged -->
+<h3 class="fn" translate="no" id="CountChanged"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> ScreenObjectsModel::<span class="name">CountChanged</span>()</h3>
+<p>Emitted when <a href="screenobjectsmodel.html#count-prop" translate="no">count</a> changes.</p>
+<div class="admonition note"><p><b>Note: </b>Notifier signal for property <a href="screenobjectsmodel.html#count-prop" translate="no">count</a>. </p>
+</div><!-- @@@CountChanged -->
+<!-- $$$OnUserSelectedTimelineRangeChanged[overload1]$$$OnUserSelectedTimelineRangeChangedconstRange& -->
+<h3 class="fn" translate="no" id="OnUserSelectedTimelineRangeChanged"><code class="details extra" translate="no">[slot]</code> <span class="type">void</span> ScreenObjectsModel::<span class="name">OnUserSelectedTimelineRangeChanged</span>(const <span class="type"><a href="range.html" translate="no">Range</a></span> &amp;<i>timeline</i>)</h3>
+<p>Updates the accepted year range to <i translate="no">timeline</i>.</p>
+<!-- @@@OnUserSelectedTimelineRangeChanged -->
+<!-- $$$UpdateZoomsToDecluster[overload1]$$$UpdateZoomsToDeclusterconstQHash<int,int>& -->
+<h3 class="fn" translate="no" id="UpdateZoomsToDecluster"><code class="details extra" translate="no">[slot]</code> <span class="type">void</span> ScreenObjectsModel::<span class="name">UpdateZoomsToDecluster</span>(const <span class="type">QHash</span>&lt;<span class="type">int</span>, <span class="type">int</span>&gt; &amp;<i>cidsToZooms</i>)</h3>
+<p>Stores the per-cluster zoom hints supplied in <i translate="no">cidsToZooms</i>.</p>
+<!-- @@@UpdateZoomsToDecluster -->
+<!-- $$$data[overload1]$$$dataconstQModelIndex&int -->
+<h3 class="fn" translate="no" id="data"><code class="details extra" translate="no">[override virtual]</code> <span class="type">QVariant</span> ScreenObjectsModel::<span class="name">data</span>(const <span class="type">QModelIndex</span> &amp;<i>index</i>, <span class="type">int</span> <i>role</i> = Qt::DisplayRole) const</h3>
+<p>Returns filtered model data for <i translate="no">role</i> at <i translate="no">index</i>, including declustering metadata.</p>
+<!-- @@@data -->
+<!-- $$$roleNames[overload1]$$$roleNames -->
+<h3 class="fn" translate="no" id="roleNames"><code class="details extra" translate="no">[override virtual]</code> <span class="type">QHash</span>&lt;<span class="type">int</span>, <span class="type">QByteArray</span>&gt; ScreenObjectsModel::<span class="name">roleNames</span>() const</h3>
+<p>Returns the role names exposed to QML.</p>
+<!-- @@@roleNames -->
+</div>
+        </div>
+       </div>
+   </div>
+   </div>
+</div>
+<div class="footer">
+   <p>
+   <abbr title="Copyright">&copy;</abbr> 2024 <span translate="no">The Qt Company Ltd.</span>
+   Documentation contributions included herein are the copyrights of
+   their respective owners.<br/>    The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the <span translate="no">Free Software Foundation</span>.<br/>    <span translate="no">Qt</span> and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of <span translate="no">The Qt Company Ltd.</span> in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+</div>
+</body>
+</html>

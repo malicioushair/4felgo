@@ -5,22 +5,6 @@
 
 #include "App/Models/UniqueCircularBuffer.h"
 
-/*
- * Unit tests for UniqueCircularBuffer<T, ID, KeyOfFn>
- * 
- * Template parameters:
- *   T: The type of items stored in the buffer
- *   ID: The type of the unique identifier/key
- *   KeyOfFn: A callable type that extracts the ID from a T (function, lambda, etc.)
- * 
- * Constructor: UniqueCircularBuffer(int capacity, KeyOfFn f)
- * 
- * Note: Some tests may fail due to implementation bugs:
- *   - push() doesn't add keys to m_keys after inserting items (uniqueness check fails)
- *   - pop() doesn't update m_tail or m_size
- *   - at() doesn't check bounds against m_size, only uses m_data.at()
- */
-
 class UniqueCircularBufferTest : public ::testing::Test
 {
 protected:
@@ -407,3 +391,14 @@ TEST_F(UniqueCircularBufferTest, EmptyStateAfterOperations)
 	// Should throw when popping from empty buffer
 	EXPECT_THROW(buffer.Pop(), std::out_of_range);
 }
+
+/*!
+    \fn size_t UniqueCircularBuffer::Size() const
+    \fn const T &UniqueCircularBuffer::At(size_t idx) const
+    \fn T &UniqueCircularBuffer::At(size_t idx)
+    \fn void UniqueCircularBuffer::Push(const T &item)
+    \fn void UniqueCircularBuffer::Push(T &&item)
+    \fn T UniqueCircularBuffer::Pop()
+    \fn bool UniqueCircularBuffer::IsFull() const
+    \fn void UniqueCircularBuffer::Clear()
+ */
