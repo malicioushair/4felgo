@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<!-- PositionSourceAdapter.cpp -->
+  <meta name="description" content="Wrapper around QGeoPositionInfoSource for QML consumption.">
+  <title>PositionSourceAdapter Class | PastViewer API 1.1.0</title>
+  <link rel="stylesheet" type="text/css" href="style/offline-simple.css" />
+  <script type="text/javascript">
+    document.getElementsByTagName("link").item(0).setAttribute("href", "style/offline.css");
+    // loading style sheet breaks anchors that were jumped to before
+    // so force jumping to anchor again
+    setTimeout(function() {
+        var anchor = location.hash;
+        // need to jump to different anchor first (e.g. none)
+        location.hash = "#";
+        setTimeout(function() {
+            location.hash = anchor;
+        }, 0);
+    }, 0);
+  </script>
+</head>
+<body>
+<div class="header" id="qtdocheader">
+    <div class="main">
+    <div class="main-rounded">
+        <div class="navigationbar">
+        <ul>
+<li><a href="index.html">PastViewer API</a></li>
+<li><a href="pastviewer-module.html" translate="no">C++ Classes</a></li>
+<li>PositionSourceAdapter</li>
+    </ul>
+    </div>
+</div>
+<div class="content">
+<div class="line">
+<div class="content mainContent">
+<div class="sidebar">
+<div class="toc">
+<h3 id="toc">Contents</h3>
+<ul>
+<li class="level1"><a href="#properties">Properties</a></li>
+<li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#signals">Signals</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<div class="sidebar-content" id="sidebar-content"></div></div>
+<h1 class="title" translate="no">PositionSourceAdapter Class</h1>
+<!-- $$$PositionSourceAdapter-brief -->
+<p>Wrapper around QGeoPositionInfoSource for QML consumption. <a href="#details">More...</a></p>
+<!-- @@@PositionSourceAdapter -->
+<div class="table"><table class="alignedsummary requisites" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <code translate="no">#include &lt;PositionSourceAdapter&gt;</code></td></tr>
+</table></div>
+<ul>
+<li><a href="positionsourceadapter-members.html">List of all members, including inherited members</a></li>
+</ul>
+<h2 id="properties">Properties</h2>
+<ul>
+<li class="fn" translate="no"><b><a href="positionsourceadapter.html#bearing-prop" translate="no">bearing</a></b> : const double</li>
+<li class="fn" translate="no"><b><a href="positionsourceadapter.html#coordinate-prop" translate="no">coordinate</a></b> : const QGeoCoordinate</li>
+<li class="fn" translate="no"><b><a href="positionsourceadapter.html#positionAvailable-prop" translate="no">positionAvailable</a></b> : const bool</li>
+</ul>
+<h2 id="public-functions">Public Functions</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> double </td><td class="memItemRight bottomAlign"><b><a href="positionsourceadapter.html#Bearing" translate="no">Bearing</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QGeoCoordinate </td><td class="memItemRight bottomAlign"><b><a href="positionsourceadapter.html#Coordinate" translate="no">Coordinate</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="positionsourceadapter.html#IsPositionAvailable" translate="no">IsPositionAvailable</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QGeoPositionInfo </td><td class="memItemRight bottomAlign"><b><a href="positionsourceadapter.html#Position" translate="no">Position</a></b>() const</td></tr>
+</table></div>
+<h2 id="signals">Signals</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="positionsourceadapter.html#PositionAvailableChanged" translate="no">PositionAvailableChanged</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="positionsourceadapter.html#PositionChanged" translate="no">PositionChanged</a></b>()</td></tr>
+</table></div>
+<!-- $$$PositionSourceAdapter-description -->
+<div class="descr">
+<h2 id="details">Detailed Description</h2>
+<p>Registered as an uncreatable type in the <code translate="no">PastViewer</code> QML module.</p>
+</div>
+<!-- @@@PositionSourceAdapter -->
+<div class="prop">
+<h2>Property Documentation</h2>
+<!-- $$$bearing-prop$$$Bearing$$$PositionChanged -->
+<h3 class="fn" translate="no" id="bearing-prop"><code class="details extra" translate="no">[read-only]</code> <span class="name">bearing</span> : const <span class="type">double</span></h3>
+<p>Holds the device heading in degrees, where zero is north.</p>
+<p><b>Access functions:</b></p>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft topAlign rightAlign"> double </td><td class="memItemRight bottomAlign"><span class="name"><b><a href="positionsourceadapter.html#Bearing" translate="no">Bearing</a></b></span>() const</td></tr>
+</table></div>
+<p><b>Notifier signal:</b></p>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft topAlign rightAlign"> void </td><td class="memItemRight bottomAlign"><span class="name"><b><a href="positionsourceadapter.html#PositionChanged" translate="no">PositionChanged</a></b></span>()</td></tr>
+</table></div>
+<!-- @@@bearing -->
+<!-- $$$coordinate-prop$$$Coordinate$$$PositionChanged -->
+<h3 class="fn" translate="no" id="coordinate-prop"><code class="details extra" translate="no">[read-only]</code> <span class="name">coordinate</span> : const <span class="type">QGeoCoordinate</span></h3>
+<p>Holds the latest valid device coordinate.</p>
+<p><b>Access functions:</b></p>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft topAlign rightAlign"> QGeoCoordinate </td><td class="memItemRight bottomAlign"><span class="name"><b><a href="positionsourceadapter.html#Coordinate" translate="no">Coordinate</a></b></span>() const</td></tr>
+</table></div>
+<p><b>Notifier signal:</b></p>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft topAlign rightAlign"> void </td><td class="memItemRight bottomAlign"><span class="name"><b><a href="positionsourceadapter.html#PositionChanged" translate="no">PositionChanged</a></b></span>()</td></tr>
+</table></div>
+<!-- @@@coordinate -->
+<!-- $$$positionAvailable-prop$$$IsPositionAvailable$$$PositionAvailableChanged -->
+<h3 class="fn" translate="no" id="positionAvailable-prop"><code class="details extra" translate="no">[read-only]</code> <span class="name">positionAvailable</span> : const <span class="type">bool</span></h3>
+<p>Holds whether a valid position fix is available.</p>
+<p><b>Access functions:</b></p>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft topAlign rightAlign"> bool </td><td class="memItemRight bottomAlign"><span class="name"><b><a href="positionsourceadapter.html#IsPositionAvailable" translate="no">IsPositionAvailable</a></b></span>() const</td></tr>
+</table></div>
+<p><b>Notifier signal:</b></p>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft topAlign rightAlign"> void </td><td class="memItemRight bottomAlign"><span class="name"><b><a href="positionsourceadapter.html#PositionAvailableChanged" translate="no">PositionAvailableChanged</a></b></span>()</td></tr>
+</table></div>
+<!-- @@@positionAvailable -->
+</div>
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$Bearing -->
+<h3 class="fn" translate="no" id="Bearing"><span class="type">double</span> PositionSourceAdapter::<span class="name">Bearing</span>() const</h3>
+<p>Returns the latest device heading in degrees.</p>
+<div class="admonition note"><p><b>Note: </b>Getter function for property <a href="positionsourceadapter.html#bearing-prop" translate="no">bearing</a>. </p>
+</div><!-- @@@Bearing -->
+<!-- $$$Coordinate -->
+<h3 class="fn" translate="no" id="Coordinate"><span class="type">QGeoCoordinate</span> PositionSourceAdapter::<span class="name">Coordinate</span>() const</h3>
+<p>Returns the latest valid device coordinate.</p>
+<div class="admonition note"><p><b>Note: </b>Getter function for property <a href="positionsourceadapter.html#coordinate-prop" translate="no">coordinate</a>. </p>
+</div><!-- @@@Coordinate -->
+<!-- $$$IsPositionAvailable -->
+<h3 class="fn" translate="no" id="IsPositionAvailable"><span class="type">bool</span> PositionSourceAdapter::<span class="name">IsPositionAvailable</span>() const</h3>
+<p>Returns whether a valid position fix is available.</p>
+<div class="admonition note"><p><b>Note: </b>Getter function for property <a href="positionsourceadapter.html#positionAvailable-prop" translate="no">positionAvailable</a>. </p>
+</div><!-- @@@IsPositionAvailable -->
+<!-- $$$Position[overload1]$$$Position -->
+<h3 class="fn" translate="no" id="Position"><span class="type">QGeoPositionInfo</span> PositionSourceAdapter::<span class="name">Position</span>() const</h3>
+<p>Returns the latest position information object.</p>
+<!-- @@@Position -->
+<!-- $$$PositionAvailableChanged -->
+<h3 class="fn" translate="no" id="PositionAvailableChanged"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> PositionSourceAdapter::<span class="name">PositionAvailableChanged</span>()</h3>
+<p>Emitted when <a href="positionsourceadapter.html#positionAvailable-prop" translate="no">positionAvailable</a> changes.</p>
+<div class="admonition note"><p><b>Note: </b>Notifier signal for property <a href="positionsourceadapter.html#positionAvailable-prop" translate="no">positionAvailable</a>. </p>
+</div><!-- @@@PositionAvailableChanged -->
+<!-- $$$PositionChanged -->
+<h3 class="fn" translate="no" id="PositionChanged"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> PositionSourceAdapter::<span class="name">PositionChanged</span>()</h3>
+<p>Emitted when <a href="positionsourceadapter.html#coordinate-prop" translate="no">coordinate</a> or <a href="positionsourceadapter.html#bearing-prop" translate="no">bearing</a> changes.</p>
+<div class="admonition note"><p><b>Note: </b>Notifier signal for property <a href="positionsourceadapter.html#bearing-prop" translate="no">bearing</a>. Notifier signal for property <a href="positionsourceadapter.html#coordinate-prop" translate="no">coordinate</a>. </p>
+</div><!-- @@@PositionChanged -->
+</div>
+        </div>
+       </div>
+   </div>
+   </div>
+</div>
+<div class="footer">
+   <p>
+   <abbr title="Copyright">&copy;</abbr> 2024 <span translate="no">The Qt Company Ltd.</span>
+   Documentation contributions included herein are the copyrights of
+   their respective owners.<br/>    The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the <span translate="no">Free Software Foundation</span>.<br/>    <span translate="no">Qt</span> and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of <span translate="no">The Qt Company Ltd.</span> in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+</div>
+</body>
+</html>

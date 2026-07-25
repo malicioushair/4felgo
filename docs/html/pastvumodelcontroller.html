@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<!-- PastViewModelController.cpp -->
+  <meta name="description" content="Central controller for photo data, map viewport, and user filters.">
+  <title>PastVuModelController Class | PastViewer API 1.1.0</title>
+  <link rel="stylesheet" type="text/css" href="style/offline-simple.css" />
+  <script type="text/javascript">
+    document.getElementsByTagName("link").item(0).setAttribute("href", "style/offline.css");
+    // loading style sheet breaks anchors that were jumped to before
+    // so force jumping to anchor again
+    setTimeout(function() {
+        var anchor = location.hash;
+        // need to jump to different anchor first (e.g. none)
+        location.hash = "#";
+        setTimeout(function() {
+            location.hash = anchor;
+        }, 0);
+    }, 0);
+  </script>
+</head>
+<body>
+<div class="header" id="qtdocheader">
+    <div class="main">
+    <div class="main-rounded">
+        <div class="navigationbar">
+        <ul>
+<li><a href="index.html">PastViewer API</a></li>
+<li><a href="pastviewer-module.html" translate="no">C++ Classes</a></li>
+<li>PastVuModelController</li>
+    </ul>
+    </div>
+</div>
+<div class="content">
+<div class="line">
+<div class="content mainContent">
+<div class="sidebar">
+<div class="toc">
+<h3 id="toc">Contents</h3>
+<ul>
+<li class="level1"><a href="#properties">Properties</a></li>
+<li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#signals">Signals</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<div class="sidebar-content" id="sidebar-content"></div></div>
+<h1 class="title" translate="no">PastVuModelController Class</h1>
+<!-- $$$PastVuModelController-brief -->
+<p>Central controller for photo data, map viewport, and user filters. <a href="#details">More...</a></p>
+<!-- @@@PastVuModelController -->
+<div class="table"><table class="alignedsummary requisites" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <code translate="no">#include &lt;PastVuModelController&gt;</code></td></tr>
+</table></div>
+<ul>
+<li><a href="pastvumodelcontroller-members.html">List of all members, including inherited members</a></li>
+</ul>
+<h2 id="properties">Properties</h2>
+<div class="table"><table class="propsummary" translate="no">
+<tr><td class="topAlign"><ul>
+<li class="fn" translate="no"><b><a href="pastvumodelcontroller.html#historyNearModelType-prop" translate="no">historyNearModelType</a></b> : const bool</li>
+<li class="fn" translate="no"><b><a href="pastvumodelcontroller.html#nearestObjectsOnly-prop" translate="no">nearestObjectsOnly</a></b> : const bool</li>
+<li class="fn" translate="no"><b><a href="pastvumodelcontroller.html#timelineRange-prop" translate="no">timelineRange</a></b> : const Range</li>
+</ul></td><td class="topAlign"><ul>
+<li class="fn" translate="no"><b><a href="pastvumodelcontroller.html#userSelectedTimelineRange-prop" translate="no">userSelectedTimelineRange</a></b> : const Range</li>
+<li class="fn" translate="no"><b><a href="pastvumodelcontroller.html#zoomLevel-prop" translate="no">zoomLevel</a></b> : const int</li>
+</ul>
+</td></tr>
+</table></div>
+<h2 id="public-functions">Public Functions</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#GetMapHostApiKey" translate="no">GetMapHostApiKey</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QAbstractItemModel *</td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#GetModel" translate="no">GetModel</a></b>(ModelType::Type <i>modelType</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> PositionSourceAdapter *</td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#GetPositionSource" translate="no">GetPositionSource</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#OnPositionPermissionGranted" translate="no">OnPositionPermissionGranted</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#ReloadItems" translate="no">ReloadItems</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#SetViewportCoordinates" translate="no">SetViewportCoordinates</a></b>(const QGeoRectangle &amp;<i>viewport</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#ToggleHistoryNearYouModel" translate="no">ToggleHistoryNearYouModel</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#ToggleOnlyNearestObjects" translate="no">ToggleOnlyNearestObjects</a></b>()</td></tr>
+</table></div>
+<h2 id="signals">Signals</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#HistoryNearModelChanged" translate="no">HistoryNearModelChanged</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#ModelChanged" translate="no">ModelChanged</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#NearestObjectsOnlyChanged" translate="no">NearestObjectsOnlyChanged</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#PositionPermissionGranted" translate="no">PositionPermissionGranted</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#UserSelectedTimelineRangeChanged" translate="no">UserSelectedTimelineRangeChanged</a></b>(const Range &amp;<i>timeline</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#YearFromChanged" translate="no">YearFromChanged</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#YearToChanged" translate="no">YearToChanged</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#ZoomLevelChanged" translate="no">ZoomLevelChanged</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#itemsLoaded" translate="no">itemsLoaded</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastvumodelcontroller.html#loadingItems" translate="no">loadingItems</a></b>()</td></tr>
+</table></div>
+<!-- $$$PastVuModelController-description -->
+<div class="descr">
+<h2 id="details">Detailed Description</h2>
+<p>Owns the model stack and is registered as the QML context property <code translate="no">pastVuModelController</code>.</p>
+</div>
+<!-- @@@PastVuModelController -->
+<div class="prop">
+<h2>Property Documentation</h2>
+<!-- $$$historyNearModelType-prop$$$HistoryNearModelChanged -->
+<h3 class="fn" translate="no" id="historyNearModelType-prop"><span class="name">historyNearModelType</span> : const <span class="type">bool</span></h3>
+<p>Holds the data-source selection for the &quot;History near you&quot; carousel.</p>
+<p><b>Notifier signal:</b></p>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft topAlign rightAlign"> void </td><td class="memItemRight bottomAlign"><span class="name"><b><a href="pastvumodelcontroller.html#HistoryNearModelChanged" translate="no">HistoryNearModelChanged</a></b></span>()</td></tr>
+</table></div>
+<!-- @@@historyNearModelType -->
+<!-- $$$nearestObjectsOnly-prop$$$NearestObjectsOnlyChanged -->
+<h3 class="fn" translate="no" id="nearestObjectsOnly-prop"><span class="name">nearestObjectsOnly</span> : const <span class="type">bool</span></h3>
+<p>Holds whether map markers use the nearest-objects cluster model.</p>
+<p><b>Notifier signal:</b></p>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft topAlign rightAlign"> void </td><td class="memItemRight bottomAlign"><span class="name"><b><a href="pastvumodelcontroller.html#NearestObjectsOnlyChanged" translate="no">NearestObjectsOnlyChanged</a></b></span>()</td></tr>
+</table></div>
+<!-- @@@nearestObjectsOnly -->
+<!-- $$$timelineRange-prop -->
+<h3 class="fn" translate="no" id="timelineRange-prop"><code class="details extra" translate="no">[read-only]</code> <span class="name">timelineRange</span> : const <span class="type"><a href="range.html" translate="no">Range</a></span></h3>
+<p>Holds the read-only full year range supported by the application.</p>
+<!-- @@@timelineRange -->
+<!-- $$$userSelectedTimelineRange-prop$$$UserSelectedTimelineRangeChangedconstRange& -->
+<h3 class="fn" translate="no" id="userSelectedTimelineRange-prop"><span class="name">userSelectedTimelineRange</span> : const <span class="type"><a href="range.html" translate="no">Range</a></span></h3>
+<p>Holds the user-adjustable year range applied by <a href="screenobjectsmodel.html" translate="no">ScreenObjectsModel</a>.</p>
+<p><b>Notifier signal:</b></p>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft topAlign rightAlign"> void </td><td class="memItemRight bottomAlign"><span class="name"><b><a href="pastvumodelcontroller.html#UserSelectedTimelineRangeChanged" translate="no">UserSelectedTimelineRangeChanged</a></b></span>(const Range &amp;<i>timeline</i>)</td></tr>
+</table></div>
+<!-- @@@userSelectedTimelineRange -->
+<!-- $$$zoomLevel-prop$$$ZoomLevelChanged -->
+<h3 class="fn" translate="no" id="zoomLevel-prop"><span class="name">zoomLevel</span> : const <span class="type">int</span></h3>
+<p>Holds the map zoom level synchronized with the QML Map.</p>
+<p><b>Notifier signal:</b></p>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft topAlign rightAlign"> void </td><td class="memItemRight bottomAlign"><span class="name"><b><a href="pastvumodelcontroller.html#ZoomLevelChanged" translate="no">ZoomLevelChanged</a></b></span>()</td></tr>
+</table></div>
+<!-- @@@zoomLevel -->
+</div>
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$GetMapHostApiKey[overload1]$$$GetMapHostApiKey -->
+<h3 class="fn" translate="no" id="GetMapHostApiKey"><code class="details extra" translate="no">[invokable]</code> <span class="type">QString</span> PastVuModelController::<span class="name">GetMapHostApiKey</span>()</h3>
+<p>Returns the map-host API key compiled into the application.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@GetMapHostApiKey -->
+<!-- $$$GetModel[overload1]$$$GetModelModelType::Type -->
+<h3 class="fn" translate="no" id="GetModel"><code class="details extra" translate="no">[invokable]</code> <span class="type">QAbstractItemModel</span> *PastVuModelController::<span class="name">GetModel</span>(<span class="type"><a href="modeltype.html#Type-enum" translate="no">ModelType::Type</a></span> <i>modelType</i>)</h3>
+<p>Returns the model selected by <i translate="no">modelType</i>.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@GetModel -->
+<!-- $$$GetPositionSource[overload1]$$$GetPositionSource -->
+<h3 class="fn" translate="no" id="GetPositionSource"><code class="details extra" translate="no">[invokable]</code> <span class="type"><a href="positionsourceadapter.html" translate="no">PositionSourceAdapter</a></span> *PastVuModelController::<span class="name">GetPositionSource</span>()</h3>
+<p>Returns the position adapter used by the QML map and compass.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@GetPositionSource -->
+<!-- $$$HistoryNearModelChanged -->
+<h3 class="fn" translate="no" id="HistoryNearModelChanged"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> PastVuModelController::<span class="name">HistoryNearModelChanged</span>()</h3>
+<p>Emitted when <a href="pastvumodelcontroller.html#historyNearModelType-prop" translate="no">historyNearModelType</a> changes.</p>
+<div class="admonition note"><p><b>Note: </b>Notifier signal for property <a href="pastvumodelcontroller.html#historyNearModelType-prop" translate="no">historyNearModelType</a>. </p>
+</div><!-- @@@HistoryNearModelChanged -->
+<!-- $$$ModelChanged[overload1]$$$ModelChanged -->
+<h3 class="fn" translate="no" id="ModelChanged"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> PastVuModelController::<span class="name">ModelChanged</span>()</h3>
+<p>Emitted when the active map model changes.</p>
+<!-- @@@ModelChanged -->
+<!-- $$$NearestObjectsOnlyChanged -->
+<h3 class="fn" translate="no" id="NearestObjectsOnlyChanged"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> PastVuModelController::<span class="name">NearestObjectsOnlyChanged</span>()</h3>
+<p>Emitted when <a href="pastvumodelcontroller.html#nearestObjectsOnly-prop" translate="no">nearestObjectsOnly</a> changes.</p>
+<div class="admonition note"><p><b>Note: </b>Notifier signal for property <a href="pastvumodelcontroller.html#nearestObjectsOnly-prop" translate="no">nearestObjectsOnly</a>. </p>
+</div><!-- @@@NearestObjectsOnlyChanged -->
+<!-- $$$OnPositionPermissionGranted[overload1]$$$OnPositionPermissionGranted -->
+<h3 class="fn" translate="no" id="OnPositionPermissionGranted"><span class="type">void</span> PastVuModelController::<span class="name">OnPositionPermissionGranted</span>()</h3>
+<p>Forwards a location-permission grant to the underlying models.</p>
+<!-- @@@OnPositionPermissionGranted -->
+<!-- $$$PositionPermissionGranted[overload1]$$$PositionPermissionGranted -->
+<h3 class="fn" translate="no" id="PositionPermissionGranted"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> PastVuModelController::<span class="name">PositionPermissionGranted</span>()</h3>
+<p>Emitted after location permission is granted.</p>
+<!-- @@@PositionPermissionGranted -->
+<!-- $$$ReloadItems[overload1]$$$ReloadItems -->
+<h3 class="fn" translate="no" id="ReloadItems"><code class="details extra" translate="no">[invokable]</code> <span class="type">void</span> PastVuModelController::<span class="name">ReloadItems</span>()</h3>
+<p>Forces a refresh of photo data for the current viewport.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@ReloadItems -->
+<!-- $$$SetViewportCoordinates[overload1]$$$SetViewportCoordinatesconstQGeoRectangle& -->
+<h3 class="fn" translate="no" id="SetViewportCoordinates"><code class="details extra" translate="no">[invokable]</code> <span class="type">void</span> PastVuModelController::<span class="name">SetViewportCoordinates</span>(const <span class="type">QGeoRectangle</span> &amp;<i>viewport</i>)</h3>
+<p>Updates the visible map rectangle to <i translate="no">viewport</i> and requests photo data.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@SetViewportCoordinates -->
+<!-- $$$ToggleHistoryNearYouModel[overload1]$$$ToggleHistoryNearYouModel -->
+<h3 class="fn" translate="no" id="ToggleHistoryNearYouModel"><code class="details extra" translate="no">[invokable]</code> <span class="type">void</span> PastVuModelController::<span class="name">ToggleHistoryNearYouModel</span>()</h3>
+<p>Toggles <a href="pastvumodelcontroller.html#historyNearModelType-prop" translate="no">historyNearModelType</a>.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@ToggleHistoryNearYouModel -->
+<!-- $$$ToggleOnlyNearestObjects[overload1]$$$ToggleOnlyNearestObjects -->
+<h3 class="fn" translate="no" id="ToggleOnlyNearestObjects"><code class="details extra" translate="no">[invokable]</code> <span class="type">void</span> PastVuModelController::<span class="name">ToggleOnlyNearestObjects</span>()</h3>
+<p>Toggles <a href="pastvumodelcontroller.html#nearestObjectsOnly-prop" translate="no">nearestObjectsOnly</a>.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@ToggleOnlyNearestObjects -->
+<!-- $$$UserSelectedTimelineRangeChanged -->
+<h3 class="fn" translate="no" id="UserSelectedTimelineRangeChanged"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> PastVuModelController::<span class="name">UserSelectedTimelineRangeChanged</span>(const <span class="type"><a href="range.html" translate="no">Range</a></span> &amp;<i>timeline</i>)</h3>
+<p>Emitted after the selected range changes to <i translate="no">timeline</i>.</p>
+<div class="admonition note"><p><b>Note: </b>Notifier signal for property <a href="pastvumodelcontroller.html#userSelectedTimelineRange-prop" translate="no">userSelectedTimelineRange</a>. </p>
+</div><!-- @@@UserSelectedTimelineRangeChanged -->
+<!-- $$$YearFromChanged[overload1]$$$YearFromChanged -->
+<h3 class="fn" translate="no" id="YearFromChanged"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> PastVuModelController::<span class="name">YearFromChanged</span>()</h3>
+<p>Emitted when the lower bound of the selected timeline changes.</p>
+<!-- @@@YearFromChanged -->
+<!-- $$$YearToChanged[overload1]$$$YearToChanged -->
+<h3 class="fn" translate="no" id="YearToChanged"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> PastVuModelController::<span class="name">YearToChanged</span>()</h3>
+<p>Emitted when the upper bound of the selected timeline changes.</p>
+<!-- @@@YearToChanged -->
+<!-- $$$ZoomLevelChanged -->
+<h3 class="fn" translate="no" id="ZoomLevelChanged"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> PastVuModelController::<span class="name">ZoomLevelChanged</span>()</h3>
+<p>Emitted when <a href="pastvumodelcontroller.html#zoomLevel-prop" translate="no">zoomLevel</a> changes.</p>
+<div class="admonition note"><p><b>Note: </b>Notifier signal for property <a href="pastvumodelcontroller.html#zoomLevel-prop" translate="no">zoomLevel</a>. </p>
+</div><!-- @@@ZoomLevelChanged -->
+<!-- $$$itemsLoaded[overload1]$$$itemsLoaded -->
+<h3 class="fn" translate="no" id="itemsLoaded"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> PastVuModelController::<span class="name">itemsLoaded</span>()</h3>
+<p>Emitted when a photo fetch completes.</p>
+<!-- @@@itemsLoaded -->
+<!-- $$$loadingItems[overload1]$$$loadingItems -->
+<h3 class="fn" translate="no" id="loadingItems"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> PastVuModelController::<span class="name">loadingItems</span>()</h3>
+<p>Emitted when a photo fetch starts.</p>
+<!-- @@@loadingItems -->
+</div>
+        </div>
+       </div>
+   </div>
+   </div>
+</div>
+<div class="footer">
+   <p>
+   <abbr title="Copyright">&copy;</abbr> 2024 <span translate="no">The Qt Company Ltd.</span>
+   Documentation contributions included herein are the copyrights of
+   their respective owners.<br/>    The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the <span translate="no">Free Software Foundation</span>.<br/>    <span translate="no">Qt</span> and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of <span translate="no">The Qt Company Ltd.</span> in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+</div>
+</body>
+</html>

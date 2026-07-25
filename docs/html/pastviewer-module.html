@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<!-- index.qdoc -->
+  <meta name="description" content="C++ classes, value types, and utility namespaces used by PastViewer.">
+  <title>PastViewer C++ API | PastViewer API 1.1.0</title>
+  <link rel="stylesheet" type="text/css" href="style/offline-simple.css" />
+  <script type="text/javascript">
+    document.getElementsByTagName("link").item(0).setAttribute("href", "style/offline.css");
+    // loading style sheet breaks anchors that were jumped to before
+    // so force jumping to anchor again
+    setTimeout(function() {
+        var anchor = location.hash;
+        // need to jump to different anchor first (e.g. none)
+        location.hash = "#";
+        setTimeout(function() {
+            location.hash = anchor;
+        }, 0);
+    }, 0);
+  </script>
+</head>
+<body>
+<div class="header" id="qtdocheader">
+    <div class="main">
+    <div class="main-rounded">
+        <div class="navigationbar">
+        <ul>
+<li><a href="index.html">PastViewer API</a></li>
+<li>PastViewer C++ API</li>
+    </ul>
+    </div>
+</div>
+<div class="content">
+<div class="line">
+<div class="content mainContent">
+  <link rel="next" href="pastviewer-qmlmodule.html" />
+<p class="naviNextPrevious headerNavi">
+<a class="nextPage" href="pastviewer-qmlmodule.html">PastViewer QML Types</a>
+</p>
+<div class="sidebar">
+<div class="toc">
+<h3 id="toc">Contents</h3>
+<ul>
+<li class="level1"><a href="#namespaces">Namespaces</a></li>
+<li class="level1"><a href="#classes">Classes</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<div class="sidebar-content" id="sidebar-content"></div></div>
+<h1 class="title" translate="no">PastViewer C++ API</h1>
+<!-- $$$PastViewer-brief -->
+<p>C++ classes, value types, and utility namespaces used by PastViewer. <a href="#details">More...</a></p>
+<!-- @@@PastViewer -->
+<h2 id="namespaces">Namespaces</h2>
+<div class="table"><table class="annotated">
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="directionutils.html">DirectionUtils</a></p></td><td class="tblDescr"><p>Converts PastVu direction strings to compass bearings</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="modeltype.html">ModelType</a></p></td><td class="tblDescr"><p>Selects which QAbstractItemModel to display in QML</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="pastviewer.html">PastViewer</a></p></td><td class="tblDescr"><p>Application-specific C++ types registered to the PastViewer QML module</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="sentryintegration.html">SentryIntegration</a></p></td><td class="tblDescr"><p>Optional crash reporting via the Sentry SDK</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="utils.html">Utils</a></p></td><td class="tblDescr"><p>Compile-time platform detection helpers</p></td></tr>
+</table></div>
+<h2 id="classes">Classes</h2>
+<div class="table"><table class="annotated">
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="basemodel.html">BaseModel</a></p></td><td class="tblDescr"><p>Fetches historical photos from PastVu for the current map viewport</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="clustermodel.html">ClusterModel</a></p></td><td class="tblDescr"><p>Groups nearby map markers into screen-space clusters</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="i18ncontroller.html">I18nController</a></p></td><td class="tblDescr"><p>Manages application language selection and translator loading</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="i18nmodel.html">I18nModel</a></p></td><td class="tblDescr"><p>List model of supported application languages</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="item.html">Item</a></p></td><td class="tblDescr"><p>A single historical photo record from the PastVu API</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="nearestobjectsmodel.html">NearestObjectsModel</a></p></td><td class="tblDescr"><p>Keeps only photos within a distance threshold of the user</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="pastviewer-guicontroller.html">PastViewer::GuiController</a></p></td><td class="tblDescr"><p>Platform services exposed to QML as guiController</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="pastviewer-holeitem.html">PastViewer::HoleItem</a></p></td><td class="tblDescr"><p>QQuickItem that forwards pointer events only outside rectangular holes</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="pastvumodelcontroller.html">PastVuModelController</a></p></td><td class="tblDescr"><p>Central controller for photo data, map viewport, and user filters</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="positionsourceadapter.html">PositionSourceAdapter</a></p></td><td class="tblDescr"><p>Wrapper around QGeoPositionInfoSource for QML consumption</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="range.html">Range</a></p></td><td class="tblDescr"><p>Inclusive integer range value type used for timeline year filtering</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="screenobjectsmodel.html">ScreenObjectsModel</a></p></td><td class="tblDescr"><p>Filters BaseModel by timeline range and annotates clustered items</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="sentryintegration-isentry.html">SentryIntegration::ISentry</a></p></td><td class="tblDescr"><p>Platform abstraction for Sentry SDK operations</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="uniquecircularbuffer.html">UniqueCircularBuffer</a></p></td><td class="tblDescr"><p>Fixed-capacity FIFO buffer that rejects duplicate entries by key</p></td></tr>
+</table></div>
+<!-- $$$PastViewer-description -->
+<div class="descr">
+<h2 id="details">Detailed Description</h2>
+</div>
+<!-- @@@PastViewer -->
+<p class="naviNextPrevious footerNavi">
+<a class="nextPage" href="pastviewer-qmlmodule.html">PastViewer QML Types</a>
+</p>
+        </div>
+       </div>
+   </div>
+   </div>
+</div>
+<div class="footer">
+   <p>
+   <abbr title="Copyright">&copy;</abbr> 2024 <span translate="no">The Qt Company Ltd.</span>
+   Documentation contributions included herein are the copyrights of
+   their respective owners.<br/>    The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the <span translate="no">Free Software Foundation</span>.<br/>    <span translate="no">Qt</span> and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of <span translate="no">The Qt Company Ltd.</span> in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+</div>
+</body>
+</html>

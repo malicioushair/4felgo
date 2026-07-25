@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<!-- OnboardingOverlay.qml -->
+  <meta name="description" content="Step-by-step tutorial overlay with optional UI element highlighting.">
+  <title>OnboardingOverlay QML Type | PastViewer API 1.1.0</title>
+  <link rel="stylesheet" type="text/css" href="style/offline-simple.css" />
+  <script type="text/javascript">
+    document.getElementsByTagName("link").item(0).setAttribute("href", "style/offline.css");
+    // loading style sheet breaks anchors that were jumped to before
+    // so force jumping to anchor again
+    setTimeout(function() {
+        var anchor = location.hash;
+        // need to jump to different anchor first (e.g. none)
+        location.hash = "#";
+        setTimeout(function() {
+            location.hash = anchor;
+        }, 0);
+    }, 0);
+  </script>
+</head>
+<body>
+<div class="header" id="qtdocheader">
+    <div class="main">
+    <div class="main-rounded">
+        <div class="navigationbar">
+        <ul>
+<li><a href="index.html">PastViewer API</a></li>
+<li><a href="pastviewer-qmlmodule.html" translate="no">QML Types</a></li>
+<li>OnboardingOverlay</li>
+    </ul>
+    </div>
+</div>
+<div class="content">
+<div class="line">
+<div class="content mainContent">
+<div class="sidebar">
+<div class="toc">
+<h3 id="toc">Contents</h3>
+<ul>
+<li class="level1"><a href="#properties">Properties</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<div class="sidebar-content" id="sidebar-content"></div></div>
+<h1 class="title" translate="no">OnboardingOverlay QML Type</h1>
+<!-- $$$OnboardingOverlay-brief -->
+<p>Step-by-step tutorial overlay with optional UI element highlighting. <a href="#details">More...</a></p>
+<!-- @@@OnboardingOverlay -->
+<div class="table"><table class="alignedsummary requisites" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> <code translate="no">import PastViewer</code></td></tr>
+</table></div>
+<ul>
+<li><a href="qml-pastviewer-onboardingoverlay-members.html">List of all members, including inherited members</a></li>
+<li>OnboardingOverlay is part of <a href="pastviewer-helpers.html">PastViewer Helpers</a>.</li>
+</ul>
+<h2 id="properties">Properties</h2>
+<ul>
+<li class="fn" translate="no"><b><a href="qml-pastviewer-onboardingoverlay.html#active-prop" translate="no">active</a></b> : bool</li>
+<li class="fn" translate="no"><b><a href="qml-pastviewer-onboardingoverlay.html#centered-prop" translate="no">centered</a></b> : bool</li>
+<li class="fn" translate="no"><b><a href="qml-pastviewer-onboardingoverlay.html#completionKey-prop" translate="no">completionKey</a></b> : string</li>
+<li class="fn" translate="no"><b><a href="qml-pastviewer-onboardingoverlay.html#currentIndex-prop" translate="no">currentIndex</a></b> : int</li>
+<li class="fn" translate="no"><b><a href="qml-pastviewer-onboardingoverlay.html#highlightSteps-prop" translate="no">highlightSteps</a></b> : var</li>
+<li class="fn" translate="no"><b><a href="qml-pastviewer-onboardingoverlay.html#steps-prop" translate="no">steps</a></b> : var</li>
+<li class="fn" translate="no"><b><a href="qml-pastviewer-onboardingoverlay.html#topped-prop" translate="no">topped</a></b> : bool</li>
+</ul>
+<!-- $$$OnboardingOverlay-description -->
+<h2 id="details">Detailed Description</h2>
+<!-- @@@OnboardingOverlay -->
+<h2>Property Documentation</h2>
+<!-- $$$active -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tr valign="top" class="odd" id="active-prop">
+<td class="tblQmlPropNode"><p>
+<span class="name">active</span> : <span class="type">bool</span></p></td></tr>
+</table></div></div>
+<div class="qmldoc"><p>Whether the overlay is visible and blocks normal interaction.</p>
+</div></div><!-- @@@active -->
+<br/>
+<!-- $$$centered -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tr valign="top" class="odd" id="centered-prop">
+<td class="tblQmlPropNode"><p>
+<span class="name">centered</span> : <span class="type">bool</span></p></td></tr>
+</table></div></div>
+<div class="qmldoc"><p>Whether the tutorial card is vertically centered.</p>
+</div></div><!-- @@@centered -->
+<br/>
+<!-- $$$completionKey -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tr valign="top" class="odd" id="completionKey-prop">
+<td class="tblQmlPropNode"><p>
+<span class="name">completionKey</span> : <span class="type">string</span> <code class="details extra" translate="no">[required]</code></p></td></tr>
+</table></div></div>
+<div class="qmldoc"><p>Persistence key used to record completion of the tutorial.</p>
+</div></div><!-- @@@completionKey -->
+<br/>
+<!-- $$$currentIndex -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tr valign="top" class="odd" id="currentIndex-prop">
+<td class="tblQmlPropNode"><p>
+<span class="name">currentIndex</span> : <span class="type">int</span></p></td></tr>
+</table></div></div>
+<div class="qmldoc"><p>Zero-based index of the currently displayed step.</p>
+</div></div><!-- @@@currentIndex -->
+<br/>
+<!-- $$$highlightSteps -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tr valign="top" class="odd" id="highlightSteps-prop">
+<td class="tblQmlPropNode"><p>
+<span class="name">highlightSteps</span> : <span class="type">var</span></p></td></tr>
+</table></div></div>
+<div class="qmldoc"><p>Highlight definitions containing a target Item and its step index.</p>
+</div></div><!-- @@@highlightSteps -->
+<br/>
+<!-- $$$steps -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tr valign="top" class="odd" id="steps-prop">
+<td class="tblQmlPropNode"><p>
+<span class="name">steps</span> : <span class="type">var</span></p></td></tr>
+</table></div></div>
+<div class="qmldoc"><p>Ordered tutorial step objects. Each object provides <code translate="no">title</code> and <code translate="no">body</code> fields.</p>
+</div></div><!-- @@@steps -->
+<br/>
+<!-- $$$topped -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tr valign="top" class="odd" id="topped-prop">
+<td class="tblQmlPropNode"><p>
+<span class="name">topped</span> : <span class="type">bool</span></p></td></tr>
+</table></div></div>
+<div class="qmldoc"><p>Whether the tutorial card is aligned near the top.</p>
+</div></div><!-- @@@topped -->
+<br/>
+        </div>
+       </div>
+   </div>
+   </div>
+</div>
+<div class="footer">
+   <p>
+   <abbr title="Copyright">&copy;</abbr> 2024 <span translate="no">The Qt Company Ltd.</span>
+   Documentation contributions included herein are the copyrights of
+   their respective owners.<br/>    The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the <span translate="no">Free Software Foundation</span>.<br/>    <span translate="no">Qt</span> and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of <span translate="no">The Qt Company Ltd.</span> in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+</div>
+</body>
+</html>

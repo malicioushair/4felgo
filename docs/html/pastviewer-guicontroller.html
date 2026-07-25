@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<!-- GuiController.cpp -->
+  <meta name="description" content="Platform services exposed to QML as guiController.">
+  <title>GuiController Class | PastViewer API 1.1.0</title>
+  <link rel="stylesheet" type="text/css" href="style/offline-simple.css" />
+  <script type="text/javascript">
+    document.getElementsByTagName("link").item(0).setAttribute("href", "style/offline.css");
+    // loading style sheet breaks anchors that were jumped to before
+    // so force jumping to anchor again
+    setTimeout(function() {
+        var anchor = location.hash;
+        // need to jump to different anchor first (e.g. none)
+        location.hash = "#";
+        setTimeout(function() {
+            location.hash = anchor;
+        }, 0);
+    }, 0);
+  </script>
+</head>
+<body>
+<div class="header" id="qtdocheader">
+    <div class="main">
+    <div class="main-rounded">
+        <div class="navigationbar">
+        <ul>
+<li><a href="index.html">PastViewer API</a></li>
+<li><a href="pastviewer-module.html" translate="no">C++ Classes</a></li>
+<li>GuiController</li>
+    </ul>
+    </div>
+</div>
+<div class="content">
+<div class="line">
+<div class="content mainContent">
+<div class="sidebar">
+<div class="toc">
+<h3 id="toc">Contents</h3>
+<ul>
+<li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#signals">Signals</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<div class="sidebar-content" id="sidebar-content"></div></div>
+<h1 class="title" translate="no">GuiController Class</h1>
+<span class="small-subtitle" translate="no">class <a href="pastviewer-qmlmodule.html" translate="no">PastViewer</a>::GuiController</span>
+<!-- $$$GuiController-brief -->
+<p>Platform services exposed to QML as guiController. <a href="#details">More...</a></p>
+<!-- @@@GuiController -->
+<div class="table"><table class="alignedsummary requisites" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <code translate="no">#include &lt;GuiController&gt;</code></td></tr>
+</table></div>
+<ul>
+<li><a href="pastviewer-guicontroller-members.html">List of all members, including inherited members</a></li>
+</ul>
+<h2 id="public-functions">Public Functions</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="pastviewer-guicontroller.html#GetAppVersion" translate="no">GetAppVersion</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="pastviewer-guicontroller.html#IsDebug" translate="no">IsDebug</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="pastviewer-guicontroller.html#IsOnboardingStepCompleted" translate="no">IsOnboardingStepCompleted</a></b>(const QString &amp;<i>key</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastviewer-guicontroller.html#RequestCameraPermission" translate="no">RequestCameraPermission</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastviewer-guicontroller.html#ResetOnboarding" translate="no">ResetOnboarding</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="pastviewer-guicontroller.html#SaveImage" translate="no">SaveImage</a></b>(const QQuickItemGrabResult *<i>grabResult</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="pastviewer-guicontroller.html#SaveScreenshotToGallery" translate="no">SaveScreenshotToGallery</a></b>(const QString &amp;<i>filePath</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastviewer-guicontroller.html#SetOnboardingStepCompleted" translate="no">SetOnboardingStepCompleted</a></b>(const QString &amp;<i>key</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="pastviewer-guicontroller.html#ShareImage" translate="no">ShareImage</a></b>()</td></tr>
+</table></div>
+<h2 id="signals">Signals</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastviewer-guicontroller.html#PermissionGranted" translate="no">PermissionGranted</a></b>(const QPermission &amp;<i>permission</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastviewer-guicontroller.html#onboardingReset" translate="no">onboardingReset</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="pastviewer-guicontroller.html#showErrorDialog" translate="no">showErrorDialog</a></b>(const QString &amp;<i>errorMessage</i>)</td></tr>
+</table></div>
+<!-- $$$GuiController-description -->
+<div class="descr">
+<h2 id="details">Detailed Description</h2>
+<p>Handles permissions, image sharing, onboarding persistence, and development utilities.</p>
+</div>
+<!-- @@@GuiController -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$GetAppVersion[overload1]$$$GetAppVersion -->
+<h3 class="fn" translate="no" id="GetAppVersion"><code class="details extra" translate="no">[invokable]</code> <span class="type">QString</span> GuiController::<span class="name">GetAppVersion</span>()</h3>
+<p>Returns the application version string.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@GetAppVersion -->
+<!-- $$$IsDebug[overload1]$$$IsDebug -->
+<h3 class="fn" translate="no" id="IsDebug"><code class="details extra" translate="no">[invokable]</code> <span class="type">bool</span> GuiController::<span class="name">IsDebug</span>()</h3>
+<p>Returns <code translate="no">true</code> when the application is running a debug build.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@IsDebug -->
+<!-- $$$IsOnboardingStepCompleted[overload1]$$$IsOnboardingStepCompletedconstQString& -->
+<h3 class="fn" translate="no" id="IsOnboardingStepCompleted"><code class="details extra" translate="no">[invokable]</code> <span class="type">bool</span> GuiController::<span class="name">IsOnboardingStepCompleted</span>(const <span class="type">QString</span> &amp;<i>key</i>)</h3>
+<p>Returns whether onboarding step <i translate="no">key</i> has been completed.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@IsOnboardingStepCompleted -->
+<!-- $$$PermissionGranted[overload1]$$$PermissionGrantedconstQPermission& -->
+<h3 class="fn" translate="no" id="PermissionGranted"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> GuiController::<span class="name">PermissionGranted</span>(const <span class="type">QPermission</span> &amp;<i>permission</i>)</h3>
+<p>Emitted when the user grants <i translate="no">permission</i>.</p>
+<!-- @@@PermissionGranted -->
+<!-- $$$RequestCameraPermission[overload1]$$$RequestCameraPermission -->
+<h3 class="fn" translate="no" id="RequestCameraPermission"><code class="details extra" translate="no">[invokable]</code> <span class="type">void</span> GuiController::<span class="name">RequestCameraPermission</span>()</h3>
+<p>Requests camera permission for camera mode.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@RequestCameraPermission -->
+<!-- $$$ResetOnboarding[overload1]$$$ResetOnboarding -->
+<h3 class="fn" translate="no" id="ResetOnboarding"><code class="details extra" translate="no">[invokable]</code> <span class="type">void</span> GuiController::<span class="name">ResetOnboarding</span>()</h3>
+<p>Clears all onboarding progress and emits <a href="pastviewer-guicontroller.html#onboardingReset" translate="no">onboardingReset</a>().</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@ResetOnboarding -->
+<!-- $$$SaveImage[overload1]$$$SaveImageconstQQuickItemGrabResult* -->
+<h3 class="fn" translate="no" id="SaveImage"><code class="details extra" translate="no">[invokable]</code> <span class="type">QString</span> GuiController::<span class="name">SaveImage</span>(const <span class="type">QQuickItemGrabResult</span> *<i>grabResult</i>)</h3>
+<p>Persists <i translate="no">grabResult</i> to a temporary file and returns its URL.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@SaveImage -->
+<!-- $$$SaveScreenshotToGallery[overload1]$$$SaveScreenshotToGalleryconstQString& -->
+<h3 class="fn" translate="no" id="SaveScreenshotToGallery"><code class="details extra" translate="no">[invokable]</code> <span class="type">bool</span> GuiController::<span class="name">SaveScreenshotToGallery</span>(const <span class="type">QString</span> &amp;<i>filePath</i>)</h3>
+<p>Saves the image at <i translate="no">filePath</i> to the device photo gallery. Returns <code translate="no">true</code> on success.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@SaveScreenshotToGallery -->
+<!-- $$$SetOnboardingStepCompleted[overload1]$$$SetOnboardingStepCompletedconstQString& -->
+<h3 class="fn" translate="no" id="SetOnboardingStepCompleted"><code class="details extra" translate="no">[invokable]</code> <span class="type">void</span> GuiController::<span class="name">SetOnboardingStepCompleted</span>(const <span class="type">QString</span> &amp;<i>key</i>)</h3>
+<p>Marks onboarding step <i translate="no">key</i> as completed.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@SetOnboardingStepCompleted -->
+<!-- $$$ShareImage[overload1]$$$ShareImage -->
+<h3 class="fn" translate="no" id="ShareImage"><code class="details extra" translate="no">[invokable]</code> <span class="type">bool</span> GuiController::<span class="name">ShareImage</span>()</h3>
+<p>Opens the platform share sheet for the last saved image. Returns <code translate="no">true</code> when the share request is accepted.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@ShareImage -->
+<!-- $$$onboardingReset[overload1]$$$onboardingReset -->
+<h3 class="fn" translate="no" id="onboardingReset"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> GuiController::<span class="name">onboardingReset</span>()</h3>
+<p>Emitted after onboarding progress is cleared.</p>
+<!-- @@@onboardingReset -->
+<!-- $$$showErrorDialog[overload1]$$$showErrorDialogconstQString& -->
+<h3 class="fn" translate="no" id="showErrorDialog"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> GuiController::<span class="name">showErrorDialog</span>(const <span class="type">QString</span> &amp;<i>errorMessage</i>)</h3>
+<p>Requests display of a fatal error dialog containing <i translate="no">errorMessage</i>.</p>
+<!-- @@@showErrorDialog -->
+</div>
+        </div>
+       </div>
+   </div>
+   </div>
+</div>
+<div class="footer">
+   <p>
+   <abbr title="Copyright">&copy;</abbr> 2024 <span translate="no">The Qt Company Ltd.</span>
+   Documentation contributions included herein are the copyrights of
+   their respective owners.<br/>    The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the <span translate="no">Free Software Foundation</span>.<br/>    <span translate="no">Qt</span> and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of <span translate="no">The Qt Company Ltd.</span> in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+</div>
+</body>
+</html>

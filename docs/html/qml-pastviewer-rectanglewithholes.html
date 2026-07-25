@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<!-- RectangleWithHoles.qml -->
+  <meta name="description" content="Dimmed overlay with transparent rectangular cutouts.">
+  <title>RectangleWithHoles QML Type | PastViewer API 1.1.0</title>
+  <link rel="stylesheet" type="text/css" href="style/offline-simple.css" />
+  <script type="text/javascript">
+    document.getElementsByTagName("link").item(0).setAttribute("href", "style/offline.css");
+    // loading style sheet breaks anchors that were jumped to before
+    // so force jumping to anchor again
+    setTimeout(function() {
+        var anchor = location.hash;
+        // need to jump to different anchor first (e.g. none)
+        location.hash = "#";
+        setTimeout(function() {
+            location.hash = anchor;
+        }, 0);
+    }, 0);
+  </script>
+</head>
+<body>
+<div class="header" id="qtdocheader">
+    <div class="main">
+    <div class="main-rounded">
+        <div class="navigationbar">
+        <ul>
+<li><a href="index.html">PastViewer API</a></li>
+<li><a href="pastviewer-qmlmodule.html" translate="no">QML Types</a></li>
+<li>RectangleWithHoles</li>
+    </ul>
+    </div>
+</div>
+<div class="content">
+<div class="line">
+<div class="content mainContent">
+<div class="sidebar">
+<div class="toc">
+<h3 id="toc">Contents</h3>
+<ul>
+<li class="level1"><a href="#properties">Properties</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<div class="sidebar-content" id="sidebar-content"></div></div>
+<h1 class="title" translate="no">RectangleWithHoles QML Type</h1>
+<!-- $$$RectangleWithHoles-brief -->
+<p>Dimmed overlay with transparent rectangular cutouts. <a href="#details">More...</a></p>
+<!-- @@@RectangleWithHoles -->
+<div class="table"><table class="alignedsummary requisites" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> <code translate="no">import PastViewer</code></td></tr>
+</table></div>
+<ul>
+<li><a href="qml-pastviewer-rectanglewithholes-members.html">List of all members, including inherited members</a></li>
+<li>RectangleWithHoles is part of <a href="pastviewer-helpers.html">PastViewer Helpers</a>.</li>
+</ul>
+<h2 id="properties">Properties</h2>
+<ul>
+<li class="fn" translate="no"><b><a href="qml-pastviewer-rectanglewithholes.html#highlightBorderColor-prop" translate="no">highlightBorderColor</a></b> : color</li>
+<li class="fn" translate="no"><b><a href="qml-pastviewer-rectanglewithholes.html#highlightBorderWidth-prop" translate="no">highlightBorderWidth</a></b> : int</li>
+<li class="fn" translate="no"><b><a href="qml-pastviewer-rectanglewithholes.html#holeRadius-prop" translate="no">holeRadius</a></b> : int</li>
+<li class="fn" translate="no"><b><a href="qml-pastviewer-rectanglewithholes.html#holes-prop" translate="no">holes</a></b> : var</li>
+<li class="fn" translate="no"><b><a href="qml-pastviewer-rectanglewithholes.html#overlayColor-prop" translate="no">overlayColor</a></b> : color</li>
+</ul>
+<!-- $$$RectangleWithHoles-description -->
+<h2 id="details">Detailed Description</h2>
+<p>Renders framing rectangles around the first hole for a spotlight effect and uses the C++ <a href="pastviewer-holeitem.html" translate="no">PastViewer::HoleItem</a> type to forward pointer events.</p>
+<!-- @@@RectangleWithHoles -->
+<h2>Property Documentation</h2>
+<!-- $$$highlightBorderColor -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tr valign="top" class="odd" id="highlightBorderColor-prop">
+<td class="tblQmlPropNode"><p>
+<span class="name">highlightBorderColor</span> : <span class="type">color</span></p></td></tr>
+</table></div></div>
+<div class="qmldoc"><p>Color of each highlighted hole border.</p>
+</div></div><!-- @@@highlightBorderColor -->
+<br/>
+<!-- $$$highlightBorderWidth -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tr valign="top" class="odd" id="highlightBorderWidth-prop">
+<td class="tblQmlPropNode"><p>
+<span class="name">highlightBorderWidth</span> : <span class="type">int</span></p></td></tr>
+</table></div></div>
+<div class="qmldoc"><p>Width of each highlighted hole border.</p>
+</div></div><!-- @@@highlightBorderWidth -->
+<br/>
+<!-- $$$holeRadius -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tr valign="top" class="odd" id="holeRadius-prop">
+<td class="tblQmlPropNode"><p>
+<span class="name">holeRadius</span> : <span class="type">int</span></p></td></tr>
+</table></div></div>
+<div class="qmldoc"><p>Corner radius used for highlighted holes.</p>
+</div></div><!-- @@@holeRadius -->
+<br/>
+<!-- $$$holes -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tr valign="top" class="odd" id="holes-prop">
+<td class="tblQmlPropNode"><p>
+<span class="name">holes</span> : <span class="type">var</span></p></td></tr>
+</table></div></div>
+<div class="qmldoc"><p>Rectangles that remain transparent and accept pointer events.</p>
+</div></div><!-- @@@holes -->
+<br/>
+<!-- $$$overlayColor -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tr valign="top" class="odd" id="overlayColor-prop">
+<td class="tblQmlPropNode"><p>
+<span class="name">overlayColor</span> : <span class="type">color</span></p></td></tr>
+</table></div></div>
+<div class="qmldoc"><p>Color of the dimmed area around the holes.</p>
+</div></div><!-- @@@overlayColor -->
+<br/>
+        </div>
+       </div>
+   </div>
+   </div>
+</div>
+<div class="footer">
+   <p>
+   <abbr title="Copyright">&copy;</abbr> 2024 <span translate="no">The Qt Company Ltd.</span>
+   Documentation contributions included herein are the copyrights of
+   their respective owners.<br/>    The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the <span translate="no">Free Software Foundation</span>.<br/>    <span translate="no">Qt</span> and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of <span translate="no">The Qt Company Ltd.</span> in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+</div>
+</body>
+</html>

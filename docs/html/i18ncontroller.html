@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<!-- I18nController.cpp -->
+  <meta name="description" content="Manages application language selection and translator loading.">
+  <title>I18nController Class | PastViewer API 1.1.0</title>
+  <link rel="stylesheet" type="text/css" href="style/offline-simple.css" />
+  <script type="text/javascript">
+    document.getElementsByTagName("link").item(0).setAttribute("href", "style/offline.css");
+    // loading style sheet breaks anchors that were jumped to before
+    // so force jumping to anchor again
+    setTimeout(function() {
+        var anchor = location.hash;
+        // need to jump to different anchor first (e.g. none)
+        location.hash = "#";
+        setTimeout(function() {
+            location.hash = anchor;
+        }, 0);
+    }, 0);
+  </script>
+</head>
+<body>
+<div class="header" id="qtdocheader">
+    <div class="main">
+    <div class="main-rounded">
+        <div class="navigationbar">
+        <ul>
+<li><a href="index.html">PastViewer API</a></li>
+<li><a href="pastviewer-module.html" translate="no">C++ Classes</a></li>
+<li>I18nController</li>
+    </ul>
+    </div>
+</div>
+<div class="content">
+<div class="line">
+<div class="content mainContent">
+<div class="sidebar">
+<div class="toc">
+<h3 id="toc">Contents</h3>
+<ul>
+<li class="level1"><a href="#properties">Properties</a></li>
+<li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#signals">Signals</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<div class="sidebar-content" id="sidebar-content"></div></div>
+<h1 class="title" translate="no">I18nController Class</h1>
+<!-- $$$I18nController-brief -->
+<p>Manages application language selection and translator loading. <a href="#details">More...</a></p>
+<!-- @@@I18nController -->
+<div class="table"><table class="alignedsummary requisites" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <code translate="no">#include &lt;I18nController&gt;</code></td></tr>
+</table></div>
+<ul>
+<li><a href="i18ncontroller-members.html">List of all members, including inherited members</a></li>
+</ul>
+<h2 id="properties">Properties</h2>
+<ul>
+<li class="fn" translate="no"><b><a href="i18ncontroller.html#currentLanguage-prop" translate="no">currentLanguage</a></b> : QString</li>
+<li class="fn" translate="no"><b><a href="i18ncontroller.html#languageModel-prop" translate="no">languageModel</a></b> : I18nModel * const</li>
+</ul>
+<h2 id="public-functions">Public Functions</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="i18ncontroller.html#GetCurrentLanguage" translate="no">GetCurrentLanguage</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="i18ncontroller.html#GetIndexOf" translate="no">GetIndexOf</a></b>(const QString &amp;<i>code</i>) const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> I18nModel *</td><td class="memItemRight bottomAlign"><b><a href="i18ncontroller.html#GetLanguageModel" translate="no">GetLanguageModel</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="i18ncontroller.html#SetCurrentLanguage" translate="no">SetCurrentLanguage</a></b>(const QString &amp;<i>langCode</i>)</td></tr>
+</table></div>
+<h2 id="signals">Signals</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="i18ncontroller.html#CurrentLanguageChanged" translate="no">CurrentLanguageChanged</a></b>()</td></tr>
+</table></div>
+<!-- $$$I18nController-description -->
+<div class="descr">
+<h2 id="details">Detailed Description</h2>
+<p>Registered as the QML context property <code translate="no">i18nController</code>.</p>
+</div>
+<!-- @@@I18nController -->
+<div class="prop">
+<h2>Property Documentation</h2>
+<!-- $$$currentLanguage-prop$$$GetCurrentLanguage$$$SetCurrentLanguageconstQString&$$$CurrentLanguageChanged -->
+<h3 class="fn" translate="no" id="currentLanguage-prop"><span class="name">currentLanguage</span> : <span class="type">QString</span></h3>
+<p>Holds the BCP-47 code of the active language.</p>
+<p><b>Access functions:</b></p>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft topAlign rightAlign"> QString </td><td class="memItemRight bottomAlign"><span class="name"><b><a href="i18ncontroller.html#GetCurrentLanguage" translate="no">GetCurrentLanguage</a></b></span>()</td><td class="memItemRight bottomAlign">[see note below]</td></tr>
+<tr><td class="memItemLeft topAlign rightAlign"> void </td><td class="memItemRight bottomAlign"><span class="name"><b><a href="i18ncontroller.html#SetCurrentLanguage" translate="no">SetCurrentLanguage</a></b></span>(const QString &amp;<i>langCode</i>)</td><td class="memItemRight bottomAlign">[see note below]</td></tr>
+</table></div>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><p><b>Notifier signal:</b></p>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft topAlign rightAlign"> void </td><td class="memItemRight bottomAlign"><span class="name"><b><a href="i18ncontroller.html#CurrentLanguageChanged" translate="no">CurrentLanguageChanged</a></b></span>()</td></tr>
+</table></div>
+<!-- @@@currentLanguage -->
+<!-- $$$languageModel-prop$$$GetLanguageModel -->
+<h3 class="fn" translate="no" id="languageModel-prop"><code class="details extra" translate="no">[read-only]</code> <span class="name">languageModel</span> : <span class="type"><a href="i18nmodel.html" translate="no">I18nModel</a></span> * const</h3>
+<p>Holds the read-only list of available languages.</p>
+<p><b>Access functions:</b></p>
+<div class="table"><table class="alignedsummary" translate="no">
+<tr><td class="memItemLeft topAlign rightAlign"> I18nModel *</td><td class="memItemRight bottomAlign"><span class="name"><b><a href="i18ncontroller.html#GetLanguageModel" translate="no">GetLanguageModel</a></b></span>()</td></tr>
+</table></div>
+<!-- @@@languageModel -->
+</div>
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$CurrentLanguageChanged -->
+<h3 class="fn" translate="no" id="CurrentLanguageChanged"><code class="details extra" translate="no">[signal]</code> <span class="type">void</span> I18nController::<span class="name">CurrentLanguageChanged</span>()</h3>
+<p>Emitted when <a href="i18ncontroller.html#currentLanguage-prop" translate="no">currentLanguage</a> changes.</p>
+<div class="admonition note"><p><b>Note: </b>Notifier signal for property <a href="i18ncontroller.html#currentLanguage-prop" translate="no">currentLanguage</a>. </p>
+</div><!-- @@@CurrentLanguageChanged -->
+<!-- $$$GetCurrentLanguage -->
+<h3 class="fn" translate="no" id="GetCurrentLanguage"><code class="details extra" translate="no">[invokable]</code> <span class="type">QString</span> I18nController::<span class="name">GetCurrentLanguage</span>()</h3>
+<p>Returns the current language code.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><div class="admonition note"><p><b>Note: </b>Getter function for property <a href="i18ncontroller.html#currentLanguage-prop" translate="no">currentLanguage</a>. </p>
+</div><!-- @@@GetCurrentLanguage -->
+<!-- $$$GetIndexOf[overload1]$$$GetIndexOfconstQString& -->
+<h3 class="fn" translate="no" id="GetIndexOf"><code class="details extra" translate="no">[invokable]</code> <span class="type">int</span> I18nController::<span class="name">GetIndexOf</span>(const <span class="type">QString</span> &amp;<i>code</i>) const</h3>
+<p>Returns the model index for language <i translate="no">code</i>, or <code translate="no">-1</code> when it is not available.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><!-- @@@GetIndexOf -->
+<!-- $$$GetLanguageModel -->
+<h3 class="fn" translate="no" id="GetLanguageModel"><span class="type"><a href="i18nmodel.html" translate="no">I18nModel</a></span> *I18nController::<span class="name">GetLanguageModel</span>()</h3>
+<p>Returns the language list model.</p>
+<div class="admonition note"><p><b>Note: </b>Getter function for property <a href="i18ncontroller.html#languageModel-prop" translate="no">languageModel</a>. </p>
+</div><!-- @@@GetLanguageModel -->
+<!-- $$$SetCurrentLanguage -->
+<h3 class="fn" translate="no" id="SetCurrentLanguage"><code class="details extra" translate="no">[invokable]</code> <span class="type">void</span> I18nController::<span class="name">SetCurrentLanguage</span>(const <span class="type">QString</span> &amp;<i>langCode</i>)</h3>
+<p>Switches the UI language to <i translate="no">langCode</i> and persists the selection.</p>
+<div class="admonition note"><p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See Q_INVOKABLE.</p>
+</div><div class="admonition note"><p><b>Note: </b>Setter function for property <a href="i18ncontroller.html#currentLanguage-prop" translate="no">currentLanguage</a>. </p>
+</div><!-- @@@SetCurrentLanguage -->
+</div>
+        </div>
+       </div>
+   </div>
+   </div>
+</div>
+<div class="footer">
+   <p>
+   <abbr title="Copyright">&copy;</abbr> 2024 <span translate="no">The Qt Company Ltd.</span>
+   Documentation contributions included herein are the copyrights of
+   their respective owners.<br/>    The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the <span translate="no">Free Software Foundation</span>.<br/>    <span translate="no">Qt</span> and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of <span translate="no">The Qt Company Ltd.</span> in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+</div>
+</body>
+</html>

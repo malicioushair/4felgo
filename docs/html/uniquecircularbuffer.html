@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<!-- header-only.qdoc -->
+  <meta name="description" content="Fixed-capacity FIFO buffer that rejects duplicate entries by key.">
+  <title>UniqueCircularBuffer Class | PastViewer API 1.1.0</title>
+  <link rel="stylesheet" type="text/css" href="style/offline-simple.css" />
+  <script type="text/javascript">
+    document.getElementsByTagName("link").item(0).setAttribute("href", "style/offline.css");
+    // loading style sheet breaks anchors that were jumped to before
+    // so force jumping to anchor again
+    setTimeout(function() {
+        var anchor = location.hash;
+        // need to jump to different anchor first (e.g. none)
+        location.hash = "#";
+        setTimeout(function() {
+            location.hash = anchor;
+        }, 0);
+    }, 0);
+  </script>
+</head>
+<body>
+<div class="header" id="qtdocheader">
+    <div class="main">
+    <div class="main-rounded">
+        <div class="navigationbar">
+        <ul>
+<li><a href="index.html">PastViewer API</a></li>
+<li><a href="pastviewer-module.html" translate="no">C++ Classes</a></li>
+<li>UniqueCircularBuffer</li>
+    </ul>
+    </div>
+</div>
+<div class="content">
+<div class="line">
+<div class="content mainContent">
+<div class="sidebar">
+<div class="toc">
+<h3 id="toc">Contents</h3>
+<ul>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<div class="sidebar-content" id="sidebar-content"></div></div>
+<h1 class="title" translate="no">UniqueCircularBuffer Class</h1>
+<span class="small-subtitle" translate="no">template &lt;typename T, typename ID, size_t CAPACITY, typename KeyOfFn&gt; class UniqueCircularBuffer</span>
+<!-- $$$UniqueCircularBuffer-brief -->
+<p>Fixed-capacity FIFO buffer that rejects duplicate entries by key. <a href="#details">More...</a></p>
+<!-- @@@UniqueCircularBuffer -->
+<div class="table"><table class="alignedsummary requisites" translate="no">
+<tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <code translate="no">#include &lt;UniqueCircularBuffer&gt;</code></td></tr>
+</table></div>
+<!-- $$$UniqueCircularBuffer-description -->
+<div class="descr">
+<h2 id="details">Detailed Description</h2>
+<p>When full, the oldest entry is evicted on push. Duplicate keys are ignored.</p>
+<p>Felgo's QDoc 6.8 does not create member nodes for this inline class template, so its public API is recorded here:</p>
+<div class="table"><table class="generic">
+ <thead><tr class="qt-style"><th >Signature</th><th >Behavior</th></tr></thead>
+<tr valign="top" class="odd"><td ><code translate="no">UniqueCircularBuffer(KeyOfFn f)</code></td><td >Creates an empty buffer that uses <code translate="no">f</code> to extract unique keys.</td></tr>
+<tr valign="top" class="even"><td ><code translate="no">size_t Size() const</code></td><td >Returns the number of stored items.</td></tr>
+<tr valign="top" class="odd"><td ><code translate="no">const T &amp;At(size_t idx) const</code></td><td >Returns the item at logical index <code translate="no">idx</code>, where zero is oldest.</td></tr>
+<tr valign="top" class="even"><td ><code translate="no">T &amp;At(size_t idx)</code></td><td >Returns a mutable item reference. Both <code translate="no">At</code> overloads throw <code translate="no">std::out_of_range</code> for an invalid index.</td></tr>
+<tr valign="top" class="odd"><td ><code translate="no">void Push(const T &amp;item)</code></td><td >Copies a uniquely keyed item into the buffer.</td></tr>
+<tr valign="top" class="even"><td ><code translate="no">void Push(T &amp;&amp;item)</code></td><td >Moves a uniquely keyed item into the buffer.</td></tr>
+<tr valign="top" class="odd"><td ><code translate="no">void Push(Range &amp;&amp;newItems)</code></td><td >Inserts every compatible item from an input range.</td></tr>
+<tr valign="top" class="even"><td ><code translate="no">T Pop()</code></td><td >Removes and returns the oldest item, or throws <code translate="no">std::out_of_range</code> when empty.</td></tr>
+<tr valign="top" class="odd"><td ><code translate="no">bool IsFull() const</code></td><td >Returns whether the buffer has reached its capacity.</td></tr>
+<tr valign="top" class="even"><td ><code translate="no">void Clear()</code></td><td >Removes all items and tracked keys.</td></tr>
+<tr valign="top" class="odd"><td ><code translate="no">begin(), cbegin(), end(), cend()</code></td><td >Returns iterators over the underlying fixed-capacity storage.</td></tr>
+</table></div>
+</div>
+<!-- @@@UniqueCircularBuffer -->
+        </div>
+       </div>
+   </div>
+   </div>
+</div>
+<div class="footer">
+   <p>
+   <abbr title="Copyright">&copy;</abbr> 2024 <span translate="no">The Qt Company Ltd.</span>
+   Documentation contributions included herein are the copyrights of
+   their respective owners.<br/>    The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the <span translate="no">Free Software Foundation</span>.<br/>    <span translate="no">Qt</span> and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of <span translate="no">The Qt Company Ltd.</span> in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+</div>
+</body>
+</html>
